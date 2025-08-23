@@ -510,7 +510,7 @@ svg {
 .section--contact .contact__lead,
 #contact .contact__lead {
   /* Aumentado ~20px para destacar el texto de contacto */
-  font-size: clamp(28px, 4.2vw,  28px);
+  font-size: clamp(18px, 4.2vw,  28px);
   line-height: 1.3;
   color: var(--muted);
   margin: 0 0 18px;
