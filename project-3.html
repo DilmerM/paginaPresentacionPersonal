@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proyecto 3 — Landing Cinemática</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./stylesheet.css?v=20250823" />
+  <link rel="stylesheet" href="./project-3.css" />
+</head>
+<body class="project-3">
+  <header class="nav" role="banner">
+    <div class="nav__content">
+      <a href="index.html" class="brand" aria-label="Ir al inicio">DN.dev</a>
+      <nav class="menu" role="navigation" aria-label="Principal">
+        <a href="index.html" class="menu__link">Inicio</a>
+        <a href="#gallery" class="menu__link">Galería</a>
+        <a href="#details" class="menu__link">Detalles</a>
+        <a href="#contact" class="menu__link btn btn--primary">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section container" id="gallery">
+    <h1>Landing Cinemática</h1>
+    <p class="subtitle">Galería del proyecto. Subirás las imágenes más tarde; por ahora hay marcadores de posición.</p>
+
+    <div class="project-gallery grid">
+      <div class="park-card">
+        <div class="park-card-img" style="background: linear-gradient(135deg,#7c5cff,#00d4ff);"></div>
+        <div class="park-card-content">
+          <div class="park-card-title">Hero</div>
+          <div class="park-card-text">Imagen del hero cinematográfico.</div>
+          <a class="btn btn--primary park-card-btn" href="#">Ver detalle</a>
+        </div>
+      </div>
+
+      <div class="park-card">
+        <div class="park-card-img" style="background: linear-gradient(135deg,#ff3d81,#7c5cff);"></div>
+        <div class="park-card-content">
+          <div class="park-card-title">Sección</div>
+          <div class="park-card-text">Bloque de contenido destacado.</div>
+          <a class="btn btn--primary park-card-btn" href="#">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+
+    <section id="details" class="project-details">
+      <h2>Descripción</h2>
+      <p>Landing con ritmo y tipografía marcada; incluye animaciones y llamadas a la acción destacadas.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">© <span id="year"></span> Dilmer — Todos los derechos reservados</div>
+      <div class="footer__center"></div>
+      <div class="footer__right"><a href="index.html" class="back-to-top">← Volver</a></div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+/* Estilos específicos para project-1.html */
+:root { --project-bg: linear-gradient(180deg,#0f1724 0%, #071428 100%); }
+body.project-1 {
+  background: var(--project-bg);
+}
+
+/* Ajustes locales que puedan sobreescribir el stylesheet global */
+.project-gallery { gap: 20px; }
+.park-card { border-radius: 12px; }

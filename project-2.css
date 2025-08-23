@@ -1,0 +1,8 @@
+/* Estilos específicos para project-2.html */
+:root { --project-bg: linear-gradient(180deg,#10221f 0%, #071716 100%); }
+body.project-2 {
+  background: var(--project-bg);
+}
+
+.project-gallery { gap: 18px; }
+.park-card { border-radius: 14px; }
