@@ -25,12 +25,15 @@ window.addEventListener('load', () => {
 	setH();
 })();
 
-// 3) Parallax en layers del héroe
+// 3) Parallax en layers del héroe (intensificado)
 (() => {
 	const layers = qsa('.layer');
 	if (!layers.length) return;
+	// Respetar preferencia de reducir movimiento
+	if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 	let mx = 0, my = 0, tx = 0, ty = 0; // mouse x/y y target suavizado
-	const speed = 0.08; // easing
+	const speed = 0.22; // easing más alto => respuesta más rápida
+	const multiplier = 2.2; // multiplicador global para aumentar desplazamiento
 
 	const onMove = (e) => {
 		const { innerWidth: w, innerHeight: h } = window;
@@ -43,8 +46,8 @@ window.addEventListener('load', () => {
 		tx += (mx - tx) * speed; ty += (my - ty) * speed;
 		layers.forEach(l => {
 			const s = parseFloat(l.dataset.speed || '0.05');
-			const x = tx * (s * 100);
-			const y = ty * (s * 100);
+			const x = tx * (s * 100) * multiplier;
+			const y = ty * (s * 100) * multiplier;
 			l.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 		});
 		requestAnimationFrame(raf);
@@ -89,10 +92,10 @@ window.addEventListener('load', () => {
 	els.forEach(el => io.observe(el));
 })();
 
-// 5) Tilt suave en tarjetas
+// 5) Tilt suave en tarjetas (más marcado)
 (() => {
 	const cards = qsa('.card');
-	const maxTilt = 10; // grados
+	const maxTilt = 18; // grados — aumentado para efecto más visible
 	cards.forEach(card => {
 		let rAF = null;
 		let px = 0, py = 0, tx = 0, ty = 0;
@@ -130,10 +133,10 @@ window.addEventListener('load', () => {
 	});
 })();
 
-// 6) Botón "magnético"
+// 6) Botón "magnético" (más fuerte)
 (() => {
 	const mags = qsa('.btn--magnetic');
-	const strength = 18;
+	const strength = 34; // aumentado
 	mags.forEach(btn => {
 		let px = 0, py = 0, tx = 0, ty = 0, rAF = null;
 		const ease = 0.22;
