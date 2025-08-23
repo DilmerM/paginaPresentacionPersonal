@@ -32,6 +32,7 @@
 html,
 body {
   height: 100%;
+  min-height: 100vh; /* asegurar que el fondo cubre todo el viewport */
 }
 html {
   scroll-behavior: smooth;
@@ -262,6 +263,14 @@ svg {
   /* allow content to grow naturally on small screens */
   min-height: auto;
 }
+
+/* Mobile-only override: aumentar espacio superior en pantallas pequeñas
+   Nota: asumí mobile = max-width: 700px. Cambia el valor si prefieres otro. */
+@media (max-width: 700px) {
+  .main_seccion {
+    margin-top: 14%;
+  }
+}
 .sobreMi{
   padding-inline: var(--gutter);
   min-height: auto;
@@ -282,6 +291,12 @@ svg {
 }
 
 .hero {
+  /* Full-bleed: hacer que la sección cubra todo el ancho del viewport
+     sin alterar el centrado interno (la .container sigue limitando el contenido). */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
   position: relative;
   min-height: calc(100vh - var(--nav-h, 64px));
   min-height: calc(100svh - var(--nav-h, 64px));
