@@ -30,7 +30,13 @@
         <header class="nav" role="banner">
             <div class="nav__content">
                 <a href="#home" class="brand" aria-label="Ir al inicio">Dilmer.dev</a>
-                <nav class="menu" role="navigation" aria-label="Principal">
+                <button class="nav__toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Abrir menú">
+                    <span class="nav__burger" aria-hidden="true"></span>
+                </button>
+                <nav id="primary-menu" class="menu" role="navigation" aria-label="Principal">
+                    <button id="player-disc" class="player-disc" aria-label="Abrir reproductor" aria-controls="player-popover" aria-expanded="false">
+                        <span class="player-disc__vinyl" aria-hidden="true"></span>
+                    </button>
                     <a href="#about" class="menu__link">Sobre mí</a>
                     <a href="#stack" class="menu__link">Tecnologías</a>
                     <a href="#projects" class="menu__link">Proyectos</a>
@@ -38,6 +44,31 @@
                 </nav>
             </div>
         </header>
+        
+        <!-- Mini‑player popover (global) -->
+        <div id="player-popover" class="player-popover" role="dialog" aria-label="Reproductor" hidden>
+            <div class="player-card">
+                <div class="player-card__media" aria-hidden="true"></div>
+                <div class="player-card__info">
+                    <strong class="player-card__title">Tu canción</strong>
+                    <span class="player-card__subtitle">Artista – Álbum</span>
+                </div>
+                <div class="player-card__controls">
+                    <button class="player-btn" data-action="back" title="Anterior" disabled>⏮</button>
+                    <button class="player-btn" data-action="play" title="Reproducir">▶</button>
+                    <button class="player-btn" data-action="next" title="Siguiente" disabled>⏭</button>
+                </div>
+                <div class="player-card__progress" aria-hidden="true"><div class="player-card__bar"></div></div>
+                <button class="player-card__close" aria-label="Cerrar">✕</button>
+            </div>
+        </div>
+
+        <!-- Hint del disco -->
+        <div id="disc-hint" class="disc-hint" role="status" aria-live="polite" hidden>
+            <span class="disc-hint__text">Tip: toca el disco para pausar la música</span>
+            <button class="disc-hint__close" aria-label="Cerrar aviso">✕</button>
+            <span class="disc-hint__arrow" aria-hidden="true"></span>
+        </div>
 
         <!-- Héroe -->
         <main id="home" class="hero" role="main">
@@ -71,12 +102,12 @@
 
         <!-- Sobre mí -->
         <section id="about" class="section section--about container">
-            <div class="about__grid">
+        <div class="about__grid">
                 <div class="about__media" data-reveal data-speed="0.06">
                     <div class="portrait" aria-label="Foto de perfil" role="img"></div>
                 </div>
-                <div class="about__content" data-reveal>
-                    <h2>Hola, soy Dilmer</h2>
+        <div class="about__content" data-reveal>
+            <h2>Hola, soy Dilmer</h2>
                     <p>
                         Me especializo en crear productos digitales con foco en detalle,
                         accesibilidad y performance. Me inspiran sitios con identidad visual
@@ -169,7 +200,12 @@
                 <a href="#home" class="back-to-top" aria-label="Volver arriba">↑</a>
             </div>
         </footer>
-
+        <!-- Audio global de la página -->
+    <audio id="site-audio" preload="auto" autoplay playsinline>
+            <source src="./assets/audio/theme.mp3" type="audio/mpeg" />
+            <source src="./miAudio.mp3" type="audio/mpeg" />
+            <!-- Coloca tu archivo en assets/audio/theme.mp3 -->
+        </audio>
         <script src="./script.js" defer></script>
     </body>
     </html>

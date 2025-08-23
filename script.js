@@ -12,6 +12,19 @@ window.addEventListener('load', () => {
 // 2) Año dinámico
 (() => { const y = qs('#year'); if (y) y.textContent = new Date().getFullYear(); })();
 
+// Compensar nav fija: define --nav-h dinámicamente
+(() => {
+	const nav = qs('.nav');
+	if (!nav) return;
+	const setH = () => {
+		const h = nav.getBoundingClientRect().height;
+		document.documentElement.style.setProperty('--nav-h', `${h}px`);
+	};
+	window.addEventListener('load', setH);
+	window.addEventListener('resize', setH);
+	setH();
+})();
+
 // 3) Parallax en layers del héroe
 (() => {
 	const layers = qsa('.layer');
@@ -39,6 +52,23 @@ window.addEventListener('load', () => {
 	window.addEventListener('mousemove', onMove, { passive: true });
 	window.addEventListener('touchmove', onMove, { passive: true });
 	requestAnimationFrame(raf);
+})();
+
+// 3b) Toggle menú móvil
+(() => {
+	const toggle = qs('.nav__toggle');
+	const menu = qs('#primary-menu');
+	if (!toggle || !menu) return;
+	const close = () => { menu.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); };
+	const open = () => { menu.classList.add('is-open'); toggle.setAttribute('aria-expanded', 'true'); };
+	toggle.addEventListener('click', () => {
+		const isOpen = menu.classList.contains('is-open');
+		isOpen ? close() : open();
+	});
+	menu.addEventListener('click', (e) => {
+		if (e.target.matches('a')) close();
+	});
+	window.addEventListener('resize', () => { if (window.innerWidth > 860) close(); });
 })();
 
 // 4) Scroll reveal con IntersectionObserver
@@ -135,4 +165,146 @@ window.addEventListener('load', () => {
 	window.addEventListener('mousedown', handleMouseDown);
 	window.addEventListener('keydown', handleKeyDown);
 })();
+
+// 8) Reproductor: autoplay + mini-player en popover
+(() => {
+	const audio = qs('#site-audio');
+	const discBtn = qs('#player-disc');
+	const popover = qs('#player-popover');
+	if (!audio || !discBtn || !popover) return;
+
+	const playBtn = qs('[data-action="play"]', popover);
+	const closeBtn = qs('.player-card__close', popover);
+	const bar = qs('.player-card__bar', popover);
+
+	let isOpen = false;
+		let fadedIn = false;
+
+	// Iniciar música al entrar (con fallback por políticas de autoplay)
+		const tryAutoplay = async () => {
+			try {
+				audio.muted = false;
+				await audio.play();
+				updatePlayIcon();
+			} catch {
+				// Si falla, reproducir en mute (esto suele permitirse) y luego fade-in en primer gesto
+				try {
+					audio.muted = true;
+					await audio.play();
+					updatePlayIcon();
+				} catch {}
+			}
+		};
+		window.addEventListener('load', () => {
+			// intentar de inmediato y reintentar tras un breve delay
+			tryAutoplay();
+			setTimeout(tryAutoplay, 800);
+		});
+
+	// Posicionar popover cerca del botón
+		const placePopover = () => {
+			const r = discBtn.getBoundingClientRect();
+			const top = window.scrollY + r.bottom + 8; // debajo del disco
+			const left = window.scrollX + r.left - 140; // alineado a la izquierda del disco
+			popover.style.top = `${top}px`;
+			popover.style.left = `${Math.max(12, left)}px`;
+		};
+
+	const open = () => {
+		popover.hidden = false;
+		discBtn.setAttribute('aria-expanded', 'true');
+		isOpen = true; placePopover();
+	};
+	const close = () => {
+		popover.hidden = true;
+		discBtn.setAttribute('aria-expanded', 'false');
+		isOpen = false;
+	};
+
+	// Toggle al pulsar el disco
+		discBtn.addEventListener('click', async () => {
+			if (audio.paused) { try { await audio.play(); } catch {} }
+			isOpen ? close() : open();
+		});
+	closeBtn.addEventListener('click', close);
+	window.addEventListener('resize', () => { if (isOpen) placePopover(); });
+	window.addEventListener('scroll', () => { if (isOpen) placePopover(); }, { passive: true });
+
+	// Play/Pause
+	function updatePlayIcon() { playBtn.textContent = audio.paused ? '▶' : '⏸'; }
+	playBtn.addEventListener('click', async () => {
+		try {
+		if (audio.paused) { await audio.play(); } else { audio.pause(); }
+			updatePlayIcon();
+		} catch {}
+	});
+	audio.addEventListener('play', updatePlayIcon);
+	audio.addEventListener('pause', updatePlayIcon);
+
+	// Progreso
+	audio.addEventListener('timeupdate', () => {
+		if (!audio.duration) return;
+		const p = (audio.currentTime / audio.duration) * 100;
+		bar.style.width = `${p}%`;
+	});
+
+		// En el primer gesto del usuario, si está muted por fallback, hacemos fade-in
+		const onFirstInteract = () => {
+			if (!fadedIn && audio && !audio.paused && audio.muted) {
+				audio.volume = 0;
+				audio.muted = false;
+				let v = 0;
+				const step = () => {
+					v = Math.min(1, v + 0.1);
+					audio.volume = v;
+					if (v < 1) requestAnimationFrame(step); else fadedIn = true;
+				};
+				requestAnimationFrame(step);
+			}
+			window.removeEventListener('click', onFirstInteract);
+			window.removeEventListener('keydown', onFirstInteract);
+		};
+		window.addEventListener('click', onFirstInteract, { once: false });
+		window.addEventListener('keydown', onFirstInteract, { once: false });
+
+		// Cerrar popover al hacer clic fuera o presionar Escape
+		document.addEventListener('click', (e) => {
+			if (!isOpen) return;
+			const t = e.target;
+			if (t === popover || popover.contains(t) || t === discBtn || discBtn.contains(t)) return;
+			close();
+		});
+		window.addEventListener('keydown', (e) => { if (isOpen && e.key === 'Escape') close(); });
+})();
+
+	// 9) Hint del disco (mostrar solo 1 vez)
+	(() => {
+		const disc = qs('#player-disc');
+		const hint = qs('#disc-hint');
+		if (!disc || !hint) return;
+		const KEY = 'disc-hint-shown';
+		const place = () => {
+			const r = disc.getBoundingClientRect();
+			const top = window.scrollY + r.bottom + 10; // debajo del disco
+			const left = window.scrollX + r.left + r.width/2 + 12; // a la derecha del disco
+			hint.style.top = `${top}px`;
+			hint.style.left = `${left}px`;
+			const arrow = qs('.disc-hint__arrow', hint);
+			if (arrow) {
+				arrow.style.top = `-6px`;
+				arrow.style.left = `-6px`;
+			}
+		};
+		const show = () => { hint.hidden = false; place(); };
+		const hide = () => { hint.hidden = true; localStorage.setItem(KEY, '1'); };
+		const onClose = () => hide();
+
+		if (!localStorage.getItem(KEY)) {
+			window.addEventListener('load', () => setTimeout(show, 900));
+		}
+		window.addEventListener('resize', () => { if (!hint.hidden) place(); });
+		window.addEventListener('scroll', () => { if (!hint.hidden) place(); }, { passive: true });
+		hint.addEventListener('click', (e) => { if (e.target.closest('.disc-hint__close')) onClose(); });
+		disc.addEventListener('click', hide);
+	})();
 
