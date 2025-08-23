@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="color-scheme" content="dark light" />
+        <meta name="description" content="Portafolio de desarrollador: animaciones fluidas, proyectos destacados y contacto." />
+        <title>Dilmer — Desarrollador</title>
+
+        <!-- Fuente opcional de Google (puedes cambiarla por local si lo prefieres) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="./stylesheet.css" />
+    </head>
+    <body>
+        <noscript>Esta página usa animaciones y requiere JavaScript para la mejor experiencia.</noscript>
+
+        <!-- Loader / Intro -->
+        <div class="loader" aria-hidden="true">
+            <div class="loader__inner">
+                <div class="loader__ring"></div>
+                <p class="loader__text">Cargando</p>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <header class="nav" role="banner">
+            <div class="nav__content">
+                <a href="#home" class="brand" aria-label="Ir al inicio">Dilmer.dev</a>
+                <nav class="menu" role="navigation" aria-label="Principal">
+                    <a href="#about" class="menu__link">Sobre mí</a>
+                    <a href="#stack" class="menu__link">Tecnologías</a>
+                    <a href="#projects" class="menu__link">Proyectos</a>
+                    <a href="#contact" class="menu__link btn btn--primary btn--magnetic">Contacto</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Héroe -->
+        <main id="home" class="hero" role="main">
+            <div class="hero__bg" aria-hidden="true">
+                <div class="layer layer--glow" data-speed="-0.08"></div>
+                <div class="layer layer--grid" data-speed="0.06"></div>
+                <div class="layer layer--flare" data-speed="0.12"></div>
+            </div>
+            <section class="hero__content container" data-reveal>
+                <p class="eyebrow">Desarrollador Full‑Stack</p>
+                <h1 class="title">
+                    Construyo experiencias web <span class="title__accent">atractivas</span>
+                    y de alto rendimiento
+                </h1>
+                <p class="subtitle">
+                    Interfaces con micro‑interacciones, animaciones suaves y código limpio.
+                </p>
+                <div class="cta">
+                    <a href="#projects" class="btn btn--primary btn--magnetic">Ver proyectos</a>
+                    <a href="#about" class="btn btn--ghost">Conocer más</a>
+                </div>
+            </section>
+            <div class="marquee" aria-hidden="true">
+                <div class="marquee__track">
+                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java •</span>
+                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java •</span>
+                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java •</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sobre mí -->
+        <section id="about" class="section section--about container">
+            <div class="about__grid">
+                <div class="about__media" data-reveal data-speed="0.06">
+                    <div class="portrait" aria-label="Foto de perfil" role="img"></div>
+                </div>
+                <div class="about__content" data-reveal>
+                    <h2>Hola, soy Dilmer</h2>
+                    <p>
+                        Me especializo en crear productos digitales con foco en detalle,
+                        accesibilidad y performance. Me inspiran sitios con identidad visual
+                        fuerte y transiciones cinematográficas.
+                    </p>
+                    <ul class="tags">
+                        <li>SPA/SSR</li>
+                        <li>APIs</li>
+                        <li>UX Motion</li>
+                        <li>Testing</li>
+                        <li>Optimización</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tecnologías -->
+        <section id="stack" class="section container">
+            <h2 data-reveal>Tecnologías</h2>
+            <p class="subtitle" data-reveal>
+                Herramientas y lenguajes que uso con frecuencia.
+            </p>
+            <div class="badges" data-reveal>
+                <span class="pill">React</span>
+                <span class="pill">HTML</span>
+                <span class="pill">CSS</span>
+                <span class="pill">JavaScript</span>
+                <span class="pill">Next.js</span>
+                <span class="pill">Laravel</span>
+                <span class="pill">phpMyAdmin</span>
+                <span class="pill">Oracle</span>
+                <span class="pill">APIs</span>
+                <span class="pill">C++</span>
+                <span class="pill">Java</span>
+            </div>
+        </section>
+
+        <!-- Proyectos -->
+        <section id="projects" class="section container">
+            <h2 data-reveal>Proyectos destacados</h2>
+            <div class="grid" aria-live="polite">
+                <article class="card" tabindex="0" data-reveal>
+                    <div class="card__media" role="img" aria-label="Proyecto 1"></div>
+                    <div class="card__body">
+                        <h3>Showcase Interactivo</h3>
+                        <p>Hero con parallax, micro‑interacciones y scroll reveal.</p>
+                        <div class="pill">HTML</div>
+                        <div class="pill">CSS</div>
+                        <div class="pill">JS</div>
+                    </div>
+                </article>
+
+                <article class="card" tabindex="0" data-reveal>
+                    <div class="card__media card__media--alt" role="img" aria-label="Proyecto 2"></div>
+                    <div class="card__body">
+                        <h3>Dashboard Animado</h3>
+                        <p>Transiciones fluidas, charts y dark mode accesible.</p>
+                        <div class="pill">Node</div>
+                        <div class="pill">Express</div>
+                    </div>
+                </article>
+
+                <article class="card" tabindex="0" data-reveal>
+                    <div class="card__media card__media--neo" role="img" aria-label="Proyecto 3"></div>
+                    <div class="card__body">
+                        <h3>Landing Cinemática</h3>
+                        <p>Secciones con ritmo, tipografía llamativa y CTA potente.</p>
+                        <div class="pill">Animación</div>
+                        <div class="pill">Accesibilidad</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contact" class="section section--contact container" aria-labelledby="contact-title">
+            <h2 id="contact-title" data-reveal>¿Construimos algo épico?</h2>
+            <p class="contact__lead" data-reveal>
+                Escríbeme y hagamos realidad tu idea con una experiencia que destaque.
+            </p>
+            <div class="cta" data-reveal>
+                <a class="btn btn--primary btn--magnetic" href="mailto:tuemail@ejemplo.com">Contáctame</a>
+                <a class="btn btn--ghost" href="#home">Volver arriba</a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container footer__inner">
+                <span>© <span id="year"></span> Dilmer — Hecho con HTML • CSS • JS</span>
+                <a href="#home" class="back-to-top" aria-label="Volver arriba">↑</a>
+            </div>
+        </footer>
+
+        <script src="./script.js" defer></script>
+    </body>
+    </html>
