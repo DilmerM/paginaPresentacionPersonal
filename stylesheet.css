@@ -21,14 +21,7 @@
   --gutter: clamp(16px, 3vw, 32px);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    /* --bg: #f7f8fb; */
-    /* --bg-2: #ffffff; */
-    --text: #0c1222;
-    --muted: #4d566a;
-  }
-}
+/* Forzar tema oscuro: no modificar variables en modo claro. */
 
 /* =======
 	 Reset
