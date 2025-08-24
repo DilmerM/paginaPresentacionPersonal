@@ -522,6 +522,57 @@ svg {
   animation: float-slow 40s ease-in-out infinite;
 }
 
+/* Project-specific title hierarchy
+   Ensure the main project title (h1 in project gallery pages) is visually
+   larger than section headings (h2). Scoped to #gallery to avoid global side-effects. */
+/* Project-specific title hierarchy
+   Scalable variables control project title and section title sizes.
+   Adjust --pj-scale or the multipliers below to increase/decrease both.
+*/
+main#gallery {
+  /* base font unit (rem) and a scale factor you can tweak */
+  --pj-base: 1rem;
+  --pj-scale: 1.05; /* ligero aumento global */
+  /* multipliers (unitless) that determine relative sizes */
+  --pj-h1-mult: 2.6; /* h1 = base * scale * h1-mult */
+  --pj-h2-mult: 1.8; /* aumentado: h2 será claramente mayor */
+  /* clamp bounds to avoid extremes */
+  --pj-h1-min: 1.8rem;
+  --pj-h1-max: 3.2rem;
+  --pj-h2-min: 1.2rem;
+  --pj-h2-max: 2.2rem;
+}
+
+main#gallery > h1 {
+  font-size: clamp(var(--pj-h1-min), calc(var(--pj-base) * var(--pj-scale) * var(--pj-h1-mult)), var(--pj-h1-max));
+  line-height: 1.05;
+  font-weight: 800;
+  margin: 0 0 0.6rem 0;
+  color: var(--text);
+}
+
+/* Section headings inside project pages (scale relative to the same scale factor) */
+main#gallery h2,
+main#gallery .section-title,
+.project-section h2 {
+  font-size: clamp(var(--pj-h2-min), calc(var(--pj-base) * var(--pj-scale) * var(--pj-h2-mult)), var(--pj-h2-max));
+  font-weight: 700;
+  margin: 0.6rem 0 0.6rem 0;
+  color: var(--text); /* color blanco según solicitud */
+}
+
+@media (max-width: 700px) {
+  /* Increase heading sizes on small screens per user request */
+  /* mobile scale slightly larger so section titles are more prominent */
+  main#gallery { --pj-scale: 1.08; }
+  /* h1 remains prominent but comfortably fits mobile */
+  main#gallery > h1 { font-size: clamp(1.6rem, calc(var(--pj-base) * var(--pj-scale) * var(--pj-h1-mult)), 2.4rem); }
+  /* make section headings larger on mobile */
+  main#gallery h2, main#gallery .section-title, .project-section h2 {
+    font-size: clamp(1.2rem, calc(var(--pj-base) * var(--pj-scale) * var(--pj-h2-mult)), 1.8rem);
+  }
+}
+
 /* Soft blink for the purple and red/pink accents inside the glow layer.
    Implemented with ::before and ::after so each color can pulse independently. */
 .layer--glow {
@@ -1121,6 +1172,12 @@ svg {
   .contact-link { width: 48px; height: 48px; border-radius: 12px; }
   .contact-link svg { width: 24px; height: 24px; }
   .footer__contacts { gap: 14px; }
+}
+
+/* Desktop tweaks: aumentar iconos un poco más en PC */
+@media (min-width: 701px) {
+  .contact-link { width: 52px; height: 52px; border-radius: 12px; }
+  .contact-link svg { width: 26px; height: 26px; }
 }
 .back-to-top {
   color: var(--text);
