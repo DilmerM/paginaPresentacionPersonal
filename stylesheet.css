@@ -561,6 +561,7 @@ svg {
   font-size: clamp(28px, 6vw, 64px);
   line-height: 1.05;
   margin: 0 0 12px;
+  letter-spacing: 0.02em;
 }
 .title__accent {
   background: linear-gradient(90deg, var(--primary), var(--primary-2));
@@ -651,11 +652,16 @@ svg {
 .section {
   padding-block: clamp(64px, 14vh, 140px);
 }
+.section h1 {
+  letter-spacing: 0.06em;
+  margin-top: 5px;
+}
 .section h2 {
   /* Más legible: mínimo decente y escala con la pantalla */
   font-size: clamp(22px, 4.6vw, 56px);
   line-height: 1.05;
-  margin: 0 0 18px;
+  margin: 5px 0 18px;
+  letter-spacing: 0.04em; /* aumentar separación entre letras */
 }
 
 /* Ajuste específico: hacer más pequeño el título de la sección de contacto */
@@ -1167,4 +1173,14 @@ svg {
   .project-gallery::-webkit-scrollbar { height: 8px; }
   .project-gallery::-webkit-scrollbar-track { background: transparent; }
   .project-gallery::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 999px; }
+}
+
+/* ======
+   Geolocalización: mapa y controles mínimos
+   ====== */
+.project-geo__map-wrap { width: 100%; max-width: 100%; }
+.project-geo #map { width: 100%; height: 360px; border-radius: 12px; }
+
+@media (max-width: 700px) {
+  .project-geo #map { height: min(48vh, 420px); }
 }

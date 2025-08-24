@@ -310,4 +310,5 @@ window.addEventListener('load', () => {
 		hint.addEventListener('click', (e) => { if (e.target.closest('.disc-hint__close')) onClose(); });
 		disc.addEventListener('click', hide);
 	})();
+// Geolocalización eliminada por petición del usuario
 
