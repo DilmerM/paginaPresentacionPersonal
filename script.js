@@ -31,6 +31,11 @@ window.addEventListener('load', () => {
 	if (!layers.length) return;
 	// Respetar preferencia de reducir movimiento
 	if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+	// Evitar parallax en dispositivos táctiles o pantallas pequeñas (mejora rendimiento móvil)
+	const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0 || window.matchMedia('(hover: none)').matches;
+	if (isTouch || window.innerWidth <= 700) return;
+
 	let mx = 0, my = 0, tx = 0, ty = 0; // mouse x/y y target suavizado
 	const speed = 0.22; // easing más alto => respuesta más rápida
 	const multiplier = 2.2; // multiplicador global para aumentar desplazamiento
@@ -42,6 +47,7 @@ window.addEventListener('load', () => {
 		mx = x; my = y;
 	};
 
+	let rafId = null;
 	const raf = () => {
 		tx += (mx - tx) * speed; ty += (my - ty) * speed;
 		layers.forEach(l => {
@@ -50,11 +56,17 @@ window.addEventListener('load', () => {
 			const y = ty * (s * 100) * multiplier;
 			l.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 		});
-		requestAnimationFrame(raf);
+		rafId = requestAnimationFrame(raf);
 	};
 	window.addEventListener('mousemove', onMove, { passive: true });
-	window.addEventListener('touchmove', onMove, { passive: true });
-	requestAnimationFrame(raf);
+	// no bind touchmove to avoid expensive touch listeners on mobile
+	rafId = requestAnimationFrame(raf);
+
+	// Pause RAF when page hidden to reduce CPU
+	document.addEventListener('visibilitychange', () => {
+		if (document.hidden && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+		else if (!document.hidden && !rafId) rafId = requestAnimationFrame(raf);
+	});
 })();
 
 // 3b) Toggle menú móvil
