@@ -25,28 +25,32 @@
 
   <main class="section container" id="gallery">
     <h1>Dashboard Animado</h1>
-    <p class="subtitle">Galería del proyecto. Subirás las imágenes más tarde; por ahora hay marcadores de posición.</p>
 
-    <div class="project-gallery grid">
-      <div class="park-card">
-        <div class="park-card-img" style="background: linear-gradient(135deg,#7c5cff,#00d4ff);"></div>
-        <div class="park-card-content">
-          <div class="park-card-title">Panel</div>
-          <div class="park-card-text">Vista del panel principal.</div>
-          <button type="button" class="btn btn--primary park-card-btn">Ver detalle</button>
+  <!-- project-gallery removed per user request -->
+
+    <section id="parallax" class="project-parallax" aria-labelledby="parallax-title">
+      <h2 id="parallax-title">Implementacion de efecto paralax</h2>
+      <div class="project-gallery grid">
+        <div class="park-card">
+          <div class="park-card-img" style="background: url('./images/parallax1.png') center/cover no-repeat;"></div>
+          <div class="park-card-content">
+            <div class="park-card-title">Parallax — Imagen 1</div>
+            <div class="park-card-text">Capa de fondo usada en la demo parallax.</div>
+            <button type="button" class="btn btn--primary park-card-btn" data-img="./images/parallax1.png">Ver detalle</button>
+          </div>
+        </div>
+
+        <div class="park-card">
+          <div class="park-card-img" style="background: url('./images/parallax2.gif') center/cover no-repeat;"></div>
+          <div class="park-card-content">
+            <div class="park-card-title">Parallax — Animado</div>
+            <div class="park-card-text">GIF animado que aparece como capa en el efecto.</div>
+            <button type="button" class="btn btn--primary park-card-btn" data-img="./images/parallax2.gif">Ver detalle</button>
+          </div>
         </div>
       </div>
-
-      <div class="park-card">
-        <div class="park-card-img" style="background: linear-gradient(135deg,#ff3d81,#7c5cff);"></div>
-        <div class="park-card-content">
-          <div class="park-card-title">Gráficos</div>
-          <div class="park-card-text">Ejemplo de chart animado.</div>
-          <button type="button" class="btn btn--primary park-card-btn">Ver detalle</button>
-        </div>
-      </div>
-    </div>
-
+    </section>
+    
     <section id="details" class="project-details">
       <h2>Descripción</h2>
       <p>Dashboard con transiciones suaves, controles y charts. Reemplaza las imágenes cuando estés listo.</p>
@@ -62,5 +66,50 @@
   </footer>
 
   <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+
+  <!-- Lightbox modal -->
+  <div class="lightbox" id="project-lightbox" hidden aria-hidden="true" role="dialog" aria-label="Visor de imágenes">
+    <div class="lightbox__backdrop" data-action="close"></div>
+    <div class="lightbox__content" role="document">
+      <button class="lightbox__close" aria-label="Cerrar" data-action="close">×</button>
+      <img class="lightbox__img" src="" alt="" />
+      <div class="lightbox__caption"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const lb = document.getElementById('project-lightbox');
+    if(!lb) return;
+    const img = lb.querySelector('.lightbox__img');
+    const cap = lb.querySelector('.lightbox__caption');
+    const openBtns = Array.from(document.querySelectorAll('[data-img]'));
+    const closeEls = lb.querySelectorAll('[data-action="close"]');
+
+    function open(src, alt){
+      img.src = src; img.alt = alt || '';
+      cap.textContent = alt || '';
+      lb.hidden = false; lb.removeAttribute('aria-hidden');
+      document.body.style.overflow = 'hidden';
+      img.focus && img.focus();
+    }
+    function close(){
+      lb.hidden = true; lb.setAttribute('aria-hidden','true');
+      img.src = ''; img.alt = '';
+      cap.textContent = '';
+      document.body.style.overflow = '';
+    }
+
+    openBtns.forEach(b => b.addEventListener('click', (e) => {
+      const src = b.getAttribute('data-img');
+      const alt = b.closest('.park-card')?.querySelector('.park-card-title')?.textContent || '';
+      if(src) open(src, alt);
+    }));
+
+    closeEls.forEach(el => el.addEventListener('click', close));
+    lb.addEventListener('keydown', (e) => { if(e.key === 'Escape') close(); });
+    lb.addEventListener('click', (e) => { if(e.target === lb) close(); });
+  })();
+  </script>
 </body>
 </html>

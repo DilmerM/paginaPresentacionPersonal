@@ -1,5 +1,5 @@
 /* Estilos específicos para project-3.html */
-:root { --project-bg: linear-gradient(180deg,#1a0b14 0%, #0c0710 100%); }
+:root { --project-bg: linear-gradient(180deg,#0f1724 0%, #071428 100%); }
 body.project-3 {
   background: var(--project-bg);
 }

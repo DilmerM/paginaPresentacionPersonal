@@ -798,6 +798,68 @@ main#gallery .section-title,
   line-height: 1.6;
   margin-bottom: 12px;
 }
+
+/* ==============================
+   Projects card layout helpers
+   Ensure the CTA button stays aligned at the bottom of each card
+   Scoped to #projects to avoid global side-effects
+   ============================== */
+#projects .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(12px, 2.4vw, 28px);
+}
+
+#projects .card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%; /* help cards match heights inside the grid */
+}
+
+#projects .card__body {
+  /* Keep the body as a flex item (child of .card) so it expands,
+     but do NOT make it a flex container — leaving it as block lets
+     .pill elements flow inline as previously. */
+  flex: 1 1 auto; /* take available space so actions can be pushed down */
+}
+
+#projects .card__actions {
+  margin-top: auto; /* push action area to the card bottom */
+}
+
+/* Small tweak: ensure images or media don't overflow when cards shrink */
+#projects .card__media img,
+#projects .card__media svg {
+  max-height: 160px;
+  width: auto;
+  height: auto;
+}
+
+/* Ensure cards reserve space for the CTA and have a predictable media area
+   so pills and buttons align vertically across cards */
+#projects .card {
+  position: relative;
+  padding-bottom: 96px; /* space for the absolute CTA */
+}
+
+#projects .card__media {
+  height: 160px; /* fixed media height for consistent layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Place CTA consistently at the bottom of the card */
+#projects .card__actions {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  margin: 0; /* override earlier margin-top:auto */
+  display: flex;
+  justify-content: flex-start;
+}
+
 .quote {
   margin-top: 18px;
   padding-left: 14px;
@@ -1103,15 +1165,18 @@ main#gallery .section-title,
 }
 .card__body {
   padding: 16px;
+  min-height: 220px; /* reserve vertical space so pills start consistently */
 }
 .card__body h3 {
   margin: 6px 0 8px;
+  min-height: 48px; /* ensure title area has consistent height */
 }
 .card__body p {
   margin: 0 0 12px;
   color: var(--muted);
   /* Texto de tarjetas ligeramente más grande */
   font-size: clamp(14px, 1.4vw, 16px);
+  min-height: 56px; /* keep description space consistent so pills align */
 }
 .pill {
   display: inline-block;
