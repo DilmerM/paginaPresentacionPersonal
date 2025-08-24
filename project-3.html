@@ -24,9 +24,9 @@
   </header>
 
   <main class="section container" id="gallery">
-  <h1>Proyecto de Parques Forestales</h1>
-  <h2>Landing Cinemática</h2>
-  <p class="subtitle">Galería del proyecto. Subirás las imágenes más tarde; por ahora hay marcadores de posición.</p>
+  <h1>Proyecto con Java</h1>
+  <h2>Inventario de Escritorio</h2>
+  <p class="subtitle">Proyecto realizado en Java para la gestión de inventarios almacenados en archivos TXT. El registro de productos nuevos se realiza por imagen: basta arrastrar y soltar la imagen sobre la aplicación. El sistema incluye un ejecutable de escritorio listo para usar.</p>
 
     <div class="project-gallery grid">
       <!-- Inventario Java images added by user -->
@@ -77,8 +77,8 @@
     </div>
 
     <section id="details" class="project-details">
-      <h2>Descripción</h2>
-      <p>Landing con ritmo y tipografía marcada; incluye animaciones y llamadas a la acción destacadas.</p>
+  <h2>Descripción</h2>
+  <p> Java no es mi favorito 😵‍💫</p>
     </section>
   </main>
 
@@ -91,5 +91,50 @@
   </footer>
 
   <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+  
+  <!-- Lightbox modal -->
+  <div class="lightbox" id="project-lightbox" hidden aria-hidden="true" role="dialog" aria-label="Visor de imágenes">
+    <div class="lightbox__backdrop" data-action="close"></div>
+    <div class="lightbox__content" role="document">
+      <button class="lightbox__close" aria-label="Cerrar" data-action="close">×</button>
+      <img class="lightbox__img" src="" alt="" />
+      <div class="lightbox__caption"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const lb = document.getElementById('project-lightbox');
+    if(!lb) return;
+    const img = lb.querySelector('.lightbox__img');
+    const cap = lb.querySelector('.lightbox__caption');
+    const openBtns = Array.from(document.querySelectorAll('[data-img]'));
+    const closeEls = lb.querySelectorAll('[data-action="close"]');
+
+    function open(src, alt){
+      img.src = src; img.alt = alt || '';
+      cap.textContent = alt || '';
+      lb.hidden = false; lb.removeAttribute('aria-hidden');
+      document.body.style.overflow = 'hidden';
+      img.focus && img.focus();
+    }
+    function close(){
+      lb.hidden = true; lb.setAttribute('aria-hidden','true');
+      img.src = ''; img.alt = '';
+      cap.textContent = '';
+      document.body.style.overflow = '';
+    }
+
+    openBtns.forEach(b => b.addEventListener('click', (e) => {
+      const src = b.getAttribute('data-img');
+      const alt = b.closest('.park-card')?.querySelector('.park-card-title')?.textContent || '';
+      if(src) open(src, alt);
+    }));
+
+    closeEls.forEach(el => el.addEventListener('click', close));
+    lb.addEventListener('keydown', (e) => { if(e.key === 'Escape') close(); });
+    lb.addEventListener('click', (e) => { if(e.target === lb) close(); });
+  })();
+  </script>
 </body>
 </html>

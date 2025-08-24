@@ -1,5 +1,5 @@
 /* Estilos específicos para project-2.html */
-:root { --project-bg: linear-gradient(180deg,#10221f 0%, #071716 100%); }
+:root { --project-bg: #0f1724; }
 body.project-2 {
   background: var(--project-bg);
 }
@@ -72,4 +72,40 @@ body.project-2 {
 .main-footer { background-color: #212529; color: #adb5bd; padding:60px 0 20px 0; margin-top:40px; }
 .main-footer .social-icons .social-icon { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background-color:#495057; color:#ffffff; font-size:1.2rem; margin-right:10px; }
 .main-footer .social-icons .social-icon:hover { background-color:#198754; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+/* Responsive grid & spacing for project galleries (used by CV and Plantillas sections) */
+.project-gallery.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; align-items: stretch; }
+.project-plantillas { margin: 28px 0; }
+.project-cv { margin: 18px 0 6px 0; }
+
+.park-card { height: 340px; }
+.park-card .park-card-content { padding: 1.25rem 1rem 1rem; }
+
+/* Force exactly 3 columns for the CV creation gallery on wide screens */
+@media (min-width: 992px) {
+  #cv-create .project-gallery.grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+@media (max-width: 700px) {
+  .project-gallery.grid { grid-template-columns: 1fr; }
+  .park-card { height: 220px; border-radius: 12px; }
+  .park-card .park-card-content { padding: 0.9rem; }
+  .park-card .park-card-title { font-size: 1.05rem; }
+  .park-card .park-card-text { font-size: 0.85rem; }
+  /* reduce parallax viewport height on small screens */
+  .parallax-viewport { height: 220px; }
+}
+
+/* Disable hover/active zoom and lift on touch devices to avoid unintended "acercamiento" */
+@media (hover: none), (pointer: coarse) {
+  .park-card:hover .park-card-img,
+  .park-card:active .park-card-img {
+    transform: none !important;
+  }
+  .park-card:hover,
+  .park-card:active {
+    transform: none !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+}
 
