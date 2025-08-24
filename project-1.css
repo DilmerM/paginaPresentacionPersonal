@@ -54,3 +54,26 @@ body.project-1 {
 .main-footer .social-icons .social-icon { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background-color:#495057; color:#ffffff; font-size:1.2rem; margin-right:10px; }
 .main-footer .social-icons .social-icon:hover { background-color:#198754; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
+/* Fix: ensure Reservas y Servicios uses grid on desktop (no horizontal scroller)
+   while keeping the mobile horizontal scroller behavior intact. */
+@media (min-width: 701px) {
+  body.project-1 .project-reservas .project-gallery,
+  body.project-1 .project-db .project-gallery {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow: visible !important; /* prevent horizontal scrollbar on desktop */
+    scroll-snap-type: none !important;
+    padding-bottom: 0;
+  }
+
+  /* ensure individual cards don't force horizontal layout */
+  body.project-1 .project-reservas .project-gallery .park-card,
+  body.project-1 .project-db .project-gallery .park-card {
+    flex: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    height: 400px; /* match project-specific card height */
+  }
+}
+

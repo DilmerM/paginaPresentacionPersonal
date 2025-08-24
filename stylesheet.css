@@ -1176,6 +1176,37 @@ svg {
 }
 
 /* ======
+   Forzar fila única para secciones específicas (reservas y base de datos)
+   ====== */
+.project-reservas .project-gallery,
+.project-db .project-gallery {
+  display: flex !important;
+  flex-direction: row;
+  gap: 18px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  align-items: flex-start;
+  padding-bottom: 8px;
+}
+.project-reservas .project-gallery .park-card,
+.project-db .project-gallery .park-card {
+  flex: 0 0 32%;
+  width: 32%;
+  max-width: 420px;
+  scroll-snap-align: start;
+  margin-inline: 6px;
+}
+
+@media (max-width: 700px) {
+  .project-reservas .project-gallery .park-card,
+  .project-db .project-gallery .park-card {
+    flex: 0 0 82%;
+    width: 82%;
+  }
+}
+
+/* ======
    Geolocalización: mapa y controles mínimos
    ====== */
 .project-geo__map-wrap { width: 100%; max-width: 100%; }
