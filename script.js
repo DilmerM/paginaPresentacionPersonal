@@ -107,6 +107,9 @@ window.addEventListener('load', () => {
 // 5) Tilt suave en tarjetas (más marcado)
 (() => {
 	const cards = qsa('.card');
+	if (!cards.length) return;
+	const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0 || window.matchMedia('(hover: none)').matches;
+	if (isTouch || window.innerWidth <= 700) return; // disable tilt on touch / small screens
 	const maxTilt = 18; // grados — aumentado para efecto más visible
 	cards.forEach(card => {
 		let rAF = null;
@@ -148,6 +151,9 @@ window.addEventListener('load', () => {
 // 6) Botón "magnético" (más fuerte)
 (() => {
 	const mags = qsa('.btn--magnetic');
+	if (!mags.length) return;
+	const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0 || window.matchMedia('(hover: none)').matches;
+	if (isTouch || window.innerWidth <= 700) return; // disable magnetic behavior on touch / small screens
 	const strength = 34; // aumentado
 	mags.forEach(btn => {
 		let px = 0, py = 0, tx = 0, ty = 0, rAF = null;

@@ -21,6 +21,43 @@
   --gutter: clamp(16px, 3vw, 32px);
 }
 
+/* Mobile performance: disable heavy decorative animations and filters on small screens
+   Keep visuals on desktop but reduce paint cost on phones (<=700px). */
+@media (max-width: 700px) {
+  .layer--glow,
+  .layer--glow::before,
+  .layer--glow::after,
+  .layer--flare,
+  .portrait::after {
+    animation: none !important;
+    filter: none !important;
+    will-change: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Stop marquee on mobile */
+  .marquee__track { animation: none !important; }
+
+  /* Reduce transitions on interactive elements to avoid extra painting */
+  .card, .btn--magnetic { transition: none !important; }
+
+  /* Remove expensive backdrop blur on mobile */
+  .nav, .loader, .lightbox__backdrop { backdrop-filter: none !important; }
+
+  /* Remove navbar overlay and ensure text remains readable on small screens */
+  .nav::before { display: none !important; }
+  .nav, .brand, .menu__link {
+    text-shadow: none !important;
+    -webkit-text-stroke: 0 !important;
+    mix-blend-mode: normal !important;
+    color: var(--text) !important;
+  }
+
+  /* Simpler portrait background on mobile */
+  .portrait { background-image: url("/images/IMG2.jpg"); background-size: cover; background-position: center; }
+}
+
 /* Forzar tema oscuro: no modificar variables en modo claro. */
 
 /* =======
