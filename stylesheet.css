@@ -1193,42 +1193,6 @@ svg {
   .project-geo #map { height: min(48vh, 420px); }
 }
 
-/* Disable animated radial gradients: keep visuals but remove animation. */
-.layer--glow,
-.layer--glow::before,
-.layer--glow::after,
-.layer--flare,
-.portrait::after {
-  animation: none !important;
-}
 
-/* Mobile-specific reductions for heavy paints/filters */
-@media (max-width: 700px) {
-  /* Remove backdrop blurs that cause repaints on mobile */
-  .nav,
-  .loader,
-  .lightbox__backdrop {
-    backdrop-filter: none !important;
-    background: rgba(10,12,18,0.9); /* keep visual depth without blur */
-  }
 
-  /* Disable remaining filter blurs on decorative layers */
-  .layer--glow,
-  .layer--glow::before,
-  .layer--glow::after,
-  .layer--flare,
-  .portrait::after {
-    filter: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    will-change: auto !important;
-  }
-
-  /* Use a simpler portrait background for mobile to reduce paint cost */
-  .portrait {
-    background-image: linear-gradient(transparent, transparent), url("/images/IMG2.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-}
+ 
