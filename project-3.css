@@ -6,3 +6,50 @@ body.project-3 {
 
 .project-gallery { gap: 22px; }
 .park-card { border-radius: 10px; }
+
+/* Reglas movidas desde stylesheet.css: scroller, park-card, hero panels, parallax layers y footer */
+.scroller-wrapper {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+.scroller-inner {
+  display: flex;
+  gap: 1rem;
+  padding-block: 1rem;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+@keyframes scroll { to { transform: translateX(calc(-50% - 0.5rem)); } }
+
+.hero-panels-container { display:flex; width:100%; height:100vh; overflow:hidden; position:relative; }
+.hero-panel { background-size: cover; background-position:center; flex:1; position:relative; cursor:pointer; transition:flex 0.7s cubic-bezier(0.61,.04,.36,.98); }
+.hero-panel:hover { flex:5; }
+.hero-panel h3 { font-size:2rem; color:white; position:absolute; bottom:20px; left:20px; margin:0; opacity:0; transform:translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+.hero-panel:hover h3 { opacity:1; transform:translateY(0); }
+.hero-panel::after { content:''; position:absolute; inset:0; background: rgba(0,0,0,0.3); transition: opacity 0.7s ease; }
+.hero-panel:hover::after { opacity:0; }
+
+.park-card { position:relative; border:none; border-radius:1rem; overflow:hidden; box-shadow:0 10px 20px rgba(0,0,0,0.1); transition: transform 0.4s ease, box-shadow 0.4s ease; cursor:pointer; height:400px; }
+.park-card:hover { transform: translateY(-10px); box-shadow:0 15px 30px rgba(0,0,0,0.2); }
+.park-card .park-card-img { width:100%; height:100%; object-fit:cover; transition: transform 0.6s ease; }
+.park-card:hover .park-card-img { transform:scale(1.1); }
+.park-card .park-card-content { position:absolute; bottom:0; left:0; right:0; padding:2rem 1.5rem 1.5rem; color:white; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%); transform: translateY(calc(100% - 4.5rem)); transition: transform 0.5s ease; }
+.park-card:hover .park-card-content { transform: translateY(0); }
+.park-card .park-card-title { font-weight:700; margin-bottom:0.5rem; font-size:1.5rem; }
+.park-card .park-card-text { font-size:0.9rem; margin-bottom:1.5rem; opacity:0; transition: opacity 0.5s ease 0.1s; }
+.park-card:hover .park-card-text { opacity:1; }
+.park-card .park-card-btn { opacity:0; transform: translateY(10px); transition: all 0.5s ease 0.2s; padding:0.5rem 1.5rem; border-radius:50px; font-weight:600; }
+.park-card:hover .park-card-btn { opacity:1; transform: translateY(0); }
+@media (max-width: 992px) { .park-card .park-card-content { transform: translateY(0); } .park-card .park-card-text, .park-card .park-card-btn { opacity:1; transform: translateY(0); } }
+
+.parallax-layer { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; object-position:bottom; transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94); }
+.parallax-layer.from-left { transform: translateX(-100%); }
+.parallax-layer.from-right { transform: translateX(100%); }
+.parallax-layer.from-top { transform: translateY(-100%); }
+.parallax-layer.is-visible { transform: translate(0,0); }
+
+.main-footer { background-color: #212529; color: #adb5bd; padding:60px 0 20px 0; margin-top:40px; }
+.main-footer .social-icons .social-icon { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background-color:#495057; color:#ffffff; font-size:1.2rem; margin-right:10px; }
+.main-footer .social-icons .social-icon:hover { background-color:#198754; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+

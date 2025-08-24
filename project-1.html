@@ -24,37 +24,71 @@
   </header>
 
   <main class="section container" id="gallery">
-    <h1>Showcase Interactivo</h1>
+  <h1>Landing Page</h1>
     <p class="subtitle">Galería del proyecto. Subirás las imágenes más tarde; por ahora hay marcadores de posición.</p>
 
     <div class="project-gallery grid">
       <div class="park-card">
-        <div class="park-card-img" style="background: linear-gradient(135deg,#7c5cff,#00d4ff);"></div>
+        <div class="park-card-img" style="background: url('./images/landing1.png') center/cover no-repeat;"></div>
         <div class="park-card-content">
           <div class="park-card-title">Imagen 1</div>
           <div class="park-card-text">Breve descripción de la imagen 1.</div>
-          <a class="btn btn--primary park-card-btn" href="#">Ver detalle</a>
+          <button type="button" class="btn btn--primary park-card-btn" data-img="./images/landing1.png">Ver detalle</button>
         </div>
       </div>
 
       <div class="park-card">
-        <div class="park-card-img" style="background: linear-gradient(135deg,#ff3d81,#7c5cff);"></div>
+        <div class="park-card-img" style="background: url('./images/landing2.png') center/cover no-repeat;"></div>
         <div class="park-card-content">
           <div class="park-card-title">Imagen 2</div>
           <div class="park-card-text">Breve descripción de la imagen 2.</div>
-          <a class="btn btn--primary park-card-btn" href="#">Ver detalle</a>
+          <button type="button" class="btn btn--primary park-card-btn" data-img="./images/landing2.png">Ver detalle</button>
         </div>
       </div>
 
       <div class="park-card">
-        <div class="park-card-img" style="background: linear-gradient(135deg,#00d4ff,#31d0aa);"></div>
+        <div class="park-card-img" style="background: url('./images/landing4.png') center/cover no-repeat;"></div>
         <div class="park-card-content">
           <div class="park-card-title">Imagen 3</div>
           <div class="park-card-text">Breve descripción de la imagen 3.</div>
-          <a class="btn btn--primary park-card-btn" href="#">Ver detalle</a>
+          <button type="button" class="btn btn--primary park-card-btn" data-img="./images/landing4.png">Ver detalle</button>
+        </div>
+      </div>
+      
+      <div class="park-card">
+        <div class="park-card-img" style="background: url('./images/landing5.png') center/cover no-repeat;"></div>
+        <div class="park-card-content">
+          <div class="park-card-title">Imagen 4</div>
+          <div class="park-card-text">Breve descripción de la imagen 4.</div>
+          <button type="button" class="btn btn--primary park-card-btn" data-img="./images/landing5.png">Ver detalle</button>
         </div>
       </div>
     </div>
+    
+    <!-- Sección Auth: Login y Register en la misma galería -->
+    <section id="auth" class="project-auth">
+      <h2>Login y Register</h2>
+      <p class="subtitle">Pantallas de autenticación del proyecto.</p>
+      <div class="project-gallery grid">
+        <div class="park-card">
+          <div class="park-card-img" style="background: url('./images/Login.png') center/cover no-repeat;"></div>
+          <div class="park-card-content">
+            <div class="park-card-title">Login - Pantalla</div>
+            <div class="park-card-text">Interfaz de inicio de sesión.</div>
+            <button type="button" class="btn btn--primary park-card-btn" data-img="./images/Login.png">Ver detalle</button>
+          </div>
+        </div>
+
+        <div class="park-card">
+          <div class="park-card-img" style="background: url('./images/Register.png') center/cover no-repeat;"></div>
+          <div class="park-card-content">
+            <div class="park-card-title">Register - Pantalla</div>
+            <div class="park-card-text">Interfaz de registro de nuevos usuarios.</div>
+            <button type="button" class="btn btn--primary park-card-btn" data-img="./images/Register.png">Ver detalle</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="details" class="project-details">
       <h2>Descripción</h2>
@@ -70,6 +104,73 @@
     </div>
   </footer>
 
-  <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+  <!-- Lightbox modal (accessible, responsive) -->
+  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Imagen en tamaño completo">
+    <div class="lightbox__backdrop" data-close></div>
+    <div class="lightbox__content">
+      <button class="lightbox__close" aria-label="Cerrar" data-close>&times;</button>
+      <img class="lightbox__img" src="" alt="Vista ampliada" />
+      <div class="lightbox__caption" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    // Mantener el año
+    document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());
+
+    (function(){
+      const lb = document.getElementById('lightbox');
+      if (!lb) return;
+      const img = lb.querySelector('.lightbox__img');
+      const caption = lb.querySelector('.lightbox__caption');
+      const closeElems = lb.querySelectorAll('[data-close]');
+
+      function openLightbox(src, alt, captionText, trigger){
+        img.src = src || '';
+        img.alt = alt || 'Imagen en tamaño completo';
+        caption.textContent = captionText || '';
+        lb.hidden = false; lb.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        // foco al cerrar
+        setTimeout(()=> closeElems[0].focus(), 60);
+        // remember source element to return focus
+        lb.__trigger = trigger || null;
+      }
+
+      function closeLightbox(){
+        lb.hidden = true; lb.setAttribute('aria-hidden', 'true');
+        img.src = '';
+        caption.textContent = '';
+        document.body.style.overflow = '';
+        if (lb.__trigger) try { lb.__trigger.focus(); } catch(e){}
+        lb.__trigger = null;
+      }
+
+      // Delegation for buttons
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.park-card-btn');
+        if (!btn) return;
+        e.preventDefault();
+        // if data-img provided, use it. Otherwise try to extract background-image url from .park-card-img
+        const src = btn.dataset.img || (function(){
+          const card = btn.closest('.park-card');
+          if (!card) return '';
+          const bgEl = card.querySelector('.park-card-img');
+          if (!bgEl) return '';
+          const st = getComputedStyle(bgEl).backgroundImage || '';
+          const m = st.match(/url\((?:\"|\')?(.*?)(?:\"|\')?\)/);
+          return m ? m[1] : '';
+        })();
+        if (!src) return;
+        const title = (btn.closest('.park-card') && btn.closest('.park-card').querySelector('.park-card-title')?.textContent) || '';
+        openLightbox(src, title || 'Imagen', title, btn);
+      });
+
+      // close handlers
+      closeElems.forEach(c => c.addEventListener('click', closeLightbox));
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lb.hidden) closeLightbox(); });
+    })();
+  </script>
 </body>
 </html>

@@ -400,6 +400,63 @@ svg {
   100% { background-position: 40% 20%; transform: translate3d(0,0,0) scale(1); }
 }
 
+/* ======
+   Lightbox / Modal para vistas ampliadas de imágenes
+   ====== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1200;
+}
+.lightbox[hidden] { display: none; }
+.lightbox__backdrop {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+}
+.lightbox__content {
+  position: relative;
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
+  width: 100%;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(10,12,18,0.92), rgba(6,8,12,0.85));
+}
+.lightbox__img {
+  width: 100%;
+  height: auto;
+  max-height: calc(92vh - 120px);
+  object-fit: contain;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+.lightbox__close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+.lightbox__close:focus { outline: 2px solid var(--primary); border-radius: 6px; }
+.lightbox__caption { color: var(--muted); font-size: 14px; text-align: center; padding-top: 6px; }
+
+@media (max-width: 700px) {
+  .lightbox__content { padding: 10px; max-height: 98vh; border-radius: 8px; }
+  .lightbox__img { max-height: calc(98vh - 110px); }
+  .lightbox__close { right: 8px; top: 6px; font-size: 26px; }
+}
+
 /* Apply gentle motion and breathing to decorative layers */
 .layer--glow {
   animation: float-slow 20s ease-in-out infinite, glow-pulse 6s ease-in-out infinite;
@@ -632,7 +689,7 @@ svg {
       /* rgba(124, 92, 255, 0.25), */
       transparent 60%
     ),
-    url("IMG2.jpg") center/cover no-repeat;
+    url("/images/IMG2.jpg") center/cover no-repeat;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 @media (max-width: 480px) {
@@ -1066,401 +1123,48 @@ svg {
 /* Small visual tweak to ensure CTA buttons cast subtle separation on dark background */
 .cta .btn { box-shadow: 0 8px 20px rgba(2,6,23,0.45); }
 
-/* ---------- Estilos añadidos por el usuario (cartas, parallax, footer, scroller) ---------- */
-/* --- ESTILOS PARA EL CARRUSEL DE COMENTARIOS --- */
-.scroller-wrapper {
-  overflow: hidden;
-  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-}
+/* Project-specific styles were moved to each project's CSS files */
 
-.scroller-inner {
-  display: flex;
-  gap: 1rem; /* Espacio entre tarjetas */
-  padding-block: 1rem;
-  width: max-content; /* Asegura que el contenedor se ajuste al contenido */
-  animation: scroll 30s linear infinite;
-}
-
-.scroller-wrapper:hover .scroller-inner {
-  animation-play-state: paused; /* Pausa la animación al pasar el ratón */
-}
-
-@keyframes scroll {
-  to {
-    transform: translateX(calc(-50% - 0.5rem)); /* Mueve la mitad del contenedor */
+/* ======
+   Mobile: project gallery becomes horizontal scroll row
+   ====== */
+@media (max-width: 700px) {
+  .project-gallery {
+    display: flex !important;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 12px;
   }
-}
 
-.comment-card {
-  width: 350px; /* Ancho fijo para cada tarjeta */
-  flex-shrink: 0; /* Evita que las tarjetas se encojan */
-}
+  .project-gallery .park-card {
+    flex: 0 0 82%;
+    width: 82%;
+    max-width: 420px;
+    scroll-snap-align: start;
+    margin-inline: 6px;
+    height: auto;
+  }
 
-.comment-card .card-body {
-  display: flex;
-  flex-direction: column;
-}
+  .project-gallery .park-card .park-card-img {
+    height: min(52vh, 360px);
+    max-height: 360px;
+  }
 
-.comment-card .card-text {
-  flex-grow: 1; /* Ocupa el espacio disponible */
-  font-style: italic;
-}
-
-.comment-author {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.comment-author img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-  /* Sección del Héroe (Parallax) */
-.hero-section {
-  position: relative; /* Contenedor para las capas absolutas */
-  height: 100vh; /* Ocupa toda la altura de la pantalla */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Oculta las partes de las imágenes que se salen */
-  color: white;
-}
-.dic{
-   position: relative; /* Contenedor para las capas absolutas */
-  height: 100vh; /* Ocupa toda la altura de la pantalla */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Oculta las partes de las imágenes que se salen */
-  color: white;
-  background-color: rgb(250, 243, 208);
-}
-.parallax-layer {
-  
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que la imagen cubra todo el contenedor */
-  object-position: bottom; /* Alinea la imagen en la parte inferior de su caja */
-    
-  /* AÑADIDO: Transición suave para la animación de entrada */
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-/* Asignamos un z-index diferente a cada capa para el orden correcto */
-.parallax-layer:nth-of-type(1) { z-index: -7; } /* fondo */
-
-.parallax-layer:nth-of-type(1) { z-index: -6; } /* fondo */
-
-.parallax-layer:nth-of-type(1) { z-index: -5; } /* Capa Cielo (más lejana) */
-.parallax-layer:nth-of-type(2) { z-index: -4; } /* Montaña Lejos */
-.parallax-layer:nth-of-type(3) { z-index: -3; } /* Montaña cerca */
-.parallax-layer:nth-of-type(4) { z-index: -2;  } /* Capa agua */
-.parallax-layer:nth-of-type(5) { z-index: -1; } /* Capa Tierra (más cercana) */
-.parallax-layer.from-top {
-  transform: translateY(-100%);
-}
-
-/* Esta regla busca la PRIMERA capa y le aplica el z-index */
-.parallax-layer:nth-of-type(1) { 
-  z-index: -6; 
-}
-
-.hero-content {
-  position: relative; /* Para que esté por encima de las capas parallax */
-  z-index: 1;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Sombra para que el texto sea legible */
-}
-
-/* --- INICIO: Transiciones de Entrada (Controladas por JS) --- */
-
-/* Posiciones iniciales de las capas (fuera de la pantalla) */
-.parallax-layer.from-left {
-  transform: translateX(-100%);
-}
-.parallax-layer.from-right {
-  transform: translateX(100%);
-}
-.parallax-layer.from-top {
-  transform: translateY(-100%);
-}
-
-/* Cuando JS añade la clase 'is-visible', las capas van a su posición final */
-.parallax-layer.is-visible {
-  transform: translate(0, 0);
-}
-
-/* --- FIN: Transiciones de Entrada --- */
-
-
-
-/* --- ESTILOS PARA EL NUEVO FOOTER --- */
-.main-footer {
-  background-color: #212529; /* Un poco más oscuro que bg-dark */
-  color: #adb5bd; /* Texto gris claro, más suave que el blanco puro */
-  padding: 60px 0 20px 0;
-  margin-top: 40px; /* Espacio para separarlo del contenido superior */
-}
-
-.footer-heading {
-  color: #ffffff;
-  margin-bottom: 20px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.footer-text {
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.footer-links li {
-  margin-bottom: 10px;
-}
-
-.footer-links a {
-  color: #adb5bd;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.footer-links a:hover, .footer-links a:focus {
-  color: #ffffff;
-  padding-left: 5px; /* Pequeño efecto al pasar el ratón */
-}
-
-.main-footer .social-icons .social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #495057;
-  color: #ffffff;
-  font-size: 1.2rem;
-  margin-right: 10px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.main-footer .social-icons .social-icon:hover {
-  background-color: #198754; /* Color verde de éxito de Bootstrap */
-  transform: translateY(-3px); /* Efecto de elevación */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.footer-bottom {
-  border-top: 1px solid #343a40;
-  padding-top: 20px;
-  margin-top: 40px;
-  text-align: center;
-  font-size: 0.85rem;
-}
-
-/* Alineación de iconos en la sección de contacto */
-.main-footer .footer-text .iconify {
-  vertical-align: middle;
-  margin-right: 8px;
-  font-size: 1.2rem;
-}
- /* Estilos para Desktop */
-  .hero-panels-container {
-    display: flex;
-    width: 100%;
-    height: 100vh; 
-    overflow: hidden;
+  .project-gallery .park-card .park-card-content {
     position: relative;
-  }
-  .hero-panel {
-    background-size: cover;
-    background-position: center;
-    flex: 1;
-    position: relative;
-    cursor: pointer;
-    transition: flex 0.7s cubic-bezier(0.61, .04, .36, .98);
-  }
-  .hero-panel:hover {
-    flex: 5; 
-  }
-  .hero-panel h3 {
-    font-size: 2rem;
-    color: white;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    margin: 0;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-  }
-  .hero-panel:hover h3 {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .hero-panel::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.3);
-    transition: opacity 0.7s ease;
-  }
-  .hero-panel:hover::after {
-    opacity: 0; 
-  }
-  .hero-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    color: white;
-    text-align: center;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    width: 90%;
-    max-width: 800px;
+    transform: none;
+    padding: 14px 12px 16px;
   }
 
-  /* --- AJUSTES PARA MÓVIL --- */
-  @media (max-width: 768px) {
-    .hero-panels-container {
-      /* Los paneles ahora son fijos y no hay scroll */
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden; /* No hay scroll */
-    }
-    .hero-panel {
-      flex: 1; /* Los 3 paneles visibles se reparten el espacio */
-    }
-    .hero-panel:hover {
-      flex: 1; /* Se mantiene la desactivación de la expansión */
-    }
-    .hero-panel h3 {
-      opacity: 1;
-      transform: translateY(0);
-    }
-        
-    /* Oculta el 4to y 5to panel en móvil */
-    .hero-panel:nth-of-type(n+4) {
-      display: none;
-    }
-
-    .hero-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-    }
-    .hero-content h1 {
-      font-size: 2.5rem;
-    }
-    .hero-content .lead {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-    }
+  .project-gallery {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.12) transparent;
   }
-
-  .park-card {
-    position: relative;
-    border: none;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    cursor: pointer;
-    height: 400px;
-  }
-
-  .park-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-  }
-
-  .park-card .park-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-  }
-
-  .park-card:hover .park-card-img {
-    transform: scale(1.1);
-  }
-
-  .park-card .park-card-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2rem 1.5rem 1.5rem;
-    color: white;
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
-    /* La clave del efecto: El contenido está "escondido" debajo, mostrando solo el título */
-    transform: translateY(calc(100% - 4.5rem)); 
-    transition: transform 0.5s ease;
-  }
-
-  /* Al pasar el ratón, el contenido se desliza hacia arriba para mostrarse completo */
-  .park-card:hover .park-card-content {
-    transform: translateY(0);
-  }
-
-  .park-card .park-card-title {
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-  }
-
-  /* El texto y el botón están ocultos por defecto */
-  .park-card .park-card-text {
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    transition: opacity 0.5s ease 0.1s;
-  }
-
-  /* Se hacen visibles cuando la tarjeta está activa */
-  .park-card:hover .park-card-text {
-    opacity: 1;
-  }
-
-  .park-card .park-card-btn {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease 0.2s;
-    padding: 0.5rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-  }
-
-  /* Se hacen visibles cuando la tarjeta está activa */
-  .park-card:hover .park-card-btn {
-    opacity: 1;
-    transform: translateY(0);
-  }
-    
-  /* --- RESPONSIVIDAD --- */
-  /* En pantallas más pequeñas (tablet/móvil), el efecto hover no es ideal. */
-  /* Por eso, hacemos que el contenido sea visible por defecto. */
-  @media (max-width: 992px) {
-    .park-card .park-card-content {
-      transform: translateY(0);
-    }
-    .park-card .park-card-text,
-    .park-card .park-card-btn {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-/* ---------- Fin estilos añadidos ---------- */
+  .project-gallery::-webkit-scrollbar { height: 8px; }
+  .project-gallery::-webkit-scrollbar-track { background: transparent; }
+  .project-gallery::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 999px; }
+}
