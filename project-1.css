@@ -1,6 +1,7 @@
 /* Estilos específicos para project-1.html */
 :root { --project-bg: linear-gradient(180deg,#0f1724 0%, #071428 100%); }
-body.project-1 {
+body.project-1,
+body.project-detail {
   background: var(--project-bg);
 }
 

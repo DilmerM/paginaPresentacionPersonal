@@ -1,81 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
-        <head>
-            <meta charset="UTF-8" />
-            <!-- Google Analytics loader (external) -->
-            <script src="./assets/js/gtag-loader.js" defer></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="color-scheme" content="dark" />
-        <meta name="description" content="Portafolio de desarrollador: animaciones fluidas, proyectos destacados y contacto." />
-        <title>Dilmer — Desarrollador</title>
 
-        <!-- Fuente opcional de Google (puedes cambiarla por local si lo prefieres) -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+<head>
+    <meta charset="UTF-8" />
+    <!-- Google Analytics loader (external) -->
+    <script src="./assets/js/gtag-loader.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description"
+        content="Portafolio de desarrollador: animaciones fluidas, proyectos destacados y contacto." />
+    <title>Dilmer — Desarrollador</title>
+
+    <!-- Fuente opcional de Google (puedes cambiarla por local si lo prefieres) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="./stylesheet.css?v=20250823" />
     <!-- Iconify for icons -->
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js" defer></script>
-    </head>
-    <body>
-        <noscript>Esta página usa animaciones y requiere JavaScript para la mejor experiencia.</noscript>
+</head>
 
-        <!-- Loader / Intro -->
-        <div class="loader" aria-hidden="true">
-            <div class="loader__inner">
-                <div class="loader__ring"></div>
-                <p class="loader__text">Cargando</p>
-            </div>
-        </div>
+<body>
+    <noscript>Esta página usa animaciones y requiere JavaScript para la mejor experiencia.</noscript>
 
-        <!-- Navegación -->
-        <header class="nav" role="banner">
-            <div class="nav__content">
-                <a href="#home" class="brand" aria-label="Ir al inicio">DN.dev</a>
-                <button class="nav__toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Abrir menú">
-                    <span class="nav__burger" aria-hidden="true"></span>
-                </button>
-                <nav id="primary-menu" class="menu" role="navigation" aria-label="Principal">
-                    <button id="player-disc" class="player-disc" aria-label="Abrir reproductor" aria-controls="player-popover" aria-expanded="false">
-                        <span class="player-disc__vinyl" aria-hidden="true"></span>
-                    </button>
-                    <a href="#about" class="menu__link">Sobre mí</a>
-                    <a href="#stack" class="menu__link">Tecnologías</a>
-                    <a href="#projects" class="menu__link">Proyectos</a>
-                    <a href="#contact" class="menu__link btn btn--primary btn--magnetic">Contacto</a>
-                </nav>
-            </div>
-        </header>
-        
-        <!-- Mini‑player popover (global) -->
-        <div id="player-popover" class="player-popover" role="dialog" aria-label="Reproductor" hidden>
-            <div class="player-card">
-                <div class="player-card__media" aria-hidden="true"></div>
-                <div class="player-card__info">
-                    <strong class="player-card__title">Tu canción</strong>
-                    <span class="player-card__subtitle">Artista – Álbum</span>
-                </div>
-                <div class="player-card__controls">
-                    <button class="player-btn" data-action="back" title="Anterior" disabled>⏮</button>
-                    <button class="player-btn" data-action="play" title="Reproducir">▶</button>
-                    <button class="player-btn" data-action="next" title="Siguiente" disabled>⏭</button>
-                </div>
-                <div class="player-card__progress" aria-hidden="true"><div class="player-card__bar"></div></div>
-                <button class="player-card__close" aria-label="Cerrar">✕</button>
-            </div>
+    <!-- Loader / Intro -->
+    <div class="loader" aria-hidden="true">
+        <div class="loader__inner">
+            <div class="loader__ring"></div>
+            <p class="loader__text">Cargando</p>
         </div>
+    </div>
 
-        <!-- Hint del disco -->
-        <div id="disc-hint" class="disc-hint" role="status" aria-live="polite" hidden>
-            <span class="disc-hint__text">Tip: toca el disco para pausar la música</span>
-            <button class="disc-hint__close" aria-label="Cerrar aviso">✕</button>
-            <span class="disc-hint__arrow" aria-hidden="true"></span>
+    <!-- Navegación -->
+    <header class="nav" role="banner">
+        <div class="nav__content">
+            <a href="#home" class="brand" aria-label="Ir al inicio">DN.dev</a>
+            <button class="nav__toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Abrir menú">
+                <span class="nav__burger" aria-hidden="true"></span>
+            </button>
+            <nav id="primary-menu" class="menu" role="navigation" aria-label="Principal">
+
+                <a href="#about" class="menu__link">Sobre mí</a>
+                <a href="#stack" class="menu__link">Tecnologías</a>
+                <a href="#projects" class="menu__link">Proyectos</a>
+                <a href="proyectos_favoritos.html" class="menu__link">Proyectos Favoritos</a>
+                <a href="#contact" class="menu__link btn btn--primary btn--magnetic">Contacto</a>
+            </nav>
         </div>
-        <section class="main_seccion">
-<!-- Héroe -->
-    <main id="home" class="hero" role="main">
+    </header>
+
+
+    <section class="main_seccion">
+        <!-- Héroe -->
+        <main id="home" class="hero" role="main">
             <div class="hero__bg" aria-hidden="true">
                 <div class="layer layer--glow" data-speed="-0.08"></div>
                 <div class="layer layer--grid" data-speed="0.06"></div>
@@ -87,7 +66,8 @@
                     Desarrollador de estructuras de sistemas: <span class="title__accent">backend en proceso</span>
                 </h1>
                 <p class="subtitle">
-                    Me apasiona el desarrollo back‑end y diseñar bases de datos eficientes; también disfruto del front‑end creando interfaces.
+                    Me apasiona el desarrollo back‑end y diseñar bases de datos eficientes; también disfruto del
+                    front‑end creando interfaces.
                 </p>
                 <div class="cta">
                     <a href="#projects" class="btn btn--primary btn--magnetic">Ver proyectos</a>
@@ -96,25 +76,28 @@
             </section>
             <div class="marquee" aria-hidden="true">
                 <div class="marquee__track">
-                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java • PHP •</span>
-                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java • PHP •</span>
-                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java • PHP •</span>
+                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
+                        • PHP •</span>
+                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
+                        • PHP •</span>
+                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
+                        • PHP •</span>
                 </div>
             </div>
         </main>
 
 
-        </section>
-        
-<section class="sobreMi">
-  <!-- Sobre mí -->
+    </section>
+
+    <section class="sobreMi">
+        <!-- Sobre mí -->
         <section id="about" class="section section--about container">
-        <div class="about__grid">
+            <div class="about__grid">
                 <div class="about__media" data-reveal data-speed="0.06">
                     <div class="portrait" aria-label="Foto de perfil" role="img"></div>
                 </div>
-        <div class="about__content" data-reveal>
-            <h2>Mucho gusto, soy Dilmer Moreira</h2>
+                <div class="about__content" data-reveal>
+                    <h2>Mucho gusto, soy Dilmer Moreira</h2>
                     <p>
                         Soy estudiante de Informática Administrativa, dedicado a aprender por curiosidad y diversión.
                         Me gusta explorar conocimientos diversos y, sobre todo, entender cómo funcionan los sistemas.
@@ -125,7 +108,8 @@
                         profesional y personalmente.
                     </p>
                     <figure class="quote" aria-label="Frase de superación">
-                        <blockquote>“Si tus acciones inspiran a otros a soñar más, aprender más, hacer más y ser más, eres un líder”.</blockquote>
+                        <blockquote>“Si tus acciones inspiran a otros a soñar más, aprender más, hacer más y ser más,
+                            eres un líder”.</blockquote>
                         <figcaption>— John Quincy Adams</figcaption>
                     </figure>
                     <!-- <ul class="tags">
@@ -138,10 +122,10 @@
                 </div>
             </div>
         </section>
-</section>
-      
-<section  id="stack" class="Tecnologias_separacion">
- <!-- Tecnologías -->
+    </section>
+
+    <section id="stack" class="Tecnologias_separacion">
+        <!-- Tecnologías -->
         <section class="section section--stack container">
             <h2 data-reveal>Tecnologías</h2>
             <p class="subtitle" data-reveal>
@@ -150,37 +134,43 @@
             <ul class="tech-grid" data-reveal role="list">
                 <li class="tech tech--react" aria-label="React">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:react" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:react" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">React</span>
                 </li>
                 <li class="tech tech--html5" aria-label="HTML">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:html5" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:html5" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">HTML</span>
                 </li>
                 <li class="tech tech--css3" aria-label="CSS">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:css3" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:css3" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">CSS</span>
                 </li>
                 <li class="tech tech--javascript" aria-label="JavaScript">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:javascript" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:javascript" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">JavaScript</span>
                 </li>
                 <li class="tech tech--nextjs" aria-label="Next.js">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:nextdotjs" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:nextdotjs" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">Next.js</span>
                 </li>
                 <li class="tech tech--laravel" aria-label="Laravel">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:laravel" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:laravel" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">Laravel</span>
                 </li>
@@ -192,7 +182,8 @@
                 </li>
                 <li class="tech tech--oracle" aria-label="Oracle">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:oracle" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:oracle" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">Oracle</span>
                 </li>
@@ -204,7 +195,8 @@
                 </li>
                 <li class="tech tech--cplusplus" aria-label="C++">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:cplusplus" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:cplusplus" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">C++</span>
                 </li>
@@ -216,26 +208,54 @@
                 </li>
                 <li class="tech tech--php" aria-label="PHP">
                     <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:php" data-inline="false" aria-hidden="true"></span>
+                        <span class="iconify" data-icon="simple-icons:php" data-inline="false"
+                            aria-hidden="true"></span>
                     </span>
                     <span class="tech__label">PHP</span>
                 </li>
             </ul>
         </section>
-</section>
-       
-<section  id="projects" class="proyectos_separacion">
- <!-- Proyectos -->
-        <section  class="section container">
+    </section>
+
+    <section id="projects" class="proyectos_separacion">
+        <!-- Proyectos -->
+        <section class="section container">
             <h2 data-reveal>Proyectos</h2>
             <div class="grid" aria-live="polite">
+                <!-- Skill Connect -->
                 <article class="card" tabindex="0" data-reveal>
-                                        <div class="card__media" role="img" aria-label="Proyecto 1" style="background: transparent; display:flex; align-items:center; justify-content:center;">
-                                                                                                                                                                        <!-- Replaced with user-provided Laravel SVG (filled red) -->
-                                                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="99" viewBox="0 0 256 264" aria-hidden="true">
-                                                                                                                                                                            <path fill="#ff2d20" d="M255.856 59.62c.095.351.144.713.144 1.077v56.568c0 1.478-.79 2.843-2.073 3.578L206.45 148.18v54.18a4.14 4.14 0 0 1-2.062 3.579l-99.108 57.053c-.227.128-.474.21-.722.299c-.093.03-.18.087-.278.113a4.15 4.15 0 0 1-2.114 0c-.114-.03-.217-.093-.325-.134c-.227-.083-.464-.155-.68-.278L2.073 205.938A4.13 4.13 0 0 1 0 202.36V32.656c0-.372.052-.733.144-1.083c.031-.119.103-.227.145-.346c.077-.216.15-.438.263-.639c.077-.134.19-.242.283-.366c.119-.165.227-.335.366-.48c.119-.118.274-.206.408-.309c.15-.124.283-.258.453-.356h.005L51.613.551a4.14 4.14 0 0 1 4.125 0l49.546 28.526h.01c.165.104.305.232.454.351c.134.103.284.196.402.31c.145.149.248.32.371.484c.088.124.207.232.279.366c.118.206.185.423.268.64c.041.118.113.226.144.35c.095.351.144.714.145 1.078V138.65l41.286-23.773V60.692c0-.36.052-.727.145-1.072c.036-.124.103-.232.144-.35c.083-.217.155-.44.268-.64c.077-.134.19-.242.279-.366c.123-.165.226-.335.37-.48c.12-.118.269-.206.403-.309c.155-.124.289-.258.454-.356h.005l49.551-28.526a4.13 4.13 0 0 1 4.125 0l49.546 28.526c.175.103.309.232.464.35c.128.104.278.197.397.31c.144.15.247.32.37.485c.094.124.207.232.28.366c.118.2.185.423.267.64c.047.118.114.226.145.35m-8.115 55.258v-47.04l-17.339 9.981l-23.953 13.792v47.04l41.297-23.773zm-49.546 85.095V152.9l-23.562 13.457l-67.281 38.4v47.514zM8.259 39.796v160.177l90.833 52.294v-47.505L51.64 177.906l-.015-.01l-.02-.01c-.16-.093-.295-.227-.444-.34c-.13-.104-.279-.186-.392-.3l-.01-.015c-.134-.129-.227-.289-.34-.433c-.104-.14-.227-.258-.31-.402l-.005-.016c-.093-.154-.15-.34-.217-.515c-.067-.155-.154-.3-.196-.464v-.005c-.051-.196-.061-.403-.082-.604c-.02-.154-.062-.309-.062-.464V63.57L25.598 49.772l-17.339-9.97zM53.681 8.893L12.399 32.656l41.272 23.762L94.947 32.65L53.671 8.893zm21.468 148.298l23.948-13.786V39.796L81.76 49.778L57.805 63.569v103.608zM202.324 36.935l-41.276 23.762l41.276 23.763l41.271-23.768zm-4.13 54.676l-23.953-13.792l-17.338-9.981v47.04l23.948 13.787l17.344 9.986zm-94.977 106.006l60.543-34.564l30.264-17.272l-41.246-23.747l-47.489 27.34l-43.282 24.918z"/>
-                                                                                                                                                                        </svg>
-                                        </div>
+                    <div class="card__media" role="img" aria-label="Skill Connect"
+                        style="background: #0f172a; display:flex; align-items:center; justify-content:center; overflow: hidden;">
+                        <!-- Using a tech/network related placeholder image or gradient -->
+                        <img src="https://image.pollinations.ai/prompt/skill%20connect%20professional%20networking%20technology%20connections%20blue%20cyan%20minimalist?width=400&height=300&nologo=true"
+                            alt="Skill Connect Preview" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="card__body">
+                        <h3>Skill Connect</h3>
+                        <p>Plataforma para conectar profesionales mediante habilidades y servicios.</p>
+                        <div class="pill">HTML</div>
+                        <div class="pill">CSS</div>
+                        <div class="pill">JS</div>
+                        <div class="pill">Cloudflare</div>
+                        <div class="pill">MySQL</div>
+                        <div class="pill">Oracle VPS</div>
+                        <div class="card__actions">
+                            <a class="btn btn--primary" href="project-skill-connect.html" title="Ver proyecto">Ver
+                                proyecto</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card" tabindex="0" data-reveal>
+                    <div class="card__media" role="img" aria-label="Proyecto 1"
+                        style="background: transparent; display:flex; align-items:center; justify-content:center;">
+                        <!-- Replaced with user-provided Laravel SVG (filled red) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="99" viewBox="0 0 256 264"
+                            aria-hidden="true">
+                            <path fill="#ff2d20"
+                                d="M255.856 59.62c.095.351.144.713.144 1.077v56.568c0 1.478-.79 2.843-2.073 3.578L206.45 148.18v54.18a4.14 4.14 0 0 1-2.062 3.579l-99.108 57.053c-.227.128-.474.21-.722.299c-.093.03-.18.087-.278.113a4.15 4.15 0 0 1-2.114 0c-.114-.03-.217-.093-.325-.134c-.227-.083-.464-.155-.68-.278L2.073 205.938A4.13 4.13 0 0 1 0 202.36V32.656c0-.372.052-.733.144-1.083c.031-.119.103-.227.145-.346c.077-.216.15-.438.263-.639c.077-.134.19-.242.283-.366c.119-.165.227-.335.366-.48c.119-.118.274-.206.408-.309c.15-.124.283-.258.453-.356h.005L51.613.551a4.14 4.14 0 0 1 4.125 0l49.546 28.526h.01c.165.104.305.232.454.351c.134.103.284.196.402.31c.145.149.248.32.371.484c.088.124.207.232.279.366c.118.206.185.423.268.64c.041.118.113.226.144.35c.095.351.144.714.145 1.078V138.65l41.286-23.773V60.692c0-.36.052-.727.145-1.072c.036-.124.103-.232.144-.35c.083-.217.155-.44.268-.64c.077-.134.19-.242.279-.366c.123-.165.226-.335.37-.48c.12-.118.269-.206.403-.309c.155-.124.289-.258.454-.356h.005l49.551-28.526a4.13 4.13 0 0 1 4.125 0l49.546 28.526c.175.103.309.232.464.35c.128.104.278.197.397.31c.144.15.247.32.37.485c.094.124.207.232.28.366c.118.2.185.423.267.64c.047.118.114.226.145.35m-8.115 55.258v-47.04l-17.339 9.981l-23.953 13.792v47.04l41.297-23.773zm-49.546 85.095V152.9l-23.562 13.457l-67.281 38.4v47.514zM8.259 39.796v160.177l90.833 52.294v-47.505L51.64 177.906l-.015-.01l-.02-.01c-.16-.093-.295-.227-.444-.34c-.13-.104-.279-.186-.392-.3l-.01-.015c-.134-.129-.227-.289-.34-.433c-.104-.14-.227-.258-.31-.402l-.005-.016c-.093-.154-.15-.34-.217-.515c-.067-.155-.154-.3-.196-.464v-.005c-.051-.196-.061-.403-.082-.604c-.02-.154-.062-.309-.062-.464V63.57L25.598 49.772l-17.339-9.97zM53.681 8.893L12.399 32.656l41.272 23.762L94.947 32.65L53.671 8.893zm21.468 148.298l23.948-13.786V39.796L81.76 49.778L57.805 63.569v103.608zM202.324 36.935l-41.276 23.762l41.276 23.763l41.271-23.768zm-4.13 54.676l-23.953-13.792l-17.338-9.981v47.04l23.948 13.787l17.344 9.986zm-94.977 106.006l60.543-34.564l30.264-17.272l-41.246-23.747l-47.489 27.34l-43.282 24.918z" />
+                        </svg>
+                    </div>
                     <div class="card__body">
                         <h3>Parque forestal</h3>
                         <p>Proyecto construido con Laravel que gestiona reservas y servicios en un parque forestal.</p>
@@ -254,18 +274,29 @@
                 </article>
 
                 <article class="card" tabindex="0" data-reveal>
-                    <div class="card__media card__media--alt" role="img" aria-label="Proyecto 2" style="display:flex;align-items:center;justify-content:center;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 256 256" aria-hidden="true">
+                    <div class="card__media card__media--alt" role="img" aria-label="Proyecto 2"
+                        style="display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 256 256"
+                            aria-hidden="true">
                             <defs>
-                                <linearGradient id="SVGkw9x5bVJ" x1="55.633%" x2="83.228%" y1="56.385%" y2="96.08%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient>
-                                <linearGradient id="SVGE3ljGbCT" x1="50%" x2="49.953%" y1="0%" y2="73.438%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient>
-                                <circle id="SVGMFHNZdYm" cx="128" cy="128" r="128"/>
+                                <linearGradient id="SVGkw9x5bVJ" x1="55.633%" x2="83.228%" y1="56.385%" y2="96.08%">
+                                    <stop offset="0%" stop-color="#fff" />
+                                    <stop offset="100%" stop-color="#fff" stop-opacity="0" />
+                                </linearGradient>
+                                <linearGradient id="SVGE3ljGbCT" x1="50%" x2="49.953%" y1="0%" y2="73.438%">
+                                    <stop offset="0%" stop-color="#fff" />
+                                    <stop offset="100%" stop-color="#fff" stop-opacity="0" />
+                                </linearGradient>
+                                <circle id="SVGMFHNZdYm" cx="128" cy="128" r="128" />
                             </defs>
-                            <mask id="SVGalfYF1HT" fill="#fff"><use href="#SVGMFHNZdYm"/></mask>
+                            <mask id="SVGalfYF1HT" fill="#fff">
+                                <use href="#SVGMFHNZdYm" />
+                            </mask>
                             <g mask="url(#SVGalfYF1HT)">
-                                <circle cx="128" cy="128" r="128"/>
-                                <path fill="url(#SVGkw9x5bVJ)" d="M212.634 224.028L98.335 76.8H76.8v102.357h17.228V98.68L199.11 234.446a128 128 0 0 0 13.524-10.418"/>
-                                <path fill="url(#SVGE3ljGbCT)" d="M163.556 76.8h17.067v102.4h-17.067z"/>
+                                <circle cx="128" cy="128" r="128" />
+                                <path fill="url(#SVGkw9x5bVJ)"
+                                    d="M212.634 224.028L98.335 76.8H76.8v102.357h17.228V98.68L199.11 234.446a128 128 0 0 0 13.524-10.418" />
+                                <path fill="url(#SVGE3ljGbCT)" d="M163.556 76.8h17.067v102.4h-17.067z" />
                             </g>
                         </svg>
                     </div>
@@ -285,12 +316,18 @@
                 <article class="card" tabindex="0" data-reveal>
                     <div class="card__media card__media--neo" role="img" aria-label="Inventario">
                         <!-- Java SVG icon provided by user -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 128 128" aria-hidden="true" focusable="false">
-                            <path fill="#0074bd" d="M47.617 98.12s-4.767 2.774 3.397 3.71c9.892 1.13 14.947.968 25.845-1.092c0 0 2.871 1.795 6.873 3.351c-24.439 10.47-55.308-.607-36.115-5.969m-2.988-13.665s-5.348 3.959 2.823 4.805c10.567 1.091 18.91 1.18 33.354-1.6c0 0 1.993 2.025 5.132 3.131c-29.542 8.64-62.446.68-41.309-6.336"/>
-                            <path fill="#ea2d2e" d="M69.802 61.271c6.025 6.935-1.58 13.17-1.58 13.17s15.289-7.891 8.269-17.777c-6.559-9.215-11.587-13.792 15.635-29.58c0 .001-42.731 10.67-22.324 34.187"/>
-                            <path fill="#0074bd" d="M102.123 108.229s3.529 2.91-3.888 5.159c-14.102 4.272-58.706 5.56-71.094.171c-4.451-1.938 3.899-4.625 6.526-5.192c2.739-.593 4.303-.485 4.303-.485c-4.953-3.487-32.013 6.85-13.743 9.815c49.821 8.076 90.817-3.637 77.896-9.468M49.912 70.294s-22.686 5.389-8.033 7.348c6.188.828 18.518.638 30.011-.326c9.39-.789 18.813-2.474 18.813-2.474s-3.308 1.419-5.704 3.053c-23.042 6.061-67.544 3.238-54.731-2.958c10.832-5.239 19.644-4.643 19.644-4.643m40.697 22.747c23.421-12.167 12.591-23.86 5.032-22.285c-1.848.385-2.677.72-2.677.72s.688-1.079 2-1.543c14.953-5.255 26.451 15.503-4.823 23.725c0-.002.359-.327.468-.617"/>
-                            <path fill="#ea2d2e" d="M76.491 1.587S89.459 14.563 64.188 34.51c-20.266 16.006-4.621 25.13-.007 35.559c-11.831-10.673-20.509-20.07-14.688-28.815C58.041 28.42 81.722 22.195 76.491 1.587"/>
-                            <path fill="#0074bd" d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436c0 0-1.571 4.032-18.577 7.231c-19.186 3.612-42.854 3.191-56.887.874c0 .001 2.875 2.381 17.647 3.331"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 128 128"
+                            aria-hidden="true" focusable="false">
+                            <path fill="#0074bd"
+                                d="M47.617 98.12s-4.767 2.774 3.397 3.71c9.892 1.13 14.947.968 25.845-1.092c0 0 2.871 1.795 6.873 3.351c-24.439 10.47-55.308-.607-36.115-5.969m-2.988-13.665s-5.348 3.959 2.823 4.805c10.567 1.091 18.91 1.18 33.354-1.6c0 0 1.993 2.025 5.132 3.131c-29.542 8.64-62.446.68-41.309-6.336" />
+                            <path fill="#ea2d2e"
+                                d="M69.802 61.271c6.025 6.935-1.58 13.17-1.58 13.17s15.289-7.891 8.269-17.777c-6.559-9.215-11.587-13.792 15.635-29.58c0 .001-42.731 10.67-22.324 34.187" />
+                            <path fill="#0074bd"
+                                d="M102.123 108.229s3.529 2.91-3.888 5.159c-14.102 4.272-58.706 5.56-71.094.171c-4.451-1.938 3.899-4.625 6.526-5.192c2.739-.593 4.303-.485 4.303-.485c-4.953-3.487-32.013 6.85-13.743 9.815c49.821 8.076 90.817-3.637 77.896-9.468M49.912 70.294s-22.686 5.389-8.033 7.348c6.188.828 18.518.638 30.011-.326c9.39-.789 18.813-2.474 18.813-2.474s-3.308 1.419-5.704 3.053c-23.042 6.061-67.544 3.238-54.731-2.958c10.832-5.239 19.644-4.643 19.644-4.643m40.697 22.747c23.421-12.167 12.591-23.86 5.032-22.285c-1.848.385-2.677.72-2.677.72s.688-1.079 2-1.543c14.953-5.255 26.451 15.503-4.823 23.725c0-.002.359-.327.468-.617" />
+                            <path fill="#ea2d2e"
+                                d="M76.491 1.587S89.459 14.563 64.188 34.51c-20.266 16.006-4.621 25.13-.007 35.559c-11.831-10.673-20.509-20.07-14.688-28.815C58.041 28.42 81.722 22.195 76.491 1.587" />
+                            <path fill="#0074bd"
+                                d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436c0 0-1.571 4.032-18.577 7.231c-19.186 3.612-42.854 3.191-56.887.874c0 .001 2.875 2.381 17.647 3.331" />
                         </svg>
                     </div>
                     <div class="card__body">
@@ -304,61 +341,65 @@
                 </article>
             </div>
         </section>
-</section>
-       
-<section class="Contacto_separacion">
-  <!-- Contacto -->
+    </section>
+
+    <section class="Contacto_separacion">
+        <!-- Contacto -->
         <section id="contact" class="section section--contact container" aria-labelledby="contact-title">
             <h1 id="contact-title" data-reveal>¿Quieres estructurar, diseñar o implementar tu idea?</h1>
             <p class="contact__lead" data-reveal>
                 Contáctame: los enlaces están en los iconos; te atenderé con gusto y rapidez.
             </p>
             <div class="cta" data-reveal>
-                <a class="btn btn--primary btn--magnetic" href="https://wa.me/50498892081?text=Hola%20Dilmer%2C%20quiero%20hablar%20sobre%20mi%20proyecto" title="Abrir chat de WhatsApp" target="_blank" rel="noopener noreferrer">Contáctame</a>
+                <a class="btn btn--primary btn--magnetic"
+                    href="https://wa.me/50498892081?text=Hola%20Dilmer%2C%20quiero%20hablar%20sobre%20mi%20proyecto"
+                    title="Abrir chat de WhatsApp" target="_blank" rel="noopener noreferrer">Contáctame</a>
                 <a class="btn btn--ghost" href="#home">Volver arriba</a>
             </div>
         </section>
-</section>
+    </section>
 
-        <footer class="footer">
-            <div class="container footer__inner">
-                <div class="footer__left">
-                    <span>© <span id="year"></span> Dilmer — Todos los derechos reservados</span>
-                </div>
-                <div class="footer__center">
-                    <!-- Contact icons (Iconify) -->
-                    <nav class="footer__contacts" aria-label="Formas de contacto">
-                        <a href="mailto:dilmerkj@gmail.com" class="contact-link" title="Email: dilmerkj@gmail.com">
-                            <span class="iconify" data-icon="mdi:email-outline" data-inline="false" aria-hidden="true"></span>
-                        </a>
-                        <a href="https://wa.me/50498892081" class="contact-link" title="WhatsApp" target="_blank" rel="noopener noreferrer">
-                            <span class="iconify" data-icon="mdi:whatsapp" data-inline="false" aria-hidden="true"></span>
-                        </a>
-                        <a href="https://github.com/DilmerM" class="contact-link" title="GitHub" target="_blank" rel="noopener noreferrer">
-                            <span class="iconify" data-icon="mdi:github" data-inline="false" aria-hidden="true"></span>
-                        </a>
-                        <a href="https://x.com/DILMERNUEZ3" class="contact-link" title="X" target="_blank" rel="noopener noreferrer">
-                            <span class="iconify" data-icon="simple-icons:x" data-inline="false" aria-hidden="true"></span>
-                        </a>
-                        <a href="https://www.instagram.com/dilmer.moreira/" class="contact-link" title="Instagram" target="_blank" rel="noopener noreferrer">
-                            <span class="iconify" data-icon="mdi:instagram" data-inline="false" aria-hidden="true"></span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/dilmer-nu%C3%B1ez-3a34b2231/" class="contact-link" title="LinkedIn" target="_blank" rel="noopener noreferrer">
-                            <span class="iconify" data-icon="mdi:linkedin" data-inline="false" aria-hidden="true"></span>
-                        </a>
-                    </nav>
-                </div>
-                <div class="footer__right">
-                    <a href="#home" class="back-to-top" aria-label="Volver arriba">↑</a>
-                </div>
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__left">
+                <span>© <span id="year"></span> Dilmer — Todos los derechos reservados</span>
             </div>
-        </footer>
-        <!-- Audio global de la página -->
-    <audio id="site-audio" preload="auto" autoplay playsinline>
-            <source src="./assets/audio/theme.mp3" type="audio/mpeg" />
-            <source src="./miAudio.mp3" type="audio/mpeg" />
-            <!-- Coloca tu archivo en assets/audio/theme.mp3 -->
-        </audio>
-        <script src="./script.js" defer></script>
-    </body>
-    </html>
+            <div class="footer__center">
+                <!-- Contact icons (Iconify) -->
+                <nav class="footer__contacts" aria-label="Formas de contacto">
+                    <a href="mailto:dilmerkj@gmail.com" class="contact-link" title="Email: dilmerkj@gmail.com">
+                        <span class="iconify" data-icon="mdi:email-outline" data-inline="false"
+                            aria-hidden="true"></span>
+                    </a>
+                    <a href="https://wa.me/50498892081" class="contact-link" title="WhatsApp" target="_blank"
+                        rel="noopener noreferrer">
+                        <span class="iconify" data-icon="mdi:whatsapp" data-inline="false" aria-hidden="true"></span>
+                    </a>
+                    <a href="https://github.com/DilmerM" class="contact-link" title="GitHub" target="_blank"
+                        rel="noopener noreferrer">
+                        <span class="iconify" data-icon="mdi:github" data-inline="false" aria-hidden="true"></span>
+                    </a>
+                    <a href="https://x.com/DILMERNUEZ3" class="contact-link" title="X" target="_blank"
+                        rel="noopener noreferrer">
+                        <span class="iconify" data-icon="simple-icons:x" data-inline="false" aria-hidden="true"></span>
+                    </a>
+                    <a href="https://www.instagram.com/dilmer.moreira/" class="contact-link" title="Instagram"
+                        target="_blank" rel="noopener noreferrer">
+                        <span class="iconify" data-icon="mdi:instagram" data-inline="false" aria-hidden="true"></span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/dilmer-nu%C3%B1ez-3a34b2231/" class="contact-link"
+                        title="LinkedIn" target="_blank" rel="noopener noreferrer">
+                        <span class="iconify" data-icon="mdi:linkedin" data-inline="false" aria-hidden="true"></span>
+                    </a>
+                </nav>
+            </div>
+            <div class="footer__right">
+                <a href="#home" class="back-to-top" aria-label="Volver arriba">↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./script.js" defer></script>
+</body>
+
+</html>

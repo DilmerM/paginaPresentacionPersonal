@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Configuración básica para el navegador y la compatibilidad móvil -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio de Proyectos 3D</title>
+
+    <!-- Enlaces a las tipografías de Google Fonts y Tailwind CSS CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firestore is used for persistent storage.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+        // Initialize Firebase only if config is valid
+        let app, auth, db;
+        if (firebaseConfig && firebaseConfig.apiKey) {
+            try {
+                setLogLevel('Debug');
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+            } catch (e) {
+                console.warn("Firebase initialization failed:", e.message);
+            }
+        } else {
+            console.log("Modo Demo: Firebase no configurado.");
+        }
+
+        // Global variables
+        window.app = app;
+        window.auth = auth;
+        window.db = db;
+        window.appId = appId;
+    </script>
+
+    <!-- Estilos personalizados -->
+    <style>
+        /* Variables CSS para los temas */
+        :root {
+            /* Tema claro */
+            --bg-primary: #f3f4f6;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --button-bg: #3b82f6;
+            --button-hover: #2563eb;
+            --button-text: #ffffff;
+            --gradient-1-from: #a855f7;
+            --gradient-1-to: #ec4899;
+            --gradient-2-from: #22c55e;
+            --gradient-2-to: #3b82f6;
+            --gradient-3-from: #eab308;
+            --gradient-3-to: #ef4444;
+            --gradient-4-from: #6366f1;
+            --gradient-4-to: #06b6d4;
+        }
+
+        /* Tema oscuro */
+        body.dark {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-card: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #4b5563;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            --button-bg: #2563eb;
+            --button-hover: #1d4ed8;
+            --gradient-1-from: #7c3aed;
+            --gradient-1-to: #be185d;
+            --gradient-2-from: #16a34a;
+            --gradient-2-to: #2563eb;
+            --gradient-3-from: #ca8a04;
+            --gradient-3-to: #dc2626;
+            --gradient-4-from: #4338ca;
+            --gradient-4-to: #0891b2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-secondary);
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+        }
+
+        .header p {
+            color: var(--text-secondary);
+        }
+
+        /* Buttons */
+        .theme-btn,
+        .lang-btn {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+        }
+
+        .theme-btn:hover,
+        .lang-btn:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-1px);
+        }
+
+        #autoRotateBtn {
+            transition: all 0.3s ease;
+        }
+
+        #autoRotateBtn.paused {
+            opacity: 0.5;
+            transform: scale(0.9);
+        }
+
+        /* Carousel container */
+        .carousel-container {
+            background-color: transparent;
+            box-shadow: none;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card h2 {
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+        }
+
+        .card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Tarjetas del carrusel con mejor efecto flotante */
+        .carousel-3d .card {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark .carousel-3d .card {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Gradient backgrounds for cards */
+        /* Shared styling for continuous cylinder look */
+        .card-bg-1,
+        .card-bg-2,
+        .card-bg-3,
+        .card-bg-4 {
+            /* Orange gradient derived from reference image */
+            background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
+            /* Or simply solid orange if preferred: background: #f59e0b; */
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* 3D Carousel Styles */
+        .carousel-3d-container {
+            perspective: 1500px;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-3d {
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            transition: transform 0.5s ease-out;
+            transform-origin: center center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-3d .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 85%;
+            height: 85%;
+            transform-origin: center center;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1.5rem;
+            margin-top: -42.5%;
+            margin-left: -42.5%;
+        }
+    </style>
+</head>
+
+<body class="light">
+
+    <!-- Contenedor principal -->
+    <div class="min-h-screen p-4 flex flex-col items-center">
+
+        <!-- Botones de control -->
+        <div class="flex space-x-2 fixed top-4 right-4 z-50">
+            <button id="autoRotateBtn" class="theme-btn p-2 rounded-full shadow-lg" title="Toggle Auto Rotation">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </button>
+            <button id="themeToggleBtn" class="theme-btn p-2 rounded-full shadow-lg">
+                <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+            <button id="langToggleBtn" class="lang-btn p-2 px-4 rounded-full shadow-lg font-semibold text-xs">
+                EN
+            </button>
+        </div>
+
+        <!-- Encabezado de la página -->
+        <div class="header w-full max-w-4xl text-center mb-12 mt-4 p-6 rounded-lg">
+            <h1 id="header-title" class="text-4xl font-bold mb-2">Mi Portafolio de Proyectos</h1>
+            <p id="header-subtitle" class="text-base">Un ejemplo de diseño web responsivo con animaciones.</p>
+        </div>
+
+        <!-- Contenedor del Carrusel 3D -->
+        <!-- Contenedor del Carrusel 3D -->
+        <div class="carousel-container carousel-3d-container relative w-full h-80 mt-16 mb-16 mx-auto overflow-hidden">
+            <!-- Overlay para efecto de sombra/volumen cilindrico -->
+            <div class="cylinder-overlay absolute inset-0 z-20 pointer-events-none"
+                style="background: linear-gradient(90deg, var(--bg-primary) 0%, transparent 20%, transparent 80%, var(--bg-primary) 100%);">
+            </div>
+
+            <div id="carousel" class="carousel-3d w-full h-full z-10 transition-transform">
+                <!-- Tarjetas del carrusel (Originales, se clonarán en JS) -->
+                <!-- 12 Unique Images (will be cloned to 24 faces) -->
+                <!-- 12 Unique Jujutsu Kaisen Images (will be cloned to 24 faces) -->
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20itadori%20yuji%20anime%20vertical?width=300&height=500&nologo=true&seed=1"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20gojo%20satoru%20anime%20vertical?width=300&height=500&nologo=true&seed=2"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20megumi%20fushiguro%20anime%20vertical?width=300&height=500&nologo=true&seed=3"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20nobara%20kugisaki%20anime%20vertical?width=300&height=500&nologo=true&seed=4"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20ryomen%20sukuna%20anime%20vertical?width=300&height=500&nologo=true&seed=5"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20kento%20nanami%20anime%20vertical?width=300&height=500&nologo=true&seed=6"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20maki%20zenin%20anime%20vertical?width=300&height=500&nologo=true&seed=7"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20toge%20inumaki%20anime%20vertical?width=300&height=500&nologo=true&seed=8"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20panda%20anime%20vertical?width=300&height=500&nologo=true&seed=9"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20okkotsu%20yuta%20anime%20vertical?width=300&height=500&nologo=true&seed=10"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20mahito%20anime%20vertical?width=300&height=500&nologo=true&seed=11"
+                        class="w-full h-full object-cover"></div>
+                <div class="card p-0 select-none overflow-hidden border-none"
+                    style="border-radius: 0; backface-visibility: hidden;"><img
+                        src="https://image.pollinations.ai/prompt/jujutsu%20kaisen%20geto%20suguru%20anime%20vertical?width=300&height=500&nologo=true&seed=12"
+                        class="w-full h-full object-cover"></div>
+            </div>
+        </div>
+
+        <!-- Contenedor de la galería de proyectos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-4xl">
+            <!-- Tarjeta de proyecto de la galería -->
+            <div
+                class="card rounded-xl shadow-md overflow-hidden transition-transform duration-300 transform hover:scale-105">
+                <img src="https://placehold.co/400x300/4F46E5/FFFFFF?text=Proyecto+1" alt="Proyecto 1"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg" data-lang-es="Proyecto de IA" data-lang-en="AI Project">Proyecto
+                        de IA</h3>
+                    <p class="text-sm mt-1 text-gray-500"
+                        data-lang-es="Desarrollo de un modelo de aprendizaje automático."
+                        data-lang-en="Development of a machine learning model.">Desarrollo de un modelo de aprendizaje
+                        automático.</p>
+                </div>
+            </div>
+
+            <div
+                class="card rounded-xl shadow-md overflow-hidden transition-transform duration-300 transform hover:scale-105">
+                <img src="https://placehold.co/400x300/F59E0B/FFFFFF?text=Proyecto+2" alt="Proyecto 2"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg" data-lang-es="Sitio Web de Portafolio"
+                        data-lang-en="Portfolio Website">Sitio Web de Portafolio</h3>
+                    <p class="text-sm mt-1 text-gray-500" data-lang-es="Diseño y desarrollo de mi sitio personal."
+                        data-lang-en="Design and development of my personal site.">Diseño y desarrollo de mi sitio
+                        personal.</p>
+                </div>
+            </div>
+
+            <div
+                class="card rounded-xl shadow-md overflow-hidden transition-transform duration-300 transform hover:scale-105">
+                <img src="https://placehold.co/400x300/10B981/FFFFFF?text=Proyecto+3" alt="Proyecto 3"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg" data-lang-es="Juego Móvil" data-lang-en="Mobile Game">Juego Móvil
+                    </h3>
+                    <p class="text-sm mt-1 text-gray-500" data-lang-es="Creación de un juego simple para iOS y Android."
+                        data-lang-en="Creation of a simple game for iOS and Android.">Creación de un juego simple para
+                        iOS y Android.</p>
+                </div>
+            </div>
+
+            <div
+                class="card rounded-xl shadow-md overflow-hidden transition-transform duration-300 transform hover:scale-105">
+                <img src="https://placehold.co/400x300/EF4444/FFFFFF?text=Proyecto+4" alt="Proyecto 4"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg" data-lang-es="Aplicación de Tareas" data-lang-en="Task App">
+                        Aplicación de Tareas</h3>
+                    <p class="text-sm mt-1 text-gray-500" data-lang-es="Aplicación web para gestionar listas de tareas."
+                        data-lang-en="Web application for managing todo lists.">Aplicación web para gestionar listas de
+                        tareas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de JavaScript -->
+    <script type="module">
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Constants and state
+        const body = document.body;
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        const themeIcon = document.getElementById('theme-icon');
+        const elementsToTranslate = document.querySelectorAll('[data-lang-es]');
+
+        let currentLang = 'es';
+        let isDarkMode = false;
+        let userId;
+        let preferencesDocRef;
+
+        const translations = {
+            'es': {
+                'header-title': 'Mi Portafolio de Proyectos',
+                'header-subtitle': 'Un ejemplo de diseño web responsivo con animaciones.',
+                'btn-text': 'EN',
+                'p1-title': 'Proyecto de IA',
+                'p1-desc': 'Desarrollo de un modelo de aprendizaje automático.',
+                'p2-title': 'Sitio Web de Portafolio',
+                'p2-desc': 'Diseño y desarrollo de mi sitio personal.',
+                'p3-title': 'Juego Móvil',
+                'p3-desc': 'Creación de un juego simple para iOS y Android.',
+                'p4-title': 'Aplicación de Tareas',
+                'p4-desc': 'Aplicación web para gestionar listas de tareas.'
+            },
+            'en': {
+                'header-title': 'My Projects Portfolio',
+                'header-subtitle': 'An example of responsive web design with animations.',
+                'btn-text': 'ES',
+                'p1-title': 'AI Project',
+                'p1-desc': 'Development of a machine learning model.',
+                'p2-title': 'Portfolio Website',
+                'p2-desc': 'Design and development of my personal site.',
+                'p3-title': 'Mobile Game',
+                'p3-desc': 'Creation of a simple game for iOS and Android.',
+                'p4-title': 'Task App',
+                'p4-desc': 'Web application for managing todo lists.'
+            }
+        };
+
+        // --- Firebase y Funciones de Persistencia ---
+        // --- Firebase y Funciones de Persistencia ---
+        async function setupFirebase() {
+            try {
+                // Check if global objects are defined (initialized in the <head> script)
+                if (!window.app || !window.auth || !window.db) {
+                    console.log("Modo Demo: Firebase no disponible o no configurado.");
+                    return;
+                }
+
+                const auth = window.auth;
+                const db = window.db;
+                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                userId = auth.currentUser.uid;
+                const appId = window.appId;
+
+                // Firestore document path for private user preferences
+                preferencesDocRef = doc(db, `artifacts/${appId}/users/${userId}/preferences/user_settings`);
+
+                // Listen for real-time changes
+                onSnapshot(preferencesDocRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        if (data.theme !== isDarkMode) {
+                            toggleTheme(data.theme, false);
+                        }
+                        if (data.language !== currentLang) {
+                            toggleLanguage(data.language, false);
+                        }
+                    } else {
+                        // Create the document if it doesn't exist
+                        setDoc(preferencesDocRef, {
+                            theme: isDarkMode,
+                            language: currentLang
+                        }, { merge: true });
+                    }
+                }, (error) => {
+                    console.error("Error listening to preferences: ", error);
+                });
+            } catch (error) {
+                // Prevent crash on demo/invalid key
+                console.warn("Firebase Init Error (Ignored for demo):", error.message);
+            }
+        }
+
+        async function updatePreferences(updates) {
+            try {
+                if (preferencesDocRef) {
+                    await setDoc(preferencesDocRef, updates, { merge: true });
+                }
+            } catch (error) {
+                console.warn("Error updating preferences (Ignored): ", error.message);
+            }
+        }
+
+        // --- Funciones de UI ---
+        function toggleTheme(forceDark = null, updateDb = true) {
+            isDarkMode = forceDark !== null ? forceDark : !isDarkMode;
+            if (isDarkMode) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />`;
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />`;
+            }
+            if (updateDb && typeof preferencesDocRef !== 'undefined') {
+                // Only update if firebase is active
+                updatePreferences({ theme: isDarkMode });
+            }
+        }
+
+        function translatePage() {
+            document.getElementById('header-title').textContent = translations[currentLang]['header-title'];
+            document.getElementById('header-subtitle').textContent = translations[currentLang]['header-subtitle'];
+
+            elementsToTranslate.forEach(element => {
+                element.textContent = element.getAttribute(`data-lang-${currentLang}`);
+            });
+        }
+
+        function toggleLanguage(lang = null, updateDb = true) {
+            currentLang = lang !== null ? lang : (currentLang === 'es' ? 'en' : 'es');
+            langToggleBtn.textContent = (currentLang === 'es' ? 'EN' : 'ES');
+            translatePage();
+            if (updateDb && typeof preferencesDocRef !== 'undefined') {
+                updatePreferences({ language: currentLang });
+            }
+        }
+
+        // --- Lógica del Carrusel 3D Mejorada (Physics-based) ---
+        // --- Lógica del Carrusel 3D Mejorada (Cilindro Continuo) ---
+        const carousel = document.getElementById('carousel');
+        let cards = Array.from(document.querySelectorAll('.carousel-3d .card')); // Array para manipular
+        const originalCardsCount = cards.length;
+
+        // Ajustes para efecto "Cilindro Continuo"
+        const cardWidth = 140;
+        const TOTAL_FACES = 24;
+
+        // Función para multiplicar las cartas hasta tener suficientes
+        function duplicateCards() {
+            // Si tenemos 3 cartas y queremos 12, clonamos el set 3 veces más
+            const clonesNeeded = TOTAL_FACES - originalCardsCount;
+            // Clonamos en orden cíclico
+            for (let i = 0; i < clonesNeeded; i++) {
+                const original = cards[i % originalCardsCount];
+                const clone = original.cloneNode(true);
+                // Opcional: añadir clase para identificar clones si es necesario
+                carousel.appendChild(clone);
+            }
+            // Actualizar lista
+            cards = Array.from(document.querySelectorAll('.carousel-3d .card'));
+        }
+
+        // Ejecutar duplicación antes de nada
+        duplicateCards();
+        const numCards = cards.length;
+
+        // Calcular radio exacto para que los bordes se toquen (polígono regular)
+        // apotema = lado / (2 * tan(180 / n))
+        // Ajuste un poco mayor (-1.5) para forzar solapamiento y ocultar líneas blancas
+        const radius = Math.round((cardWidth / 2) / Math.tan(Math.PI / numCards)) - 1.5;
+
+        // Configuración
+        const AUTO_SPEED = 0.15;   // Velocidad un poco más lenta para el cilindro grande
+        const DRAG_FACTOR = 0.5;  // Sensibilidad del arrastre
+        const FRICTION = 0.95;    // Fricción al soltar (0.9 - 0.99)
+        const RETURN_TO_AUTO_LERP = 0.05; // Qué tan rápido vuelve a velocidad auto tras soltar
+
+        // Variables de estado y física
+        let currentRotationY = 0;
+        let velocity = 0;
+        let isDragging = false;
+        let startX = 0;
+        let lastX = 0;
+
+        let isAutoRotating = true;
+        let animationFrameId;
+
+        // 1. Posicionar cartas inicial
+        function positionCards() {
+            cards.forEach((card, index) => {
+                const angle = (360 / numCards) * index;
+                // Ancho fijo en JS también para asegurar consistencia
+                card.style.width = `${cardWidth}px`;
+                card.style.height = '100%'; // Ocupar alto del contenedor
+                card.style.position = 'absolute';
+                card.style.left = '50%';
+                card.style.top = '50%';
+                card.style.marginLeft = `-${cardWidth / 2}px`; // Centrar
+                card.style.marginTop = '-10rem'; // Ajuste vertical (mitad de h-80)
+                // translateZ empuja la carta al borde del cilindro
+                card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+            });
+        }
+
+        // 2. Loop de animación principal
+        function animate() {
+            if (isDragging) {
+                // Durante el drag, la velocidad se calcula en el evento move
+            } else {
+                // Si no se arrastra
+                if (isAutoRotating) {
+                    // Interpolamos la velocidad actual hacia la velocidad automática
+                    // Esto permite que si "lanzas" el carrusel, decelere suavemente hasta la velocidad cruzero
+                    velocity += (AUTO_SPEED - velocity) * RETURN_TO_AUTO_LERP;
+                } else {
+                    // Si auto-rotación apagada, aplicar fricción hasta detenerse
+                    velocity *= FRICTION;
+                }
+            }
+
+            // Aplicar velocidad
+            currentRotationY += velocity;
+
+            // Renderizar
+            // Usamos toFixed para evitar sub-pixel rendering innecesario, aunque opcional
+            carousel.style.transform = `rotateY(${currentRotationY}deg)`;
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        // 3. Manejo de Drag (Mouse + Touch)
+        function handleStart(x) {
+            isDragging = true;
+            startX = x;
+            lastX = x;
+            velocity = 0; // Resetear velocidad momentánea
+            carousel.style.transition = 'none'; // Desactivar transiciones CSS para respuesta inmediata
+        }
+
+        function handleMove(x) {
+            if (!isDragging) return;
+            const delta = x - lastX;
+            lastX = x;
+
+            // La velocidad es el cambio en X
+            velocity = delta * DRAG_FACTOR;
+
+            // Aplicamos directamente para respuesta instantánea
+            currentRotationY += velocity;
+            carousel.style.transform = `rotateY(${currentRotationY}deg)`;
+        }
+
+        function handleEnd() {
+            isDragging = false;
+            // No hacemos nada especial, el loop de 'animate' tomará la última 'velocity'
+            // y aplicará inercia o retorno a auto-speed.
+        }
+
+        // Mouse events
+        carousel.addEventListener('mousedown', e => handleStart(e.clientX));
+        window.addEventListener('mousemove', e => {
+            if (isDragging) handleMove(e.clientX);
+        });
+        window.addEventListener('mouseup', handleEnd);
+
+        // Touch events
+        carousel.addEventListener('touchstart', e => handleStart(e.touches[0].clientX), { passive: true });
+        window.addEventListener('touchmove', e => {
+            if (isDragging) handleMove(e.touches[0].clientX);
+        }, { passive: false });
+        window.addEventListener('touchend', handleEnd);
+
+        // Interaction hover (Pausar "intención" de auto-rotación, no el movimiento per se)
+        // Opcional: Si el usuario quiere detenerlo al pasar el mouse por encima
+        carousel.addEventListener('mouseenter', () => {
+            // Podríamos detener la auto-rotación momentáneamente
+            // isAutoRotating = false; 
+            // (Comentado para mantener el flujo constante estilo "screensaver" a menos que se haga click)
+        });
+        carousel.addEventListener('mouseleave', () => {
+            // isAutoRotating = true; // si se habilita lo de arriba
+        });
+
+        // 4. Controles externos
+        function toggleAutoRotation() {
+            isAutoRotating = !isAutoRotating;
+            if (!isAutoRotating) {
+                // Si paramos, la inercia se encargará de frenarlo suavemente
+            }
+        }
+
+        // Event listeners para los botones de UI
+        const autoRotateBtn = document.getElementById('autoRotateBtn');
+        themeToggleBtn.addEventListener('click', () => toggleTheme());
+        langToggleBtn.addEventListener('click', () => toggleLanguage());
+        autoRotateBtn.addEventListener('click', () => {
+            toggleAutoRotation();
+            // Cambiar el ícono según el estado
+            if (isAutoRotating) {
+                autoRotateBtn.style.opacity = '1';
+                autoRotateBtn.style.transform = 'scale(1)';
+            } else {
+                autoRotateBtn.style.opacity = '0.5';
+                autoRotateBtn.style.transform = 'scale(0.9)';
+            }
+        });
+
+        // Inicialización de la página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el tema claro por defecto
+            body.classList.add('light');
+
+            setupFirebase();
+            positionCards();
+
+            // Iniciar la rotación automática (el loop de animación)
+            animate();
+        });
+    </script>
+</body>
+
+</html>

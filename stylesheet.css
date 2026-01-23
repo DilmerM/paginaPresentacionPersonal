@@ -55,7 +55,7 @@
   }
 
   /* Simpler portrait background on mobile */
-  .portrait { background-image: url("/images/IMG2.jpg"); background-size: cover; background-position: center; }
+  .portrait { background-image: url("./images/IMG2.jpg"); background-size: cover; background-position: center; }
 }
 
 /* Forzar tema oscuro: no modificar variables en modo claro. */
@@ -783,7 +783,7 @@ main#gallery .section-title,
       /* rgba(124, 92, 255, 0.25), */
       transparent 60%
     ),
-    url("/images/IMG2.jpg") center/cover no-repeat;
+    url("./images/IMG2.jpg") center/cover no-repeat;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 @media (max-width: 480px) {
@@ -1112,6 +1112,9 @@ main#gallery .section-title,
 @media (min-width: 1100px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+  #projects .grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
