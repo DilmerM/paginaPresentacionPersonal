@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proyecto 2 — Dashboard Animado</title>
+  <!-- Google Analytics loader (external) -->
+  <script src="../assets/js/gtag-loader.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/stylesheet.css?v=20250823" />
+  <link rel="stylesheet" href="../styles/project-1.css" /> <!-- Reusing layout CSS -->
+  <style>
+    /* Gallery Styles */
+    .skill-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    @media (min-width: 1100px) {
+      .skill-gallery {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.02);
+      border-color: var(--primary);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-item::before {
+      content: attr(data-title);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 2;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item::after {
+      content: 'Ver captura';
+      position: absolute;
+      inset: 0;
+      background: rgba(124, 92, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .gallery-item:hover::after {
+      opacity: 1;
+    }
+
+    .gallery-item:hover::before {
+      opacity: 0.5;
+    }
+
+    /* Dark mode reinforcement */
+    body.project-2 {
+      background: #0b0b10 !important;
+      color: #e7e9ee;
+    }
+
+    .section h1,
+    .section h2 {
+      color: #fff;
+    }
+
+    .subtitle {
+      color: #aab0bd;
+    }
+
+    .gallery-section {
+      margin-top: 5rem;
+    }
+  </style>
+</head>
+
+<body class="project-2">
+  <header class="nav" role="banner">
+    <div class="nav__content">
+      <a href="../index.html" class="brand" aria-label="Ir al inicio">DN.dev</a>
+      <nav class="menu" role="navigation" aria-label="Principal">
+        <a href="../index.html" class="menu__link">Inicio</a>
+        <a href="#gallery" class="menu__link">Galería</a>
+        <a href="#details" class="menu__link">Detalles</a>
+        <a href="#contact" class="menu__link btn btn--primary">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section container" id="gallery">
+    <h1>Proyecto Creador de Currículums</h1>
+    <p class="subtitle">Exploración de interfaces interactivas y herramientas de diseño web.</p>
+
+    <!-- Parallax Section -->
+    <section class="gallery-section">
+      <h2>Efecto Parallax</h2>
+      <div class="skill-gallery">
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/parallax1.png" data-title="Parallax - Fondo">
+          <img src="../images/ProyectosCreativos/parallax1.png" alt="Parallax 1">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/parallax2.gif"
+          data-title="Parallax - Animación">
+          <img src="../images/ProyectosCreativos/parallax2.gif" alt="Parallax 2">
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- CV Section -->
+    <section class="gallery-section">
+      <h2>Generador de CV</h2>
+      <div class="skill-gallery">
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/imagenCv1.png" data-title="CV - Estilo 1">
+          <img src="../images/ProyectosCreativos/imagenCv1.png" alt="CV 1">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/imagenCv2.png" data-title="CV - Estilo 2">
+          <img src="../images/ProyectosCreativos/imagenCv2.png" alt="CV 2">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/imagenCv3.png" data-title="CV - Estilo 3">
+          <img src="../images/ProyectosCreativos/imagenCv3.png" alt="CV 3">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/imagenCv4.png" data-title="CV - Estilo 4">
+          <img src="../images/ProyectosCreativos/imagenCv4.png" alt="CV 4">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/imagenCv5.png" data-title="CV - Estilo 5">
+          <img src="../images/ProyectosCreativos/imagenCv5.png" alt="CV 5">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/imagenCv6.png" data-title="CV - Estilo 6">
+          <img src="../images/ProyectosCreativos/imagenCv6.png" alt="CV 6">
+        </div>
+      </div>
+    </section>
+
+    <!-- Templates Section -->
+    <section class="gallery-section">
+      <h2>Plantillas de Diseño</h2>
+      <div class="skill-gallery">
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/ImagenPlantilla1.png"
+          data-title="Plantilla - Moderna">
+          <img src="../images/ProyectosCreativos/ImagenPlantilla1.png" alt="Plantilla 1">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/ImagenPlantilla2.png"
+          data-title="Plantilla - Profesional">
+          <img src="../images/ProyectosCreativos/ImagenPlantilla2.png" alt="Plantilla 2">
+        </div>
+        <div class="gallery-item" data-src="../images/ProyectosCreativos/ImagenPlantilla3.png"
+          data-title="Plantilla - Creativa">
+          <img src="../images/ProyectosCreativos/ImagenPlantilla3.png" alt="Plantilla 3">
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Description Section -->
+    <section id="description" class="project-details" style="margin-top: 4rem;">
+      <h2>Sobre el Proyecto</h2>
+      <div class="description-content" style="max-width: 800px; line-height: 1.6; color: #aab0bd;">
+        <p id="project-brief">
+          <strong>Proyecto de Creador de Currículums</strong>. Su funcionalidad principal es un generador dinámico de
+          currículums que permite crear y descargar CVs en formatos digitales o PDF, partiendo de una selección de
+          plantillas predefinidas de alta calidad.
+        </p>
+        <p>
+          Desarrollado íntegramente con <strong>Next.js y React</strong>, el proyecto destaca por una interfaz fluida e
+          intuitiva que prioriza la experiencia de usuario. A diferencia de otros sistemas, este proyecto prescinde de
+          bases de datos pesadas, enfocándose en la manipulación de estados y generación de documentos en tiempo real
+          para una mayor agilidad.
+        </p>
+        <p>
+          Este trabajo fue concebido con fines académicos para la asignatura de <strong>Lenguajes de Programación
+            3</strong>, demostrando el potencial de las arquitecturas modernas de front-end para resolver necesidades
+          prácticas mediante interfaces de usuario limpias y funcionales.
+        </p>
+      </div>
+    </section>
+
+    <!-- Technical Challenges / Developer Perspective -->
+    <section id="challenges" class="project-details" style="margin-top: 4rem;">
+      <h2>Perspectiva del Desarrollador</h2>
+      <div class="challenges-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div class="challenge-card"
+          style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ff4d4d;">
+          <h3 style="font-size: 1.1rem; color: #ffefef; margin-bottom: 0.5rem;">Adaptabilidad de Plantillas</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: #aab0bd;">
+            El mayor desafío radicó en adaptar las diversas plantillas, ya que cada una exigía tipografías, posiciones y
+            estructuras visuales distintas. Gestionar el movimiento dinámico de los ítems de información entre estos
+            diseños variados fue un proceso complejo durante las etapas iniciales.
+          </p>
+        </div>
+        <div class="challenge-card"
+          style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ffcc00;">
+          <h3 style="font-size: 1.1rem; color: #fffdf5; margin-bottom: 0.5rem;">Componentización con React</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: #aab0bd;">
+            Aprender e implementar <strong>React y Next.js</strong> fue el punto clave para acelerar el desarrollo. La
+            arquitectura basada en componentes permitió reciclar código de manera eficiente, facilitando la construcción
+            de una interfaz modular donde los elementos se reutilizan sin redundancia.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="project-details" style="margin-top: 4rem;">
+      <h2>Stack Tecnológico</h2>
+      <p>Este proyecto integra un conjunto de tecnologías modernas para el desarrollo Full Stack y la gestión de
+        infraestructura.</p>
+      <ul style="list-style: none; padding: 0; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          Next.js</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          HTML5</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          CSS3</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          JavaScript</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">© <span id="year"></span> Dilmer — Todos los derechos reservados</div>
+      <div class="footer__center"></div>
+      <div class="footer__right"><a href="../index.html" class="back-to-top">← Volver</a></div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
+
+  <!-- Lightbox modal -->
+  <div class="lightbox" id="project-lightbox" hidden aria-hidden="true" role="dialog" aria-label="Visor de imágenes">
+    <div class="lightbox__backdrop" data-action="close"></div>
+    <div class="lightbox__content" role="document">
+      <button class="lightbox__close" aria-label="Cerrar" data-action="close">×</button>
+      <img class="lightbox__img" src="" alt="" />
+      <div class="lightbox__caption"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const lb = document.getElementById('project-lightbox');
+      if (!lb) return;
+      const img = lb.querySelector('.lightbox__img');
+      const cap = lb.querySelector('.lightbox__caption');
+
+      function open(src, alt) {
+        img.src = src; img.alt = alt || '';
+        cap.textContent = alt || '';
+        lb.hidden = false; lb.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lb.hidden = true; lb.setAttribute('aria-hidden', 'true');
+        img.src = ''; img.alt = '';
+        cap.textContent = '';
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('click', (e) => {
+        const item = e.target.closest('.gallery-item');
+        if (!item) return;
+        e.preventDefault();
+        const src = item.dataset.src;
+        const alt = item.dataset.title;
+        if (src) open(src, alt);
+      });
+
+      const closeEls = lb.querySelectorAll('[data-action="close"]');
+      closeEls.forEach(el => el.addEventListener('click', close));
+      lb.addEventListener('click', (e) => { if (e.target === lb || e.target.dataset.action === 'close') close(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+</body>
+
+</html>
