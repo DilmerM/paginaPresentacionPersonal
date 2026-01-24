@@ -4,7 +4,7 @@ const LampContainer = ({ children, className }) => {
   const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
   return (
     <div
-      className={`relative flex ${isMobile ? 'min-h-[75vh]' : 'min-h-screen'} flex-col items-center justify-center overflow-hidden bg-[#0b0b10] w-full z-0 ${className}`}
+      className={`relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0b0b10] w-full z-0 ${className}`}
     >
       <div className="relative flex w-full flex-1 md:scale-y-125 items-start justify-center isolate z-0">
         <motion.div
@@ -88,7 +88,7 @@ const LampContainer = ({ children, className }) => {
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-[#0b0b10] "></div>
       </div>
 
-      <div className={`relative z-50 flex ${isMobile ? '-translate-y-36' : '-translate-y-40'} flex-col items-center px-5`}>
+      <div className={`relative z-50 flex ${isMobile ? '-translate-y-56' : '-translate-y-40'} flex-col items-center px-5`}>
         {children}
       </div>
     </div>

@@ -735,14 +735,11 @@ main#overview h1 {
 
 @media (max-width: 700px) {
   .section {
-    padding-top: 50px !important;
-    padding-bottom: 50px !important;
-  }
-  .sobreMi {
-    margin-top: 0 !important;
+    padding-top: 100px !important;
+    padding-bottom: 80px !important;
   }
   .about__grid {
-    gap: 30px !important;
+    gap: 40px !important;
   }
 }
 
