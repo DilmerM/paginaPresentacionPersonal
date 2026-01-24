@@ -11,10 +11,9 @@ window.addEventListener('load', () => {
 	window.scrollTo(0, 0);
 	
 	const loader = qs('.loader');
-	if (!loader) return;
 
 	setTimeout(() => {
-		loader.classList.add('hidden');
+		if (loader) loader.classList.add('hidden');
 		
 		// Solo quitamos la máscara cuando el loader ya no estorba
 		document.documentElement.classList.remove('is-loading');
