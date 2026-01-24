@@ -18,8 +18,14 @@
     </script>
     <style>
         /* Enmascarar secciones hasta que la carga sea completa */
+        html.is-loading {
+            overflow: hidden !important;
+        }
+
         .is-loading .sobreMi,
+        .is-loading #about,
         .is-loading .tech-section,
+        .is-loading #stack,
         .is-loading #projects,
         .is-loading .footer,
         .is-loading #navbar-root {

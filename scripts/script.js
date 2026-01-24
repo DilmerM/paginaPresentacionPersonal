@@ -4,17 +4,20 @@ const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
 // 1) Loader & Top Scroll
 window.addEventListener('load', () => {
-	// Capturamos el hash guardado antes de limpiar la clase de carga
+	// Capturamos el hash guardado
 	const targetSection = window.targetHash;
 	
-	// Quitamos la máscara de invisibilidad
-	document.documentElement.classList.remove('is-loading');
+	// Forzamos scroll arriba al inicio del evento load para evitar saltos persistentes
+	window.scrollTo(0, 0);
 	
 	const loader = qs('.loader');
 	if (!loader) return;
 
 	setTimeout(() => {
 		loader.classList.add('hidden');
+		
+		// Solo quitamos la máscara cuando el loader ya no estorba
+		document.documentElement.classList.remove('is-loading');
 		
 		// Si el usuario venía con un hash (ej: #projects), lo llevamos allí
 		if (targetSection) {
