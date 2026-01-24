@@ -209,6 +209,10 @@ window.addEventListener('load', () => {
     const cards = qsa('.card[data-preview]');
     if (!cards.length) return;
 
+    // Disabilitar en móviles/táctiles
+    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0 || window.matchMedia('(hover: none)').matches;
+    if (isTouch || window.innerWidth <= 700) return;
+
     // Create the preview element
     const preview = document.createElement('div');
     preview.className = 'link-preview';

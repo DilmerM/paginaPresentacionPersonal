@@ -1,9 +1,10 @@
 const { motion } = window.Motion;
 
 const LampContainer = ({ children, className }) => {
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
   return (
     <div
-      className={`relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0b0b10] w-full z-0 ${className}`}
+      className={`relative flex ${isMobile ? 'min-h-[75vh]' : 'min-h-screen'} flex-col items-center justify-center overflow-hidden bg-[#0b0b10] w-full z-0 ${className}`}
     >
       <div className="relative flex w-full flex-1 md:scale-y-125 items-start justify-center isolate z-0">
         <motion.div
@@ -87,7 +88,7 @@ const LampContainer = ({ children, className }) => {
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-[#0b0b10] "></div>
       </div>
 
-      <div className="relative z-50 flex -translate-y-44 md:-translate-y-40 flex-col items-center px-5">
+      <div className={`relative z-50 flex ${isMobile ? '-translate-y-36' : '-translate-y-40'} flex-col items-center px-5`}>
         {children}
       </div>
     </div>
@@ -141,10 +142,10 @@ const HeroLamp = () => {
                     front‑end creando interfaces.
                 </p>
                 <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto px-6 md:px-0">
-                    <a href="#projects" className="px-8 py-3 rounded-full bg-gradient-to-r from-[#7c5cff] to-[#00d4ff] text-[#05060a] font-bold hover:brightness-110 transition-all shadow-lg shadow-primary/25 text-center">
+                    <a href="#projects" style={{ textDecoration: 'none' }} className="px-8 py-3 rounded-full bg-gradient-to-r from-[#7c5cff] to-[#00d4ff] text-[#05060a] font-bold hover:brightness-110 transition-all shadow-lg shadow-primary/25 text-center no-underline">
                         Ver proyectos
                     </a>
-                    <a href="#about" className="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all text-center">
+                    <a href="#about" style={{ textDecoration: 'none' }} className="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all text-center no-underline">
                         Conocer más
                     </a>
                 </div>

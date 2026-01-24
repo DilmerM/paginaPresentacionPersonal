@@ -79,6 +79,9 @@ body {
   color: var(--text);
   font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
+a {
+  text-decoration: none !important;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
@@ -716,7 +719,7 @@ main#overview h1 {
 	 Sections
 	 ========= */
 .section {
-  padding-block: clamp(64px, 14vh, 140px);
+  padding-block: clamp(32px, 10vh, 140px);
 }
 .section h1 {
   letter-spacing: 0.06em;
@@ -728,6 +731,19 @@ main#overview h1 {
   line-height: 1.05;
   margin: 5px 0 18px;
   letter-spacing: 0.04em; /* aumentar separación entre letras */
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+  }
+  .sobreMi {
+    margin-top: 0 !important;
+  }
+  .about__grid {
+    gap: 30px !important;
+  }
 }
 
 /* Ajuste específico: hacer más pequeño el título de la sección de contacto */
