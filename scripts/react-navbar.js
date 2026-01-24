@@ -49,22 +49,29 @@ const ProductItem = memo(({ title, description, href, src, isMobile }) => (
   </a>
 ));
 
-const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick }) => {
+const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, href }) => {
   const isOpen = active === item;
   
   const handleToggle = useCallback((e) => {
     if (isMobile) {
+      if (href) {
+        // Direct navigation if href is provided on mobile
+        window.location.href = href;
+        setActive(null);
+        return;
+      }
       e.stopPropagation();
       setActive(prev => (prev === item ? null : item));
       if (onClick) onClick();
     }
-  }, [isMobile, item, setActive, onClick]);
+  }, [isMobile, item, setActive, onClick, href]);
 
   return (
     <div onMouseEnter={() => !isMobile && setActive(item)} className="relative flex justify-center">
       <div 
         onClick={handleToggle}
-        className={`cursor-pointer transition-all duration-300 flex flex-col items-center justify-center py-2 relative z-[10005]
+        style={{ webkitTapHighlightColor: 'transparent' }}
+        className={`cursor-pointer transition-all duration-300 flex flex-col items-center justify-center py-2 relative z-[10005] shadow-none outline-none
           ${isMobile ? 'min-w-[70px] px-1' : 'px-4'}
           ${isOpen ? 'text-primary-2 scale-105' : 'text-[#e7e9ee] opacity-80'}`}
       >
@@ -79,16 +86,33 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick }
       </div>
 
       <AnimatePresence>
-        {isOpen && children && (
+        {!isMobile && isOpen && children && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: isMobile ? 10 : -10, x: "-50%" }}
+            initial={{ opacity: 0, scale: 0.95, y: -10, x: "-50%" }}
             animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
             exit={{ opacity: 0, scale: 0.98, y: 10, x: "-50%" }}
             transition={transition}
             style={{ left: "50%", zIndex: 10001, willChange: "transform, opacity" }}
-            className={`fixed bottom-[88px] w-[94vw] md:absolute md:top-full md:bottom-auto md:w-max md:pt-4`}
+            className={`absolute top-full w-max pt-4`}
           >
-            <div className={`overflow-hidden border border-white/10 shadow-2xl rounded-[1.8rem] ${isMobile ? 'bg-[#0f1117] p-5' : 'bg-[#0f1117]/90 backdrop-blur-xl p-4'}`}>
+            <div className={`overflow-hidden border border-white/10 shadow-2xl rounded-[1.8rem] bg-[#0f1117]/90 backdrop-blur-xl p-4`}>
+              {children}
+            </div>
+          </motion.div>
+        )}
+        {isMobile && isOpen && children && !href && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 15, x: "-50%" }}
+            animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
+            exit={{ opacity: 0, scale: 0.98, y: 10, x: "-50%" }}
+            transition={transition}
+            style={{ left: "50%", zIndex: 10001, willChange: "transform, opacity" }}
+            className={`fixed bottom-[82px] w-[94vw]`}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className={`overflow-hidden border border-white/10 shadow-2xl rounded-[1.8rem] bg-[#0f1117] p-5`}
+            >
               {children}
             </div>
           </motion.div>
@@ -156,7 +180,7 @@ function Navbar({ className }) {
             </div>
           </MenuItem>
 
-          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear">
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear" href="#projects">
             <div className={`grid gap-4 ${isMobile ? 'grid-cols-1 max-h-[50vh] overflow-y-auto pr-2' : 'grid-cols-2 w-max'}`}>
               <ProductItem isMobile={isMobile} title="Skill Connect" href={`${prefix}${pagePrefix}project-skill-connect.html`} src={`${prefix}images/SkillConnect/LandingPage.png`} description="Fomento de empleabilidad." />
               <ProductItem isMobile={isMobile} title="Parque Forestal" href={`${prefix}${pagePrefix}project-1.html`} src={`${prefix}images/ParquesForestales/landing1.png`} description="Gestión eco-turística." />
