@@ -69,14 +69,27 @@
 html,
 body {
   height: 100%;
-  min-height: 100vh; /* asegurar que el fondo cubre todo el viewport */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 /* Tema oscuro global y tipografía */
 body {
-  /* background removed to preserve the original main page look (restored per user request) */
+  background-color: var(--bg);
   color: var(--text);
   font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-block: 0.5em 1em;
+}
+
+h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); letter-spacing: -0.01em; }
+h3 { font-size: clamp(1.2rem, 3vw, 1.8rem); }
+
 html {
   scroll-behavior: smooth;
   /* Tener en cuenta la altura de la nav fija al hacer scroll a anclas */
@@ -149,6 +162,10 @@ svg {
   right: 0;
   z-index: 50;
   backdrop-filter: blur(var(--blur));
+  transition: transform 0.3s ease;
+}
+.nav--hidden {
+  transform: translateY(-100%);
 }
 .nav::before {
   content: "";
@@ -327,17 +344,18 @@ svg {
 	 Hero
 	 ====== */
 .main_seccion{
-  margin-top: 5%;
-  padding-inline: var(--gutter);
-  /* allow content to grow naturally on small screens */
+  margin-top: 0;
+  padding-inline: 0;
   min-height: auto;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Mobile-only override: aumentar espacio superior en pantallas pequeñas
    Nota: asumí mobile = max-width: 700px. Cambia el valor si prefieres otro. */
 @media (max-width: 700px) {
   .main_seccion {
-  margin-top: 14%;
+    margin-top: 0;
   }
 }
 
@@ -522,12 +540,14 @@ svg {
   animation: float-slow 40s ease-in-out infinite;
 }
 
-/* Project-specific title hierarchy removed to favor global high-impact styles */
-main#gallery h1 {
+/* Global project title styling for consistency */
+main#gallery h1,
+main#overview h1 {
   font-size: clamp(40px, 8vw, 80px);
   font-weight: 800;
   margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  color: #fff;
 }
 
 /* Soft blink for the purple and red/pink accents inside the glow layer.
@@ -669,6 +689,7 @@ main#gallery h1 {
   right: 0;
   overflow: hidden;
   pointer-events: none;
+  z-index: 60;
 }
 .marquee__track {
   display: flex;
@@ -892,8 +913,75 @@ main#gallery h1 {
     border-color 0.18s ease;
 }
 .tech:hover {
-  transform: translateY(-2px);
-  border-color: rgba(124, 92, 255, 0.35);
+  transform: translateY(-4px);
+  border-color: rgba(124, 92, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+}
+.tech__content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.tech__label {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 16px;
+}
+.tech__summary {
+  font-size: 12px;
+  color: var(--muted);
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  line-height: 1.4;
+}
+
+/* Tooltip desktop */
+@media (min-width: 701px) {
+  .tech {
+    position: relative;
+  }
+  .tech::after {
+    content: attr(data-tippy-content);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #111;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    z-index: 100;
+  }
+  .tech:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Mobile summary expansion */
+@media (max-width: 700px) {
+  .tech.is-expanded {
+    background: rgba(124, 92, 255, 0.1);
+    border-color: var(--primary);
+  }
+  .tech.is-expanded .tech__summary {
+    max-height: 50px;
+    opacity: 1;
+    margin-top: 4px;
+  }
+  .tech {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 .tech__icon {
   width: 48px;
@@ -922,10 +1010,7 @@ main#gallery h1 {
 .tech--cplusplus .tech__icon .iconify { color: #00599c; }
 .tech--java .tech__icon .iconify { color: #007396; }
 .tech--php .tech__icon .iconify { color: #777bb4; }
-.tech__label {
-  font-weight: 600;
-  color: var(--text);
-}
+
 
 /* ===== Player (disco + popover) ===== */
 .about__heading {
@@ -1150,6 +1235,17 @@ main#gallery h1 {
   color: var(--muted);
 }
 
+/* Stretched Link UX pattern */
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  content: "";
+}
+
 /* ==============
 	 Scroll reveal
 	 ============== */
@@ -1178,18 +1274,23 @@ main#gallery h1 {
   gap: 10px;
 }
 
-/* Footer contacts */
+/* Footer layout */
 .footer__left { flex: 1; }
-.footer__center { flex: 1; display: flex; justify-content: center; }
+.footer__center { flex: 2; display: flex; justify-content: center; }
 .footer__right { flex: 1; display: flex; justify-content: flex-end; }
-.footer__contacts { display: flex; gap: 12px; align-items: center; }
-.contact-link { color: var(--text); display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); transition: background 0.15s ease, transform 0.12s ease; }
-.contact-link:hover { background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #06060a; transform: translateY(-3px); }
-.contact-link svg { width: 22px; height: 22px; }
+
+#floating-dock-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-block: 10px;
+}
 
 @media (max-width: 700px) {
   .footer__inner { flex-direction: column; align-items: center; gap: 12px; }
-  .footer__left, .footer__center, .footer__right { justify-content: center; }
+  .footer__left { justify-content: center; text-align: center; }
+  .footer__center, .footer__right { display: none !important; }
 }
 
 /* Footer icons — mobile overrides: slightly larger tappable targets */

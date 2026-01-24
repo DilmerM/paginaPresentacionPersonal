@@ -20,60 +20,41 @@
     <link rel="stylesheet" href="./styles/stylesheet.css?v=20250823" />
     <!-- Iconify for icons -->
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js" defer></script>
-</head>
 
-<body>
-    <noscript>Esta página usa animaciones y requiere JavaScript para la mejor experiencia.</noscript>
+    <!-- React/Tailwind/Framer Motion dependencies for Desktop Navbar -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
 
-    <!-- Loader / Intro -->
-    <div class="loader" aria-hidden="true">
-        <div class="loader__inner">
-            <div class="loader__ring"></div>
-            <p class="loader__text">Cargando</p>
-        </div>
-    </div>
-
-    <!-- Navegación -->
-    <header class="nav" role="banner">
-        <div class="nav__content">
-            <a href="#home" class="brand" aria-label="Ir al inicio">DN.dev</a>
-            <button class="nav__toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Abrir menú">
-                <span class="nav__burger" aria-hidden="true"></span>
-            </button>
-            <nav id="primary-menu" class="menu" role="navigation" aria-label="Principal">
-
-                <a href="#about" class="menu__link">Sobre mí</a>
-                <a href="#stack" class="menu__link">Tecnologías</a>
-                <a href="#projects" class="menu__link">Proyectos</a>
-                <a href="pages/proyectos_favoritos.html" class="menu__link">Proyectos Favoritos</a>
-                <a href="#contact" class="menu__link btn btn--primary btn--magnetic">Contacto</a>
-            </nav>
-        </div>
-    </header>
-
+    <script>
+        // Configure tailwind to only apply to a specific prefix if needed, 
+        // but here we just ensure basic config doesn't break everything.
+        tailwind.config = {
+            darkMode: 'class',
+            corePlugins: {
+                preflight: false,
+            },
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c5cff',
+                        'primary-2': '#00d4ff',
+                    },
+                    backgroundImage: {
+                        'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <div id="navbar-root"></div>
 
     <section class="main_seccion">
         <!-- Héroe -->
-        <main id="home" class="hero" role="main">
-            <div class="hero__bg" aria-hidden="true">
-                <div class="layer layer--glow" data-speed="-0.08"></div>
-                <div class="layer layer--grid" data-speed="0.06"></div>
-                <div class="layer layer--flare" data-speed="0.12"></div>
-            </div>
-            <section class="hero__content container" data-reveal>
-                <p class="eyebrow">Desarrollador Back-End</p>
-                <h1 class="title">
-                    Desarrollador de estructuras de sistemas: <span class="title__accent">backend en proceso</span>
-                </h1>
-                <p class="subtitle">
-                    Me apasiona el desarrollo back‑end y diseñar bases de datos eficientes; también disfruto del
-                    front‑end creando interfaces.
-                </p>
-                <div class="cta">
-                    <a href="#projects" class="btn btn--primary btn--magnetic">Ver proyectos</a>
-                    <a href="#about" class="btn btn--ghost">Conocer más</a>
-                </div>
-            </section>
+        <main id="home" class="relative overflow-hidden" role="main">
+            <div id="lamp-root"></div>
             <div class="marquee" aria-hidden="true">
                 <div class="marquee__track">
                     <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
@@ -85,7 +66,6 @@
                 </div>
             </div>
         </main>
-
 
     </section>
 
@@ -132,86 +112,132 @@
                 Herramientas y lenguajes que uso con frecuencia.
             </p>
             <ul class="tech-grid" data-reveal role="list">
-                <li class="tech tech--react" aria-label="React">
+                <li class="tech tech--react" aria-label="React"
+                    data-tippy-content="Biblioteca para interfaces dinámicas.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:react" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">React</span>
+                    <div class="tech__content">
+                        <span class="tech__label">React</span>
+                        <span class="tech__summary">Biblioteca para interfaces dinámicas.</span>
+                    </div>
                 </li>
-                <li class="tech tech--html5" aria-label="HTML">
+                <li class="tech tech--html5" aria-label="HTML" data-tippy-content="Estructura semántica moderna.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:html5" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">HTML</span>
+                    <div class="tech__content">
+                        <span class="tech__label">HTML</span>
+                        <span class="tech__summary">Estructura semántica moderna.</span>
+                    </div>
                 </li>
-                <li class="tech tech--css3" aria-label="CSS">
+                <li class="tech tech--css3" aria-label="CSS" data-tippy-content="Estilos avanzados y animaciones.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:css3" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">CSS</span>
+                    <div class="tech__content">
+                        <span class="tech__label">CSS</span>
+                        <span class="tech__summary">Estilos avanzados y animaciones.</span>
+                    </div>
                 </li>
-                <li class="tech tech--javascript" aria-label="JavaScript">
+                <li class="tech tech--javascript" aria-label="JavaScript"
+                    data-tippy-content="Lógica interactiva en el cliente.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:javascript" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">JavaScript</span>
+                    <div class="tech__content">
+                        <span class="tech__label">JavaScript</span>
+                        <span class="tech__summary">Lógica interactiva en el cliente.</span>
+                    </div>
                 </li>
-                <li class="tech tech--nextjs" aria-label="Next.js">
+                <li class="tech tech--nextjs" aria-label="Next.js"
+                    data-tippy-content="Framework React con SSR y optimización.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:nextdotjs" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">Next.js</span>
+                    <div class="tech__content">
+                        <span class="tech__label">Next.js</span>
+                        <span class="tech__summary">Framework React con SSR y optimización.</span>
+                    </div>
                 </li>
-                <li class="tech tech--laravel" aria-label="Laravel">
+                <li class="tech tech--laravel" aria-label="Laravel"
+                    data-tippy-content="Framework PHP elegante para el backend.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:laravel" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">Laravel</span>
+                    <div class="tech__content">
+                        <span class="tech__label">Laravel</span>
+                        <span class="tech__summary">Framework PHP elegante para el backend.</span>
+                    </div>
                 </li>
-                <li class="tech tech--mysql" aria-label="MySQL">
+                <li class="tech tech--mysql" aria-label="MySQL"
+                    data-tippy-content="Gestión eficiente de bases de datos relacionales.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="logos:mysql" data-inline="false" aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">MySQL</span>
+                    <div class="tech__content">
+                        <span class="tech__label">MySQL</span>
+                        <span class="tech__summary">Gestión eficiente de bases de datos.</span>
+                    </div>
                 </li>
-                <li class="tech tech--oracle" aria-label="Oracle">
+                <li class="tech tech--oracle" aria-label="Oracle"
+                    data-tippy-content="Infraestructura cloud y bases de datos robustas.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:oracle" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">Oracle</span>
+                    <div class="tech__content">
+                        <span class="tech__label">Oracle</span>
+                        <span class="tech__summary">Infraestructura cloud y bases de datos.</span>
+                    </div>
                 </li>
-                <li class="tech tech--apis" aria-label="APIs">
+                <li class="tech tech--apis" aria-label="APIs"
+                    data-tippy-content="Conectividad y servicios web RESTful.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="mdi:api" data-inline="false" aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">APIs</span>
+                    <div class="tech__content">
+                        <span class="tech__label">APIs</span>
+                        <span class="tech__summary">Conectividad y servicios web RESTful.</span>
+                    </div>
                 </li>
-                <li class="tech tech--cplusplus" aria-label="C++">
+                <li class="tech tech--cplusplus" aria-label="C++"
+                    data-tippy-content="Lenguaje de alto rendimiento y sistemas.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:cplusplus" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">C++</span>
+                    <div class="tech__content">
+                        <span class="tech__label">C++</span>
+                        <span class="tech__summary">Lenguaje de alto rendimiento.</span>
+                    </div>
                 </li>
-                <li class="tech tech--java" aria-label="Java">
+                <li class="tech tech--java" aria-label="Java"
+                    data-tippy-content="Desarrollo multiplataforma y empresarial.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="logos:java" data-inline="false" aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">Java</span>
+                    <div class="tech__content">
+                        <span class="tech__label">Java</span>
+                        <span class="tech__summary">Desarrollo multiplataforma.</span>
+                    </div>
                 </li>
-                <li class="tech tech--php" aria-label="PHP">
+                <li class="tech tech--php" aria-label="PHP"
+                    data-tippy-content="Scripts del lado del servidor para la web.">
                     <span class="tech__icon" aria-hidden="true">
                         <span class="iconify" data-icon="simple-icons:php" data-inline="false"
                             aria-hidden="true"></span>
                     </span>
-                    <span class="tech__label">PHP</span>
+                    <div class="tech__content">
+                        <span class="tech__label">PHP</span>
+                        <span class="tech__summary">Scripts del lado del servidor.</span>
+                    </div>
                 </li>
             </ul>
         </section>
@@ -223,7 +249,8 @@
             <h2 data-reveal>Proyectos</h2>
             <div class="grid" aria-live="polite">
                 <!-- Skill Connect -->
-                <article class="card" tabindex="0" data-reveal>
+                <article class="card" tabindex="0" data-reveal
+                    data-preview="./images/PreviewProyects/PreviewSkillConnect.png">
                     <div class="card__media" role="img" aria-label="Skill Connect"
                         style="background: #0f172a; display:flex; align-items:center; justify-content:center; overflow: hidden;">
                         <!-- Using a tech/network related placeholder image or gradient -->
@@ -249,7 +276,8 @@
                     </div>
                 </article>
 
-                <article class="card" tabindex="0" data-reveal>
+                <article class="card" tabindex="0" data-reveal
+                    data-preview="./images/PreviewProyects/PreviewForestPark.png">
                     <div class="card__media" role="img" aria-label="Proyecto 1"
                         style="background: transparent; display:flex; align-items:center; justify-content:center;">
                         <!-- Replaced with user-provided Laravel SVG (filled red) -->
@@ -276,7 +304,8 @@
                     </div>
                 </article>
 
-                <article class="card" tabindex="0" data-reveal>
+                <article class="card" tabindex="0" data-reveal
+                    data-preview="./images/PreviewProyects/PreviewGenerateCv.png">
                     <div class="card__media card__media--alt" role="img" aria-label="Proyecto 2"
                         style="display:flex;align-items:center;justify-content:center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 256 256"
@@ -316,7 +345,8 @@
                     </div>
                 </article>
 
-                <article class="card" tabindex="0" data-reveal>
+                <article class="card" tabindex="0" data-reveal
+                    data-preview="./images/PreviewProyects/PreviewInventary.png">
                     <div class="card__media card__media--neo" role="img" aria-label="Inventario">
                         <!-- Java SVG icon provided by user -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 128 128"
@@ -368,33 +398,7 @@
                 <span>© <span id="year"></span> Dilmer — Todos los derechos reservados</span>
             </div>
             <div class="footer__center">
-                <!-- Contact icons (Iconify) -->
-                <nav class="footer__contacts" aria-label="Formas de contacto">
-                    <a href="mailto:dilmerkj@gmail.com" class="contact-link" title="Email: dilmerkj@gmail.com">
-                        <span class="iconify" data-icon="mdi:email-outline" data-inline="false"
-                            aria-hidden="true"></span>
-                    </a>
-                    <a href="https://wa.me/50498892081" class="contact-link" title="WhatsApp" target="_blank"
-                        rel="noopener noreferrer">
-                        <span class="iconify" data-icon="mdi:whatsapp" data-inline="false" aria-hidden="true"></span>
-                    </a>
-                    <a href="https://github.com/DilmerM" class="contact-link" title="GitHub" target="_blank"
-                        rel="noopener noreferrer">
-                        <span class="iconify" data-icon="mdi:github" data-inline="false" aria-hidden="true"></span>
-                    </a>
-                    <a href="https://x.com/DILMERNUEZ3" class="contact-link" title="X" target="_blank"
-                        rel="noopener noreferrer">
-                        <span class="iconify" data-icon="simple-icons:x" data-inline="false" aria-hidden="true"></span>
-                    </a>
-                    <a href="https://www.instagram.com/dilmer.moreira/" class="contact-link" title="Instagram"
-                        target="_blank" rel="noopener noreferrer">
-                        <span class="iconify" data-icon="mdi:instagram" data-inline="false" aria-hidden="true"></span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/dilmer-nu%C3%B1ez-3a34b2231/" class="contact-link"
-                        title="LinkedIn" target="_blank" rel="noopener noreferrer">
-                        <span class="iconify" data-icon="mdi:linkedin" data-inline="false" aria-hidden="true"></span>
-                    </a>
-                </nav>
+                <div id="floating-dock-root"></div>
             </div>
             <div class="footer__right">
                 <a href="#home" class="back-to-top" aria-label="Volver arriba">↑</a>
@@ -402,7 +406,30 @@
         </div>
     </footer>
 
+    <div id="navbar-root"></div>
     <script src="./scripts/script.js" defer></script>
-</body>
+    <script type="text/babel" src="./scripts/react-navbar.js"></script>
+    <script type="text/babel" src="./scripts/lamp.js"></script>
+    <script type="text/babel" src="./scripts/floating-dock.js"></script>
+    <script>
+        // Tech expansion on mobile
+        document.addEventListener('DOMContentLoaded', () => {
+            const techItems = document.querySelectorAll('.tech');
+            techItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 700) {
+                        const isExpanded = item.classList.contains('is-expanded');
+                        // Close others
+                        techItems.forEach(i => i.classList.remove('is-expanded'));
+                        if (!isExpanded) {
+                            item.classList.add('is-expanded');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
+
 
 </html>

@@ -187,6 +187,89 @@ window.addEventListener('load', () => {
 	window.addEventListener('keydown', handleKeyDown);
 })();
 
+// 8) Hacer tarjetas clicables (reemplaza stretched-link para mayor compatibilidad)
+(() => {
+	const cards = qsa('.card');
+	cards.forEach(card => {
+		const link = card.querySelector('a.btn--primary');
+		if (!link) return;
+		card.style.cursor = 'pointer';
+		card.addEventListener('click', (e) => {
+			// Si el clic no fue directamente en un botón o link interno, activar el link principal
+			if (!e.target.closest('a') && !e.target.closest('button')) {
+				link.click();
+			}
+		});
+	});
+})();
+
+
+// 9) Link Preview (Floating image on hover)
+(() => {
+    const cards = qsa('.card[data-preview]');
+    if (!cards.length) return;
+
+    // Create the preview element
+    const preview = document.createElement('div');
+    preview.className = 'link-preview';
+    preview.style.cssText = `
+        position: fixed;
+        width: 280px;
+        height: 160px;
+        pointer-events: none;
+        z-index: 10000;
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -110%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        background: #0f1117;
+    `;
+    const img = document.createElement('img');
+    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+    preview.appendChild(img);
+    document.body.appendChild(preview);
+
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const previewSrc = card.dataset.preview;
+            if (previewSrc) {
+                img.src = previewSrc;
+                preview.style.opacity = '1';
+                preview.style.transform = 'scale(1) translate(-50%, -110%)';
+            }
+        });
+
+        card.addEventListener('mousemove', (e) => {
+            preview.style.left = `${e.clientX}px`;
+            preview.style.top = `${e.clientY}px`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            preview.style.opacity = '0';
+            preview.style.transform = 'scale(0.8) translate(-50%, -110%)';
+        });
+    });
+})();
+
+
+// 10) Hide mobile nav on scroll down, show on up
+(() => {
+	const nav = qs('.nav');
+	if (!nav) return;
+	let lastY = window.scrollY;
+	window.addEventListener('scroll', () => {
+		const currY = window.scrollY;
+		if (currY > lastY && currY > 80) {
+			nav.classList.add('nav--hidden');
+		} else {
+			nav.classList.remove('nav--hidden');
+		}
+		lastY = currY;
+	}, { passive: true });
+})();
+
 
 // Geolocalización eliminada por petición del usuario
-

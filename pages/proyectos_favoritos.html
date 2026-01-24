@@ -8,10 +8,17 @@
     <title>Portafolio de Proyectos 3D</title>
 
     <!-- Enlaces a las tipografías de Google Fonts y Tailwind CSS CDN -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            corePlugins: {
+                preflight: false,
+            }
+        }
+    </script>
 
     <!-- Firebase SDK Imports -->
     <script type="module">
@@ -50,15 +57,15 @@
     <style>
         /* Variables CSS para los temas */
         :root {
-            /* Tema claro */
-            --bg-primary: #f3f4f6;
-            --bg-secondary: #ffffff;
-            --bg-card: #ffffff;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --border-color: #e5e7eb;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            /* Tema base unificado con el sitio principal */
+            --bg-primary: #0b0b10;
+            --bg-secondary: #0f1117;
+            --bg-card: #161922;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #262626;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
             --button-bg: #3b82f6;
             --button-hover: #2563eb;
             --button-text: #ffffff;
@@ -72,30 +79,16 @@
             --gradient-4-to: #06b6d4;
         }
 
-        /* Tema oscuro */
+        /* Tema oscuro optimizado */
         body.dark {
-            --bg-primary: #111827;
-            --bg-secondary: #1f2937;
-            --bg-card: #374151;
-            --text-primary: #f9fafb;
-            --text-secondary: #9ca3af;
-            --border-color: #4b5563;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            --button-bg: #2563eb;
-            --button-hover: #1d4ed8;
-            --gradient-1-from: #7c3aed;
-            --gradient-1-to: #be185d;
-            --gradient-2-from: #16a34a;
-            --gradient-2-to: #2563eb;
-            --gradient-3-from: #ca8a04;
-            --gradient-3-to: #dc2626;
-            --gradient-4-from: #4338ca;
-            --gradient-4-to: #0891b2;
+            --bg-primary: #050508;
+            --bg-secondary: #0b0b10;
+            --bg-card: #0f1117;
+            --border-color: #1f2937;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -230,7 +223,7 @@
 </head>
 
 <body class="light">
-
+    <div id="navbar-root"></div>
     <!-- Contenedor principal -->
     <div class="min-h-screen p-4 flex flex-col items-center">
 
@@ -380,7 +373,33 @@
                 </div>
             </div>
         </div>
+
+        <footer class="footer mt-20 w-full">
+            <div class="container footer__inner max-w-4xl mx-auto flex items-center justify-between p-4">
+                <div class="footer__left text-sm opacity-60">© <span id="year-copy"></span> Dilmer — Todos los derechos
+                    reservados</div>
+                <div class="footer__center">
+                    <div id="floating-dock-root"></div>
+                </div>
+                <div class="footer__right">
+                    <a href="../index.html" class="back-to-top px-4 py-2 bg-white/5 rounded-lg font-bold text-sm">←
+                        Inicio</a>
+                </div>
+            </div>
+        </footer>
     </div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <script type="text/babel" src="../scripts/floating-dock.js"></script>
+    <script type="text/babel" src="../scripts/react-navbar.js"></script>
+
+    <script>
+        document.getElementById('year-copy') && (document.getElementById('year-copy').textContent = new Date().getFullYear());
+    </script>
 
     <!-- Scripts de JavaScript -->
     <script type="module">

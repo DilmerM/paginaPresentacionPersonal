@@ -12,6 +12,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles/stylesheet.css?v=20250823" />
   <link rel="stylesheet" href="../styles/project-1.css" /> <!-- Reusing layout CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  </script>
   <style>
     /* Gallery Styles */
     .skill-gallery {
@@ -116,17 +124,7 @@
 </head>
 
 <body class="project-2">
-  <header class="nav" role="banner">
-    <div class="nav__content">
-      <a href="../index.html" class="brand" aria-label="Ir al inicio">DN.dev</a>
-      <nav class="menu" role="navigation" aria-label="Principal">
-        <a href="../index.html" class="menu__link">Inicio</a>
-        <a href="#gallery" class="menu__link">Galería</a>
-        <a href="#details" class="menu__link">Detalles</a>
-        <a href="#contact" class="menu__link btn btn--primary">Contacto</a>
-      </nav>
-    </div>
-  </header>
+  <div id="navbar-root"></div>
 
   <main class="section container" id="gallery">
     <h1>Proyecto Creador de Currículums</h1>
@@ -266,10 +264,20 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__left">© <span id="year"></span> Dilmer — Todos los derechos reservados</div>
-      <div class="footer__center"></div>
+      <div class="footer__center">
+        <div id="floating-dock-root"></div>
+      </div>
       <div class="footer__right"><a href="../index.html" class="back-to-top">← Volver</a></div>
     </div>
   </footer>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <script type="text/babel" src="../scripts/floating-dock.js"></script>
+  <script type="text/babel" src="../scripts/react-navbar.js"></script>
 
   <script>document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());</script>
 
