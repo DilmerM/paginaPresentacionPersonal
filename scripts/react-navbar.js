@@ -1,14 +1,8 @@
-const { useState, useEffect } = React;
+const { useState, useEffect, useCallback, memo } = React;
 const { motion, AnimatePresence } = window.Motion;
 
-const transition = {
-  type: "spring",
-  mass: 0.5,
-  damping: 11.5,
-  stiffness: 100,
-  restDelta: 0.001,
-  restSpeed: 0.001,
-};
+// Optimized spring transition
+const transition = { type: "spring", bounce: 0, duration: 0.4 };
 
 const Toast = ({ message, visible, setVisible }) => {
   const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
@@ -37,66 +31,65 @@ const Toast = ({ message, visible, setVisible }) => {
   );
 };
 
-const MenuItem = ({ setActive, active, item, icon, children, onClick }) => {
-  const isMobile = window.innerWidth <= 768;
+// Optimized Link Components
+const HoveredLink = memo(({ children, isMobile, ...rest }) => (
+  <a {...rest} className={`text-[#aab0bd] hover:text-white transition-all font-semibold flex items-center ${isMobile ? 'py-4 text-base border-b border-white/5 last:border-0' : 'text-sm py-1'}`}>
+    {children}
+    {isMobile && <span className="iconify ml-auto text-xl opacity-40" data-icon="solar:alt-arrow-right-linear"></span>}
+  </a>
+));
+
+const ProductItem = memo(({ title, description, href, src, isMobile }) => (
+  <a href={href} className="flex items-center space-x-4 py-2 group/item no-underline">
+    <img src={src} className={`flex-shrink-0 rounded-xl shadow-lg transition-transform duration-300 group-hover/item:scale-105 ${isMobile ? 'w-16 h-12' : 'w-32 h-20'}`} alt={title} />
+    <div>
+      <h4 className="text-white font-bold text-base md:text-lg m-0">{title}</h4>
+      <p className="text-[#aab0bd] text-[11px] md:text-sm m-0 leading-tight max-w-[12rem]">{description}</p>
+    </div>
+  </a>
+));
+
+const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick }) => {
+  const isOpen = active === item;
   
-  const toggleActive = (e) => {
+  const handleToggle = useCallback((e) => {
     if (isMobile) {
       e.stopPropagation();
-      setActive(active === item ? null : item);
+      setActive(prev => (prev === item ? null : item));
       if (onClick) onClick();
     }
-  };
-
-  // Only apply hover for desktop
-  const desktopEvents = !isMobile ? {
-    onMouseEnter: () => setActive(item)
-  } : {};
+  }, [isMobile, item, setActive, onClick]);
 
   return (
-    <div className="relative" {...desktopEvents}>
-      {/* Clickable area for the icon/label */}
-      <motion.div
-        onClick={toggleActive}
-        transition={{ duration: 0.3 }}
-        className={`cursor-pointer text-[#e7e9ee] hover:text-white transition-colors flex flex-col items-center justify-center relative z-[10005]
-          ${isMobile ? 'px-2 py-2 min-w-[75px]' : 'px-4 py-0.5'}`}
+    <div onMouseEnter={() => !isMobile && setActive(item)} className="relative flex justify-center">
+      <div 
+        onClick={handleToggle}
+        className={`cursor-pointer transition-all duration-300 flex flex-col items-center justify-center py-2 relative z-[10005]
+          ${isMobile ? 'min-w-[70px] px-1' : 'px-4'}
+          ${isOpen ? 'text-primary-2 scale-105' : 'text-[#e7e9ee] opacity-80'}`}
       >
         {isMobile ? (
           <>
-            <span className={`iconify text-2xl transition-all duration-300 ${active === item ? 'scale-110 text-primary-2' : ''}`} data-icon={icon}></span>
-            <span className={`text-[11px] mt-1 font-semibold transition-all duration-300 ${active === item ? 'opacity-100 text-primary-2' : 'opacity-80'}`}>
-              {item === 'Certificaciones' ? 'Diplomas' : item}
-            </span>
+            <span className="iconify text-2xl mb-1" data-icon={icon}></span>
+            <span className="text-[10px] font-bold uppercase tracking-tight">{item === 'Certificaciones' ? 'Diplomas' : item}</span>
           </>
         ) : (
-          <p className="text-base font-medium whitespace-nowrap">{item}</p>
+          <span className="text-base font-semibold">{item}</span>
         )}
-      </motion.div>
+      </div>
 
       <AnimatePresence>
-        {active === item && children && (
+        {isOpen && children && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: isMobile ? 10 : -10, x: "-50%" }}
+            initial={{ opacity: 0, scale: 0.95, y: isMobile ? 10 : -10, x: "-50%" }}
             animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
-            exit={{ opacity: 0, scale: 0.95, y: 10, x: "-50%" }}
+            exit={{ opacity: 0, scale: 0.98, y: 10, x: "-50%" }}
             transition={transition}
-            style={{ 
-              left: "50%",
-              position: isMobile ? 'fixed' : 'absolute',
-              bottom: isMobile ? '88px' : 'auto',
-              top: isMobile ? 'auto' : 'calc(100% + 0.2rem)',
-              zIndex: 10001
-            }}
-            className={`${isMobile ? 'w-[94vw]' : 'w-max pt-4'}`}
+            style={{ left: "50%", zIndex: 10001, willChange: "transform, opacity" }}
+            className={`fixed bottom-[88px] w-[94vw] md:absolute md:top-full md:bottom-auto md:w-max md:pt-4`}
           >
-            <div
-              onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the menu
-              className={`${isMobile ? 'bg-[#0f1117] border-white/[0.15]' : 'bg-[#0f1117]/90 backdrop-blur-xl border-white/[0.1]'} rounded-[2rem] overflow-hidden border shadow-[0_20px_50px_rgba(0,0,0,0.4)] w-full`}
-            >
-              <motion.div layout className={`h-full ${isMobile ? 'p-5' : 'p-4'}`}>
-                {children}
-              </motion.div>
+            <div className={`overflow-hidden border border-white/10 shadow-2xl rounded-[1.8rem] ${isMobile ? 'bg-[#0f1117] p-5' : 'bg-[#0f1117]/90 backdrop-blur-xl p-4'}`}>
+              {children}
             </div>
           </motion.div>
         )}
@@ -105,204 +98,87 @@ const MenuItem = ({ setActive, active, item, icon, children, onClick }) => {
   );
 };
 
-const Menu = ({ setActive, children }) => {
-  const isMobile = window.innerWidth <= 768;
-  const desktopEvents = !isMobile ? {
-    onMouseLeave: () => setActive(null)
-  } : {};
-
-  return (
-    <nav
-      {...desktopEvents}
-      className={`relative border-white/[0.1] shadow-2xl flex justify-around md:justify-center z-[10002] 
-        ${isMobile 
-          ? 'w-full rounded-t-[3rem] border-t px-2 pb-3 pt-4 bg-[#0b0b10]' 
-          : 'rounded-full border px-6 py-0.5 space-x-4 bg-[#0b0b10]/80 backdrop-blur-xl'}`}
-    >
-      {children}
-    </nav>
-  );
-};
-
-const ProductItem = ({ title, description, href, src }) => {
-  const isMobile = window.innerWidth <= 768;
-  return (
-    <a href={href} className={`flex ${isMobile ? 'flex-row items-center space-x-4 space-y-0 py-2' : 'space-x-4'} group/product no-underline text-inherit`}>
-      <img
-        src={src}
-        width={140}
-        height={70}
-        alt={title}
-        className={`flex-shrink-0 rounded-xl shadow-2xl group-hover/product:scale-105 transition-transform duration-200 ${isMobile ? 'w-20 h-14' : 'w-[140px]'}`}
-      />
-      <div>
-        <h4 className="text-lg md:text-xl font-bold mb-1 text-white no-underline">
-          {title}
-        </h4>
-        <p className="text-[#aab0bd] text-xs md:text-sm max-w-[12rem] md:max-w-[10rem] no-underline leading-tight">
-          {description}
-        </p>
-      </div>
-    </a>
-  );
-};
-
-const HoveredLink = ({ children, ...rest }) => {
-  const isMobile = window.innerWidth <= 768;
-  return (
-    <a
-      {...rest}
-      className={`text-[#aab0bd] hover:text-white transition-colors duration-200 font-semibold no-underline flex items-center ${isMobile ? 'py-4 text-base border-b border-white/5 last:border-0' : 'text-sm'}`}
-    >
-      {children}
-      {isMobile && <span className="iconify ml-auto text-xl opacity-50" data-icon="solar:alt-arrow-right-linear"></span>}
-    </a>
-  );
-};
-
 function Navbar({ className }) {
   const [active, setActive] = useState(null);
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [toastVisible, setToastVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  // Check if we are in a sub-page (inside 'pages/' directory)
-  const isSubPage = window.location.pathname.includes('/pages/');
-  const prefix = isSubPage ? '../' : './';
-  const pagePrefix = isSubPage ? '' : 'pages/';
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (!isMobile && currentScrollY > lastScrollY && currentScrollY > 100) {
-        setHidden(true); // Only hide on desktop when scrolling down
-      } else {
-        setHidden(false); // Always show on mobile or when scrolling up
-      }
-      setLastScrollY(currentScrollY);
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (!isMobile) setHidden(y > lastScrollY && y > 100);
+      setLastScrollY(y);
     };
-
     window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", onScroll);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, isMobile]);
 
   useEffect(() => {
-    // Hide toast if player starts interacting with other menu items that have dropdowns
-    if (active !== null && active !== 'Certificaciones') {
-      setToastVisible(false);
-    }
+    if (active && active !== 'Certificaciones') setToastVisible(false);
   }, [active]);
 
-  const handleCertificationsClick = () => {
-    setToastVisible(true);
-  };
+  const prefix = window.location.pathname.includes('/pages/') ? '../' : './';
+  const pagePrefix = window.location.pathname.includes('/pages/') ? '' : 'pages/';
 
   return (
     <>
       <Toast message="Próximamente disponible" visible={toastVisible} setVisible={setToastVisible} />
       
-      {/* Mobile Backdrop Overlay - Closes menu when tapping outside */}
       <AnimatePresence>
         {isMobile && active && active !== 'Certificaciones' && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 bg-black/40 z-[9990] backdrop-blur-[2px]"
+            className="fixed inset-0 bg-black/60 z-[9990] backdrop-blur-[1px]"
           />
         )}
       </AnimatePresence>
 
       <motion.div
-        initial={{ y: 0 }}
-        animate={{ y: hidden ? (isMobile ? 150 : -100) : 0 }}
-        transition={{ duration: 0.3 }}
-        className={`fixed ${isMobile ? 'bottom-0 w-full' : 'top-4 inset-x-0 max-w-2xl mx-auto'} z-[9999] ${className}`}
+        animate={{ y: hidden ? (isMobile ? 0 : -100) : 0 }}
+        className={`fixed z-[9999] ${isMobile ? 'bottom-0 w-full' : 'top-4 inset-x-0 mx-auto max-w-2xl px-4 md:px-0'} ${className}`}
       >
-        <Menu setActive={setActive}>
-          <MenuItem 
-            setActive={setActive} 
-            active={active} 
-            item="Explorar" 
-            icon="solar:magnifer-linear"
-          >
-            <div className={`flex flex-col ${isMobile ? 'space-y-0' : 'space-y-4 text-sm px-2'}`}>
-              <HoveredLink href={`${prefix}index.html#about`}>Sobre mí</HoveredLink>
-              <HoveredLink href={`${prefix}index.html#stack`}>Tecnologías</HoveredLink>
-            </div>
-          </MenuItem>
-          
-          <MenuItem 
-            setActive={setActive} 
-            active={active} 
-            item="Proyectos" 
-            icon="solar:rocket-2-linear"
-          >
-            <div className={`text-sm grid ${isMobile ? 'grid-cols-1 max-h-[60vh] overflow-y-auto space-y-4' : 'grid-cols-2 gap-10'} p-4`}>
-              <ProductItem
-                title="Skill Connect"
-                href={`${prefix}${pagePrefix}project-skill-connect.html`}
-                src={`${prefix}images/SkillConnect/LandingPage.png`}
-                description="Habilidades profesionales."
-              />
-              <ProductItem
-                title="Parque Forestal"
-                href={`${prefix}${pagePrefix}project-1.html`}
-                src={`${prefix}images/ParquesForestales/landing1.png`}
-                description="Gestión natural."
-              />
-              <ProductItem
-                title="Creative Apps"
-                href={`${prefix}${pagePrefix}project-2.html`}
-                src={`${prefix}images/ProyectosCreativos/parallax1.png`}
-                description="Herramientas web."
-              />
-              <ProductItem
-                title="Java System"
-                href={`${prefix}${pagePrefix}project-3.html`}
-                src={`${prefix}images/InventarioJava/inventarioJava1.png`}
-                description="Control de inventario."
-              />
+        <nav 
+          onMouseLeave={() => !isMobile && setActive(null)}
+          className={`flex border border-white/10 shadow-2xl transition-all ${isMobile ? 'rounded-t-[2.5rem] bg-[#0b0b10] px-3 pb-4 pt-3 justify-around' : 'rounded-full bg-[#0b0b10]/80 backdrop-blur-xl px-8 py-2 justify-center space-x-6'}`}
+        >
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Explorar" icon="solar:magnifer-linear">
+            <div className="flex flex-col">
+              <HoveredLink isMobile={isMobile} href={`${prefix}index.html#about`}>Sobre mí</HoveredLink>
+              <HoveredLink isMobile={isMobile} href={`${prefix}index.html#stack`}>Tecnologías</HoveredLink>
             </div>
           </MenuItem>
 
-          <MenuItem 
-            setActive={setActive} 
-            active={active} 
-            item="Certificaciones"
-            icon="solar:medal-ribbons-star-linear"
-            onClick={handleCertificationsClick}
-          >
-            {/* Hidden content for now */}
-          </MenuItem>
-
-          <MenuItem 
-            setActive={setActive} 
-            active={active} 
-            item="Contacto" 
-            icon="solar:chat-round-dots-linear"
-          >
-            <div className={`flex flex-col ${isMobile ? 'space-y-0' : 'space-y-4 text-sm px-2'}`}>
-              <HoveredLink href="https://wa.me/50498892081" target="_blank">WhatsApp</HoveredLink>
-              <HoveredLink href="mailto:dilmerkj@gmail.com">Email</HoveredLink>
-              <HoveredLink href="https://www.linkedin.com/in/dilmer-nu%C3%B1ez-3a34b2231/" target="_blank">LinkedIn</HoveredLink>
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear">
+            <div className={`grid gap-4 ${isMobile ? 'grid-cols-1 max-h-[50vh] overflow-y-auto pr-2' : 'grid-cols-2 w-max'}`}>
+              <ProductItem isMobile={isMobile} title="Skill Connect" href={`${prefix}${pagePrefix}project-skill-connect.html`} src={`${prefix}images/SkillConnect/LandingPage.png`} description="Fomento de empleabilidad." />
+              <ProductItem isMobile={isMobile} title="Parque Forestal" href={`${prefix}${pagePrefix}project-1.html`} src={`${prefix}images/ParquesForestales/landing1.png`} description="Gestión eco-turística." />
+              <ProductItem isMobile={isMobile} title="Creative Apps" href={`${prefix}${pagePrefix}project-2.html`} src={`${prefix}images/ProyectosCreativos/parallax1.png`} description="Interfaces interactivas." />
+              <ProductItem isMobile={isMobile} title="Java System" href={`${prefix}${pagePrefix}project-3.html`} src={`${prefix}images/InventarioJava/inventarioJava1.png`} description="Gestión de inventarios." />
             </div>
           </MenuItem>
-        </Menu>
+
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Certificaciones" icon="solar:medal-ribbons-star-linear" onClick={() => setToastVisible(true)} />
+
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Contacto" icon="solar:chat-round-dots-linear">
+            <div className="flex flex-col">
+              <HoveredLink isMobile={isMobile} href="https://wa.me/50498892081" target="_blank">WhatsApp</HoveredLink>
+              <HoveredLink isMobile={isMobile} href="mailto:dilmerkj@gmail.com">Email</HoveredLink>
+              <HoveredLink isMobile={isMobile} href="https://www.linkedin.com/in/dilmer-nu%C3%B1ez-3a34b2231/" target="_blank">LinkedIn</HoveredLink>
+            </div>
+          </MenuItem>
+        </nav>
       </motion.div>
     </>
   );
 }
 
 const rootElement = document.getElementById("navbar-root");
-if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(<Navbar />);
-}
+if (rootElement) ReactDOM.createRoot(rootElement).render(<Navbar />);
