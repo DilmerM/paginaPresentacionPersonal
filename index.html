@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <script>
-        // Bloqueo inmediato de salto por hash al recargar
+        // Sistema de carga inteligente: evita saltos bruscos pero permite navegación por anclas
         document.documentElement.classList.add('is-loading');
-        if (window.location.hash) {
+        window.targetHash = window.location.hash; // Guardamos a dónde quería ir el usuario
+
+        if (window.targetHash) {
             window.scrollTo(0, 0);
+            // Limpiamos el hash de la URL temporalmente para que el navegador no salte solo
             if ('history' in window) {
                 history.replaceState(null, null, window.location.pathname);
             }

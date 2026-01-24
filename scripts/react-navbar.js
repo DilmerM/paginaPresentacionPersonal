@@ -54,36 +54,50 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, 
   
   const handleToggle = useCallback((e) => {
     if (isMobile) {
-      if (href) {
-        // Direct navigation if href is provided on mobile
-        setActive(item);
-        window.location.href = href;
-        return;
-      }
+      if (href) return; // Let the anchor tag handle navigation
       e.stopPropagation();
       setActive(prev => (prev === item ? null : item));
       if (onClick) onClick();
     }
   }, [isMobile, item, setActive, onClick, href]);
 
+  const content = (
+    <>
+      {isMobile ? (
+        <>
+          <span className="iconify text-2xl mb-1" data-icon={icon}></span>
+          <span className="text-[10px] font-bold uppercase tracking-tight">{item === 'Certificaciones' ? 'Diplomas' : item}</span>
+        </>
+      ) : (
+        <span className="text-base font-semibold">{item}</span>
+      )}
+    </>
+  );
+
+  const sharedClasses = `cursor-pointer transition-all duration-300 flex flex-col items-center justify-center py-2 relative z-[10005] shadow-none outline-none no-underline
+    ${isMobile ? 'min-w-[70px] px-1' : 'px-4'}
+    ${isOpen ? 'text-primary-2 scale-105' : 'text-[#e7e9ee] opacity-80'}`;
+
   return (
     <div onMouseEnter={() => !isMobile && setActive(item)} className="relative flex justify-center">
-      <div 
-        onClick={handleToggle}
-        style={{ webkitTapHighlightColor: 'transparent' }}
-        className={`cursor-pointer transition-all duration-300 flex flex-col items-center justify-center py-2 relative z-[10005] shadow-none outline-none
-          ${isMobile ? 'min-w-[70px] px-1' : 'px-4'}
-          ${isOpen ? 'text-primary-2 scale-105' : 'text-[#e7e9ee] opacity-80'}`}
-      >
-        {isMobile ? (
-          <>
-            <span className="iconify text-2xl mb-1" data-icon={icon}></span>
-            <span className="text-[10px] font-bold uppercase tracking-tight">{item === 'Certificaciones' ? 'Diplomas' : item}</span>
-          </>
-        ) : (
-          <span className="text-base font-semibold">{item}</span>
-        )}
-      </div>
+      {isMobile && href ? (
+        <a 
+          href={href}
+          onClick={() => setActive(item)}
+          style={{ webkitTapHighlightColor: 'transparent' }}
+          className={sharedClasses}
+        >
+          {content}
+        </a>
+      ) : (
+        <div 
+          onClick={handleToggle}
+          style={{ webkitTapHighlightColor: 'transparent' }}
+          className={sharedClasses}
+        >
+          {content}
+        </div>
+      )}
 
       <AnimatePresence>
         {!isMobile && isOpen && children && (
@@ -180,7 +194,7 @@ function Navbar({ className }) {
             </div>
           </MenuItem>
 
-          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear" href="#projects">
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear" href={`${prefix}index.html#projects`}>
             <div className={`grid gap-4 ${isMobile ? 'grid-cols-1 max-h-[50vh] overflow-y-auto pr-2' : 'grid-cols-2 w-max'}`}>
               <ProductItem isMobile={isMobile} title="Skill Connect" href={`${prefix}${pagePrefix}project-skill-connect.html`} src={`${prefix}images/SkillConnect/LandingPage.png`} description="Fomento de empleabilidad." />
               <ProductItem isMobile={isMobile} title="Parque Forestal" href={`${prefix}${pagePrefix}project-1.html`} src={`${prefix}images/ParquesForestales/landing1.png`} description="Gestión eco-turística." />

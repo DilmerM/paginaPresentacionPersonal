@@ -4,11 +4,35 @@ const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
 // 1) Loader & Top Scroll
 window.addEventListener('load', () => {
-	window.scrollTo(0, 0);
+	// Capturamos el hash guardado antes de limpiar la clase de carga
+	const targetSection = window.targetHash;
+	
+	// Quitamos la máscara de invisibilidad
 	document.documentElement.classList.remove('is-loading');
+	
 	const loader = qs('.loader');
 	if (!loader) return;
-	setTimeout(() => loader.classList.add('hidden'), 450);
+
+	setTimeout(() => {
+		loader.classList.add('hidden');
+		
+		// Si el usuario venía con un hash (ej: #projects), lo llevamos allí
+		if (targetSection) {
+			// Esperamos un momento a que el navegador termine de renderizar las secciones que estaban en display:none
+			setTimeout(() => {
+				const targetEl = document.querySelector(targetSection);
+				if (targetEl) {
+					// Calculamos la posición manualmente para mayor precisión con nav fija
+					const offset = 80; // Compensación para la navbar
+					const elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset;
+					window.scrollTo({
+						top: elementPosition - offset,
+						behavior: 'smooth'
+					});
+				}
+			}, 300);
+		}
+	}, 450);
 });
 
 // 2) Año dinámico
