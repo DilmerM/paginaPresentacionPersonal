@@ -3,6 +3,26 @@
 
 <head>
     <meta charset="UTF-8" />
+    <script>
+        // Bloqueo inmediato de salto por hash al recargar
+        document.documentElement.classList.add('is-loading');
+        if (window.location.hash) {
+            window.scrollTo(0, 0);
+            if ('history' in window) {
+                history.replaceState(null, null, window.location.pathname);
+            }
+        }
+    </script>
+    <style>
+        /* Enmascarar secciones hasta que la carga sea completa */
+        .is-loading .sobreMi,
+        .is-loading .tech-section,
+        .is-loading #projects,
+        .is-loading .footer,
+        .is-loading #navbar-root {
+            display: none !important;
+        }
+    </style>
     <!-- Google Analytics loader (external) -->
     <script src="./assets/js/gtag-loader.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />

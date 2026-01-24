@@ -2,8 +2,10 @@
 const qs = (s, p = document) => p.querySelector(s);
 const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
-// 1) Loader
+// 1) Loader & Top Scroll
 window.addEventListener('load', () => {
+	window.scrollTo(0, 0);
+	document.documentElement.classList.remove('is-loading');
 	const loader = qs('.loader');
 	if (!loader) return;
 	setTimeout(() => loader.classList.add('hidden'), 450);

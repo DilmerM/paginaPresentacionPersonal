@@ -56,8 +56,8 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, 
     if (isMobile) {
       if (href) {
         // Direct navigation if href is provided on mobile
+        setActive(item);
         window.location.href = href;
-        setActive(null);
         return;
       }
       e.stopPropagation();
@@ -156,7 +156,7 @@ function Navbar({ className }) {
       <Toast message="Próximamente disponible" visible={toastVisible} setVisible={setToastVisible} />
       
       <AnimatePresence>
-        {isMobile && active && active !== 'Certificaciones' && (
+        {isMobile && active && active !== 'Certificaciones' && active !== 'Proyectos' && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
