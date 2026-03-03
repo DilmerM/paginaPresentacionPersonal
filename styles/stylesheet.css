@@ -55,7 +55,7 @@
   }
 
   /* Simpler portrait background on mobile */
-  .portrait { background-image: url("../images/IMG2.jpg"); background-size: cover; background-position: center; }
+  .portrait { background-image: url("../images/IMG2.png"); background-size: cover; background-position: center; }
 }
 
 /* Forzar tema oscuro: no modificar variables en modo claro. */
