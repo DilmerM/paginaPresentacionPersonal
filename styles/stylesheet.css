@@ -766,7 +766,7 @@ main#overview h1 {
   perspective: 1000px;
 }
 .portrait {
-  height: clamp(340px, 52vh, 600px);
+  height: clamp(420px, 70vh, 800px);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   background: radial-gradient(
@@ -774,7 +774,7 @@ main#overview h1 {
       /* rgba(124, 92, 255, 0.25), */
       transparent 60%
     ),
-    url("../images/IMG2.jpg") center/cover no-repeat;
+    url("../images/IMG2.png") center/cover no-repeat;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 @media (max-width: 480px) {
