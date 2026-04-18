@@ -1571,7 +1571,7 @@ main#overview h1 {
 }
 
 /* Small visual tweak to ensure CTA buttons cast glowing fire separation */
-.cta .btn { box-shadow: 0 8px 24px rgba(124, 92, 255,0.40); }
+
 
 /* Project-specific styles were moved to each project's CSS files */
 
