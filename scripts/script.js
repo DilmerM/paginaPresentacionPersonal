@@ -2,38 +2,27 @@
 const qs = (s, p = document) => p.querySelector(s);
 const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
-// 1) Loader & Top Scroll
+// 1) Loader
 window.addEventListener('load', () => {
-	// Capturamos el hash guardado
-	const targetSection = window.targetHash;
-	
-	// Forzamos scroll arriba al inicio del evento load para evitar saltos persistentes
-	window.scrollTo(0, 0);
-	
 	const loader = qs('.loader');
 
 	setTimeout(() => {
 		if (loader) loader.classList.add('hidden');
-		
-		// Solo quitamos la máscara cuando el loader ya no estorba
 		document.documentElement.classList.remove('is-loading');
-		
-		// Si el usuario venía con un hash (ej: #projects), lo llevamos allí
-		if (targetSection) {
-			// Esperamos un momento a que el navegador termine de renderizar las secciones que estaban en display:none
-			setTimeout(() => {
+
+		// Un solo frame es suficiente: la p\u00e1gina ya ten\u00eda altura real (visibility:hidden, no display:none)
+		requestAnimationFrame(() => {
+			const targetSection = sessionStorage.getItem('returnToSection');
+			if (targetSection) {
+				sessionStorage.removeItem('returnToSection');
 				const targetEl = document.querySelector(targetSection);
 				if (targetEl) {
-					// Calculamos la posición manualmente para mayor precisión con nav fija
-					const offset = 80; // Compensación para la navbar
-					const elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset;
-					window.scrollTo({
-						top: elementPosition - offset,
-						behavior: 'smooth'
-					});
+					const offset = 80;
+					const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+					window.scrollTo({ top, behavior: 'instant' });
 				}
-			}, 300);
-		}
+			}
+		});
 	}, 450);
 });
 
@@ -67,16 +56,16 @@ window.addEventListener('load', () => {
 	let mx = 0, my = 0, tx = 0, ty = 0; // mouse x/y y target suavizado
 	const speed = 0.22; // easing más alto => respuesta más rápida
 	const multiplier = 2.2; // multiplicador global para aumentar desplazamiento
-
-	const onMove = (e) => {
-		const { innerWidth: w, innerHeight: h } = window;
-		const x = (e.clientX ?? (e.touches?.[0]?.clientX || 0)) / w - 0.5;
-		const y = (e.clientY ?? (e.touches?.[0]?.clientY || 0)) / h - 0.5;
-		mx = x; my = y;
-	};
-
 	let rafId = null;
+    let isMoving = false;
+
 	const raf = () => {
+        // Detener animación si el movimiento ya se estabilizó
+        if (Math.abs(mx - tx) < 0.001 && Math.abs(my - ty) < 0.001) {
+            tx = mx; ty = my;
+            isMoving = false;
+            return;
+        }
 		tx += (mx - tx) * speed; ty += (my - ty) * speed;
 		layers.forEach(l => {
 			const s = parseFloat(l.dataset.speed || '0.05');
@@ -86,14 +75,25 @@ window.addEventListener('load', () => {
 		});
 		rafId = requestAnimationFrame(raf);
 	};
+
+	const onMove = (e) => {
+		const { innerWidth: w, innerHeight: h } = window;
+		const x = (e.clientX ?? (e.touches?.[0]?.clientX || 0)) / w - 0.5;
+		const y = (e.clientY ?? (e.touches?.[0]?.clientY || 0)) / h - 0.5;
+		mx = x; my = y;
+        
+        if (!isMoving) {
+            isMoving = true;
+            rafId = requestAnimationFrame(raf);
+        }
+	};
+
 	window.addEventListener('mousemove', onMove, { passive: true });
-	// no bind touchmove to avoid expensive touch listeners on mobile
-	rafId = requestAnimationFrame(raf);
 
 	// Pause RAF when page hidden to reduce CPU
 	document.addEventListener('visibilitychange', () => {
-		if (document.hidden && rafId) { cancelAnimationFrame(rafId); rafId = null; }
-		else if (!document.hidden && !rafId) rafId = requestAnimationFrame(raf);
+		if (document.hidden && rafId) { cancelAnimationFrame(rafId); rafId = null; isMoving = false; }
+		else if (!document.hidden && !isMoving) { isMoving = true; rafId = requestAnimationFrame(raf); }
 	});
 })();
 
@@ -301,6 +301,51 @@ window.addEventListener('load', () => {
 		}
 		lastY = currY;
 	}, { passive: true });
+})();
+
+
+// 11) Lightbox functionality
+(() => {
+    const lightbox = qs('#lightbox');
+    if (!lightbox) return;
+
+    const lightboxImg = qs('.lightbox__img', lightbox);
+    const lightboxCaption = qs('.lightbox__caption', lightbox);
+    const closeBtn = qs('.lightbox__close', lightbox);
+    const backdrop = qs('.lightbox__backdrop', lightbox);
+
+    const openLightbox = (imgSrc, title) => {
+        lightboxImg.src = imgSrc;
+        lightboxCaption.textContent = title || '';
+        lightbox.hidden = false;
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-is-open');
+    };
+
+    const closeLightbox = () => {
+        lightbox.hidden = true;
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-is-open');
+        lightboxImg.src = '';
+    };
+
+    // Event delegation for "Ver en grande" buttons
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn--view-img');
+        if (btn) {
+            const imgSrc = btn.dataset.img;
+            const title = btn.dataset.title;
+            if (imgSrc) openLightbox(imgSrc, title);
+        }
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    backdrop.addEventListener('click', closeLightbox);
+    
+    // Close on Escape
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
 })();
 
 

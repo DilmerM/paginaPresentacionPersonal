@@ -39,9 +39,9 @@ const FloatingDockMobile = ({ items, className }) => {
               >
                 <a
                   href={item.href}
-                  className="h-10 w-10 rounded-full bg-neutral-900 border border-white/10 flex items-center justify-center text-white"
+                  className="h-10 w-10 rounded-full bg-white border border-black/10 flex items-center justify-center text-neutral-800 shadow-lg"
                 >
-                  <div className="h-4 w-4">{React.cloneElement(item.icon, { style: { width: '100%', height: '100%', color: 'white' } })}</div>
+                  <div className="h-4 w-4">{React.cloneElement(item.icon, { style: { width: '100%', height: '100%', color: 'inherit' } })}</div>
                 </a>
               </motion.div>
             ))}
@@ -50,9 +50,9 @@ const FloatingDockMobile = ({ items, className }) => {
       </AnimatePresence>
       <button
         onClick={() => setOpen(!open)}
-        className="h-10 w-10 rounded-full bg-neutral-900 border border-white/10 flex items-center justify-center"
+        className="h-10 w-10 rounded-full bg-white border border-black/10 flex items-center justify-center shadow-lg"
       >
-          <span className="iconify" data-icon="mdi:dots-vertical" style={{fontSize: '20px', color: 'white'}}></span>
+          <span className="iconify" data-icon="mdi:dots-vertical" style={{fontSize: '20px', color: '#161624'}}></span>
       </button>
     </div>
   );
@@ -64,7 +64,7 @@ const FloatingDockDesktop = ({ items, className }) => {
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className={`mx-auto hidden md:flex h-16 gap-4 items-end rounded-2xl bg-neutral-900/50 border border-white/10 px-4 pb-3 ${className}`}
+      className={`mx-auto hidden md:flex h-16 gap-4 items-end rounded-2xl bg-white/40 backdrop-blur-md border border-black/5 px-4 pb-3 shadow-xl ${className}`}
     >
       {items.map((item) => (
         <IconContainer mouseX={mouseX} key={item.title} {...item} />
@@ -118,7 +118,7 @@ function IconContainer({ mouseX, title, icon, href }) {
         style={{ width, height }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="aspect-square rounded-full bg-neutral-800 border border-white/5 flex items-center justify-center relative"
+        className="aspect-square rounded-full bg-white/80 border border-black/5 flex items-center justify-center relative shadow-sm"
       >
         <AnimatePresence>
           {hovered && (
@@ -126,7 +126,7 @@ function IconContainer({ mouseX, title, icon, href }) {
               initial={{ opacity: 0, y: 10, x: "-50%" }}
               animate={{ opacity: 1, y: 0, x: "-50%" }}
               exit={{ opacity: 0, y: 2, x: "-50%" }}
-              className="px-2 py-0.5 whitespace-pre rounded-md bg-neutral-900 border border-white/10 text-white absolute left-1/2 -top-8 w-fit text-xs"
+              className="px-2 py-0.5 whitespace-pre rounded-md bg-white border border-black/10 text-neutral-800 font-medium absolute left-1/2 -top-8 w-fit text-xs shadow-md"
             >
               {title}
             </motion.div>
@@ -134,9 +134,9 @@ function IconContainer({ mouseX, title, icon, href }) {
         </AnimatePresence>
         <motion.div
           style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center text-white"
+          className="flex items-center justify-center text-[#161624]"
         >
-          {React.cloneElement(icon, { style: { width: '100%', height: '100%', color: 'white' } })}
+          {React.cloneElement(icon, { style: { width: '100%', height: '100%', color: 'inherit' } })}
         </motion.div>
       </motion.div>
     </a>
@@ -175,6 +175,11 @@ const DockRoot = () => {
             title: "LinkedIn",
             icon: <span className="iconify" data-icon="mdi:linkedin" style={{width: '100%', height: '100%'}}></span>,
             href: "https://www.linkedin.com/in/dilmer-nu%C3%B1ez-3a34b2231/",
+        },
+        {
+            title: "Certificados",
+            icon: <span className="iconify" data-icon="solar:medal-ribbons-star-linear" style={{width: '100%', height: '100%'}}></span>,
+            href: "#certificates",
         }
     ];
 

@@ -33,7 +33,7 @@ const Toast = ({ message, visible, setVisible }) => {
 
 // Optimized Link Components
 const HoveredLink = memo(({ children, isMobile, ...rest }) => (
-  <a {...rest} className={`text-[#aab0bd] hover:text-white transition-all font-semibold flex items-center ${isMobile ? 'py-4 text-base border-b border-white/5 last:border-0' : 'text-sm py-1'}`}>
+  <a {...rest} className={`text-[#4b5563] hover:text-primary transition-all font-semibold flex items-center ${isMobile ? 'py-4 text-base border-b border-black/5 last:border-0' : 'text-sm py-1'}`}>
     {children}
     {isMobile && <span className="iconify ml-auto text-xl opacity-40" data-icon="solar:alt-arrow-right-linear"></span>}
   </a>
@@ -43,8 +43,8 @@ const ProductItem = memo(({ title, description, href, src, isMobile }) => (
   <a href={href} className="flex items-center space-x-4 py-2 group/item no-underline">
     <img src={src} className={`flex-shrink-0 rounded-xl shadow-lg transition-transform duration-300 group-hover/item:scale-105 ${isMobile ? 'w-16 h-12' : 'w-32 h-20'}`} alt={title} />
     <div>
-      <h4 className="text-white font-bold text-base md:text-lg m-0">{title}</h4>
-      <p className="text-[#aab0bd] text-[11px] md:text-sm m-0 leading-tight max-w-[12rem]">{description}</p>
+      <h4 className="text-neutral-800 font-bold text-base md:text-lg m-0">{title}</h4>
+      <p className="text-[#64748b] text-[11px] md:text-sm m-0 leading-tight max-w-[12rem]">{description}</p>
     </div>
   </a>
 ));
@@ -69,19 +69,28 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, 
           <span className="text-[10px] font-bold uppercase tracking-tight">{item === 'Certificaciones' ? 'Diplomas' : item}</span>
         </>
       ) : (
-        <span className="text-base font-semibold">{item}</span>
+        <span style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'inherit', lineHeight: '1.2', letterSpacing: 'normal' }}>{item}</span>
       )}
     </>
   );
 
   const sharedClasses = `cursor-pointer transition-all duration-300 flex flex-col items-center justify-center py-2 relative z-[10005] shadow-none outline-none no-underline
     ${isMobile ? 'min-w-[70px] px-1' : 'px-4'}
-    ${isOpen ? 'text-primary-2 scale-105' : 'text-[#e7e9ee] opacity-80'}`;
+    ${isOpen ? 'text-primary scale-105' : 'text-[#4b5563] opacity-80 hover:opacity-100'}`;
 
   return (
     <div onMouseEnter={() => !isMobile && setActive(item)} className="relative flex justify-center">
-      {isMobile && href ? (
-        <a 
+      {href && !children ? (
+        <a
+          href={href}
+          onClick={() => setActive(item)}
+          style={{ webkitTapHighlightColor: 'transparent' }}
+          className={sharedClasses}
+        >
+          {content}
+        </a>
+      ) : isMobile && href ? (
+        <a
           href={href}
           onClick={() => setActive(item)}
           style={{ webkitTapHighlightColor: 'transparent' }}
@@ -90,7 +99,7 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, 
           {content}
         </a>
       ) : (
-        <div 
+        <div
           onClick={handleToggle}
           style={{ webkitTapHighlightColor: 'transparent' }}
           className={sharedClasses}
@@ -109,7 +118,7 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, 
             style={{ left: "50%", zIndex: 10001, willChange: "transform, opacity" }}
             className={`absolute top-full w-max pt-4`}
           >
-            <div className={`overflow-hidden border border-white/10 shadow-2xl rounded-[1.8rem] bg-[#0f1117]/90 backdrop-blur-xl p-4`}>
+            <div className={`overflow-hidden border border-black/5 shadow-2xl rounded-[1.8rem] bg-white/90 backdrop-blur-xl p-4`}>
               {children}
             </div>
           </motion.div>
@@ -121,11 +130,11 @@ const MenuItem = ({ active, setActive, item, icon, isMobile, children, onClick, 
             exit={{ opacity: 0, scale: 0.98, y: 10, x: "-50%" }}
             transition={transition}
             style={{ left: "50%", zIndex: 10001, willChange: "transform, opacity" }}
-            className={`fixed bottom-[82px] w-[94vw]`}
+            className={`fixed bottom-[85px] w-[94vw]`}
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className={`overflow-hidden border border-white/10 shadow-2xl rounded-[1.8rem] bg-[#0f1117] p-5`}
+              className={`overflow-hidden border border-black/10 shadow-xl rounded-[2rem] bg-white p-5`}
             >
               {children}
             </div>
@@ -159,18 +168,20 @@ function Navbar({ className }) {
   }, [lastScrollY, isMobile]);
 
   useEffect(() => {
-    if (active && active !== 'Certificaciones') setToastVisible(false);
+    if (active) setToastVisible(false);
   }, [active]);
 
-  const prefix = window.location.pathname.includes('/pages/') ? '../' : './';
-  const pagePrefix = window.location.pathname.includes('/pages/') ? '' : 'pages/';
+  const onSubpage = window.location.pathname.includes('/pages/');
+  const prefix = onSubpage ? '../' : './';
+  const pagePrefix = onSubpage ? '' : 'pages/';
+  const certHref = onSubpage ? '../index.html#certificates' : '#certificates';
 
   return (
     <>
       <Toast message="Próximamente disponible" visible={toastVisible} setVisible={setToastVisible} />
       
       <AnimatePresence>
-        {isMobile && active && active !== 'Certificaciones' && active !== 'Proyectos' && (
+        {isMobile && (active === 'Explorar' || active === 'Contacto') && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
@@ -185,7 +196,7 @@ function Navbar({ className }) {
       >
         <nav 
           onMouseLeave={() => !isMobile && setActive(null)}
-          className={`flex border border-white/10 shadow-2xl transition-all ${isMobile ? 'rounded-t-[2.5rem] bg-[#0b0b10] px-3 pb-4 pt-3 justify-around' : 'rounded-full bg-[#0b0b10]/80 backdrop-blur-xl px-8 py-2 justify-center space-x-6'}`}
+          className={`flex border-t border-black/5 transition-all ${isMobile ? 'rounded-t-[2rem] bg-white/95 backdrop-blur-2xl px-3 pb-5 pt-3 justify-around' : 'rounded-full bg-white/70 backdrop-blur-xl px-8 py-2 justify-center space-x-6 border shadow-2xl'}`}
         >
           <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Explorar" icon="solar:magnifer-linear">
             <div className="flex flex-col">
@@ -203,7 +214,7 @@ function Navbar({ className }) {
             </div>
           </MenuItem>
 
-          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Certificaciones" icon="solar:medal-ribbons-star-linear" onClick={() => setToastVisible(true)} />
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Certificados" icon="solar:medal-ribbons-star-linear" href={certHref} />
 
           <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Contacto" icon="solar:chat-round-dots-linear">
             <div className="flex flex-col">

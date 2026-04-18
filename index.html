@@ -4,20 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <script>
-        // Sistema de carga inteligente: evita saltos bruscos pero permite navegación por anclas
+        // Sistema de carga inteligente: evita flashes
         document.documentElement.classList.add('is-loading');
-        window.targetHash = window.location.hash; // Guardamos a dónde quería ir el usuario
-
-        if (window.targetHash) {
-            window.scrollTo(0, 0);
-            // Limpiamos el hash de la URL temporalmente para que el navegador no salte solo
-            if ('history' in window) {
-                history.replaceState(null, null, window.location.pathname);
-            }
-        }
     </script>
     <style>
         /* Enmascarar secciones hasta que la carga sea completa */
+        /* Usamos visibility+opacity para que el layout (y las alturas) sigan existiendo,
+           así el scroll a #projects funciona aunque el loader esté visible */
         html.is-loading {
             overflow: hidden !important;
         }
@@ -29,14 +22,17 @@
         .is-loading #projects,
         .is-loading .footer,
         .is-loading #navbar-root {
-            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
+
     </style>
     <!-- Google Analytics loader (external) -->
     <script src="./assets/js/gtag-loader.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="light" />
     <meta name="description"
         content="Portafolio de desarrollador: animaciones fluidas, proyectos destacados y contacto." />
     <title>Dilmer — Desarrollador</title>
@@ -79,21 +75,62 @@
         }
     </script>
     <div id="navbar-root"></div>
+    <!-- Librería: tsParticles (Vectores SVG ultra nítidos optimizada para rendimiento) -->
+    <div id="tsparticles" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; transform: translateZ(0); will-change: transform;"></div>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        tsParticles.load("tsparticles", {
+          fpsLimit: 60,
+          background: { color: "transparent" }, // Deja que el fondo CSS actúe
+          particles: {
+            number: { value: 6, density: { enable: true, area: 1000 } }, // Pocas nubes, mucha fluidez
+            shape: {
+              type: "image",
+              image: [
+                {
+                  src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cbd5e1'><path d='M17.5 19c-2.485 0-4.5-2.015-4.5-4.5 0-2.485 2.015-4.5 4.5-4.5.333 0 .656.036.966.104C18.236 7.747 16.031 6 13.5 6c-2.853 0-5.21 2.155-5.636 4.931A4.981 4.981 0 0 0 5 10c-2.761 0-5 2.239-5 5s2.239 5 5 5h12.5z'/></svg>",
+                  width: 24, height: 24
+                }
+              ]
+            },
+            size: { value: { min: 100, max: 250 } },
+            opacity: { value: 0.7 },
+            move: { 
+              enable: true, 
+              speed: 0.6, // Movimiento lento y relajado
+              direction: "right", 
+              outModes: "out" 
+            }
+          },
+          detectRetina: false // Crítico para rendimiento en pantallas 4K/móviles
+        });
+      });
+    </script>
 
     <section class="main_seccion">
         <!-- Héroe -->
         <main id="home" class="relative overflow-hidden" role="main">
-            <div id="lamp-root"></div>
-            <div class="marquee" aria-hidden="true">
-                <div class="marquee__track">
-                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
-                        • PHP •</span>
-                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
-                        • PHP •</span>
-                    <span>React • HTML • CSS • JavaScript • Next.js • Laravel • phpMyAdmin • Oracle • APIs • C++ • Java
-                        • PHP •</span>
-                </div>
+            <!-- Figuras decorativas fuego (héroe) -->
+            <div class="fire-deco" aria-hidden="true">
+              <div class="fire-blob fire-blob--1"></div>
+              <div class="fire-blob fire-blob--2"></div>
+              <div class="fire-blob fire-blob--3"></div>
+              <div class="fire-ring fire-ring--1"></div>
+              <div class="fire-ring fire-ring--2"></div>
+              <div class="ember ember--1"></div>
+              <div class="ember ember--2"></div>
+              <div class="ember ember--3"></div>
+              <div class="ember ember--4"></div>
+              <div class="ember ember--5"></div>
+              <div class="fire-diamond fire-diamond--1"></div>
+              <div class="fire-diamond fire-diamond--2"></div>
+              <div class="fire-spark fire-spark--1"></div>
+              <div class="fire-spark fire-spark--2"></div>
+              <div class="fire-spark fire-spark--3"></div>
             </div>
+            <div id="lamp-root"></div>
+
         </main>
 
     </section>
@@ -101,6 +138,15 @@
     <section class="sobreMi" style="margin-top: 0; padding-top: 0;">
         <!-- Sobre mí -->
         <section id="about" class="section section--about container">
+            <!-- Figuras decorativas fuego (about) -->
+            <div class="fire-deco fire-deco--about" aria-hidden="true">
+              <div class="fire-blob fire-blob--4"></div>
+              <div class="fire-ring fire-ring--3"></div>
+              <div class="ember ember--6"></div>
+              <div class="ember ember--7"></div>
+              <div class="fire-diamond fire-diamond--3"></div>
+              <div class="fire-spark fire-spark--4"></div>
+            </div>
             <div class="about__grid">
                 <div class="about__media" data-reveal data-speed="0.06">
                     <div class="portrait" aria-label="Foto de perfil" role="img"></div>
@@ -133,6 +179,8 @@
         </section>
     </section>
 
+    <div class="flame-divider" aria-hidden="true"></div>
+
     <section id="stack" class="Tecnologias_separacion">
         <!-- Tecnologías -->
         <section class="section section--stack container">
@@ -140,137 +188,109 @@
             <p class="subtitle" data-reveal>
                 Herramientas y lenguajes que uso con frecuencia.
             </p>
-            <ul class="tech-grid" data-reveal role="list">
-                <li class="tech tech--react" aria-label="React"
-                    data-tippy-content="Biblioteca para interfaces dinámicas.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:react" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">React</span>
-                        <span class="tech__summary">Biblioteca para interfaces dinámicas.</span>
-                    </div>
-                </li>
-                <li class="tech tech--html5" aria-label="HTML" data-tippy-content="Estructura semántica moderna.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:html5" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">HTML</span>
-                        <span class="tech__summary">Estructura semántica moderna.</span>
-                    </div>
-                </li>
-                <li class="tech tech--css3" aria-label="CSS" data-tippy-content="Estilos avanzados y animaciones.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:css3" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">CSS</span>
-                        <span class="tech__summary">Estilos avanzados y animaciones.</span>
-                    </div>
-                </li>
-                <li class="tech tech--javascript" aria-label="JavaScript"
-                    data-tippy-content="Lógica interactiva en el cliente.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:javascript" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">JavaScript</span>
-                        <span class="tech__summary">Lógica interactiva en el cliente.</span>
-                    </div>
-                </li>
-                <li class="tech tech--nextjs" aria-label="Next.js"
-                    data-tippy-content="Framework React con SSR y optimización.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:nextdotjs" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">Next.js</span>
-                        <span class="tech__summary">Framework React con SSR y optimización.</span>
-                    </div>
-                </li>
-                <li class="tech tech--laravel" aria-label="Laravel"
-                    data-tippy-content="Framework PHP elegante para el backend.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:laravel" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">Laravel</span>
-                        <span class="tech__summary">Framework PHP elegante para el backend.</span>
-                    </div>
-                </li>
-                <li class="tech tech--mysql" aria-label="MySQL"
-                    data-tippy-content="Gestión eficiente de bases de datos relacionales.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="logos:mysql" data-inline="false" aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">MySQL</span>
-                        <span class="tech__summary">Gestión eficiente de bases de datos.</span>
-                    </div>
-                </li>
-                <li class="tech tech--oracle" aria-label="Oracle"
-                    data-tippy-content="Infraestructura cloud y bases de datos robustas.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:oracle" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">Oracle</span>
-                        <span class="tech__summary">Infraestructura cloud y bases de datos.</span>
-                    </div>
-                </li>
-                <li class="tech tech--apis" aria-label="APIs"
-                    data-tippy-content="Conectividad y servicios web RESTful.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="mdi:api" data-inline="false" aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">APIs</span>
-                        <span class="tech__summary">Conectividad y servicios web RESTful.</span>
-                    </div>
-                </li>
-                <li class="tech tech--cplusplus" aria-label="C++"
-                    data-tippy-content="Lenguaje de alto rendimiento y sistemas.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:cplusplus" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">C++</span>
-                        <span class="tech__summary">Lenguaje de alto rendimiento.</span>
-                    </div>
-                </li>
-                <li class="tech tech--java" aria-label="Java"
-                    data-tippy-content="Desarrollo multiplataforma y empresarial.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="logos:java" data-inline="false" aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">Java</span>
-                        <span class="tech__summary">Desarrollo multiplataforma.</span>
-                    </div>
-                </li>
-                <li class="tech tech--php" aria-label="PHP"
-                    data-tippy-content="Scripts del lado del servidor para la web.">
-                    <span class="tech__icon" aria-hidden="true">
-                        <span class="iconify" data-icon="simple-icons:php" data-inline="false"
-                            aria-hidden="true"></span>
-                    </span>
-                    <div class="tech__content">
-                        <span class="tech__label">PHP</span>
-                        <span class="tech__summary">Scripts del lado del servidor.</span>
-                    </div>
-                </li>
-            </ul>
+
+            <!-- Categoría: Frontend -->
+            <div class="tech-group" data-reveal>
+                <h3 class="tech-group__title">Frontend</h3>
+                <ul class="tech-grid" role="list">
+                    <li class="tech tech--react" aria-label="React" data-tippy-content="Biblioteca para interfaces dinámicas.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:react"></span></span>
+                        <div class="tech__content"><span class="tech__label">React</span><span class="tech__summary">Biblioteca para interfaces dinámicas.</span></div>
+                    </li>
+                    <li class="tech tech--nextjs" aria-label="Next.js" data-tippy-content="Framework React con SSR y optimización.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:nextdotjs"></span></span>
+                        <div class="tech__content"><span class="tech__label">Next.js</span><span class="tech__summary">Framework React avanzado.</span></div>
+                    </li>
+                    <li class="tech tech--javascript" aria-label="JavaScript" data-tippy-content="Lógica interactiva en el cliente.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:javascript"></span></span>
+                        <div class="tech__content"><span class="tech__label">JS</span><span class="tech__summary">Lógica interactiva.</span></div>
+                    </li>
+                    <li class="tech tech--html5" aria-label="HTML" data-tippy-content="Estructura semántica moderna.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:html5"></span></span>
+                        <div class="tech__content"><span class="tech__label">HTML5</span><span class="tech__summary">Estructura moderna.</span></div>
+                    </li>
+                    <li class="tech tech--css3" aria-label="CSS" data-tippy-content="Estilos avanzados y animaciones.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:css3"></span></span>
+                        <div class="tech__content"><span class="tech__label">CSS3</span><span class="tech__summary">Diseño y animaciones.</span></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Categoría: Backend -->
+            <div class="tech-group" data-reveal>
+                <h3 class="tech-group__title">Backend</h3>
+                <ul class="tech-grid" role="list">
+                    <li class="tech tech--laravel" aria-label="Laravel" data-tippy-content="Framework PHP elegante para el backend.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:laravel"></span></span>
+                        <div class="tech__content"><span class="tech__label">Laravel</span><span class="tech__summary">Framework PHP empresarial.</span></div>
+                    </li>
+                    <li class="tech tech--php" aria-label="PHP" data-tippy-content="Scripts del lado del servidor.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:php"></span></span>
+                        <div class="tech__content"><span class="tech__label">PHP</span><span class="tech__summary">Desarrollo del lado del servidor.</span></div>
+                    </li>
+                    <li class="tech tech--apis" aria-label="APIs" data-tippy-content="Servicios web RESTful.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="mdi:api"></span></span>
+                        <div class="tech__content"><span class="tech__label">APIs</span><span class="tech__summary">Servicios web RESTful.</span></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Categoría: Análisis y Visualización -->
+            <div class="tech-group" data-reveal>
+                <h3 class="tech-group__title">Análisis y Visualización de Datos</h3>
+                <ul class="tech-grid" role="list">
+                    <li class="tech tech--r" aria-label="R" data-tippy-content="Análisis estadístico y visualización de datos.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:r"></span></span>
+                        <div class="tech__content"><span class="tech__label">R</span><span class="tech__summary">Estadística y visualización.</span></div>
+                    </li>
+                    <li class="tech tech--python" aria-label="Python" data-tippy-content="Lenguaje versátil para datos e IA.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:python"></span></span>
+                        <div class="tech__content"><span class="tech__label">Python</span><span class="tech__summary">Ciencia de datos e IA.</span></div>
+                    </li>
+                    <li class="tech tech--excel" aria-label="Excel" data-tippy-content="Análisis de datos avanzado.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:microsoftexcel"></span></span>
+                        <div class="tech__content"><span class="tech__label">Excel</span><span class="tech__summary">Análisis avanzado.</span></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Categoría: Bases de Datos -->
+            <div class="tech-group" data-reveal>
+                <h3 class="tech-group__title">Bases de Datos</h3>
+                <ul class="tech-grid" role="list">
+                    <li class="tech tech--sqlserver" aria-label="SQL Server" data-tippy-content="Gestión de DB con T-SQL.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:microsoftsqlserver"></span></span>
+                        <div class="tech__content"><span class="tech__label">SQL Server</span><span class="tech__summary">Gestión empresarial T-SQL.</span></div>
+                    </li>
+                    <li class="tech tech--mysql" aria-label="MySQL" data-tippy-content="Gestión eficiente de DB relacionales.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="logos:mysql"></span></span>
+                        <div class="tech__content"><span class="tech__label">MySQL</span><span class="tech__summary">Bases de datos relacionales.</span></div>
+                    </li>
+                    <li class="tech tech--oraclesql" aria-label="Oracle SQL" data-tippy-content="Consultas y administración Oracle SQL.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:oracle"></span></span>
+                        <div class="tech__content"><span class="tech__label">Oracle SQL</span><span class="tech__summary">Administración Oracle.</span></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Categoría: Otros Lenguajes -->
+            <div class="tech-group" data-reveal>
+                <h3 class="tech-group__title">Otros Lenguajes</h3>
+                <ul class="tech-grid" role="list">
+                    <li class="tech tech--cplusplus" aria-label="C++" data-tippy-content="Alto rendimiento y sistemas.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="simple-icons:cplusplus"></span></span>
+                        <div class="tech__content"><span class="tech__label">C++</span><span class="tech__summary">Sistemas y rendimiento.</span></div>
+                    </li>
+                    <li class="tech tech--java" aria-label="Java" data-tippy-content="Desarrollo multiplataforma.">
+                        <span class="tech__icon" aria-hidden="true"><span class="iconify" data-icon="logos:java"></span></span>
+                        <div class="tech__content"><span class="tech__label">Java</span><span class="tech__summary">Multiplataforma.</span></div>
+                    </li>
+                </ul>
+            </div>
         </section>
     </section>
+
+    <div class="flame-divider" aria-hidden="true"></div>
 
     <section id="projects" class="proyectos_separacion">
         <!-- Proyectos -->
@@ -292,12 +312,14 @@
                     <div class="card__body">
                         <h3>Skill Connect</h3>
                         <p>Plataforma para conectar profesionales mediante habilidades y servicios.</p>
-                        <div class="pill">HTML</div>
-                        <div class="pill">CSS</div>
-                        <div class="pill">JS</div>
-                        <div class="pill">Cloudflare</div>
-                        <div class="pill">MySQL</div>
-                        <div class="pill">Oracle VPS</div>
+                        <div class="card__tags">
+                            <div class="pill">HTML</div>
+                            <div class="pill">CSS</div>
+                            <div class="pill">JS</div>
+                            <div class="pill">Cloudflare</div>
+                            <div class="pill">MySQL</div>
+                            <div class="pill">Oracle VPS</div>
+                        </div>
                         <div class="card__actions">
                             <a class="btn btn--primary" href="pages/project-skill-connect.html" title="Ver proyecto">Ver
                                 proyecto</a>
@@ -319,14 +341,16 @@
                     <div class="card__body">
                         <h3>Parque forestal</h3>
                         <p>Proyecto construido con Laravel que gestiona reservas y servicios en un parque forestal.</p>
-                        <div class="pill">Bootstrap</div>
-                        <div class="pill">Blade</div>
-                        <div class="pill">API</div>
-                        <div class="pill">MySQL</div>
-                        <div class="pill">HTML</div>
-                        <div class="pill">CSS</div>
-                        <div class="pill">JS</div>
-                        <div class="pill">Node.js</div>
+                        <div class="card__tags">
+                            <div class="pill">Bootstrap</div>
+                            <div class="pill">Blade</div>
+                            <div class="pill">API</div>
+                            <div class="pill">MySQL</div>
+                            <div class="pill">HTML</div>
+                            <div class="pill">CSS</div>
+                            <div class="pill">JS</div>
+                            <div class="pill">Node.js</div>
+                        </div>
                         <div class="card__actions">
                             <a class="btn btn--primary" href="pages/project-1.html">Ver proyecto</a>
                         </div>
@@ -364,10 +388,12 @@
                     <div class="card__body">
                         <h3>Proyectos creativos</h3>
                         <p>Proyectos personales y creativos con enfoque en interacción y experiencia.</p>
-                        <div class="pill">Next.js</div>
-                        <div class="pill">HTML</div>
-                        <div class="pill">CSS</div>
-                        <div class="pill">JS</div>
+                        <div class="card__tags">
+                            <div class="pill">Next.js</div>
+                            <div class="pill">HTML</div>
+                            <div class="pill">CSS</div>
+                            <div class="pill">JS</div>
+                        </div>
                         <div class="card__actions">
                             <a class="btn btn--primary" href="pages/project-2.html">Ver proyecto</a>
                         </div>
@@ -395,7 +421,9 @@
                     <div class="card__body">
                         <h3>inventario</h3>
                         <p>inventario en almacenamiento txt, completo con acceso ejecutable .exe</p>
-                        <div class="pill">Java</div>
+                        <div class="card__tags">
+                            <div class="pill">Java</div>
+                        </div>
                         <div class="card__actions">
                             <a class="btn btn--primary" href="pages/project-3.html">Ver proyecto</a>
                         </div>
@@ -405,9 +433,108 @@
         </section>
     </section>
 
+    <div class="flame-divider" aria-hidden="true"></div>
+
+    <!-- ===== Certificados ===== -->
+    <section id="certificates" class="certificados_separacion">
+        <section class="section container">
+            <h2 data-reveal>Certificados</h2>
+            <p class="subtitle" data-reveal>Cursos completados y certificaciones obtenidas.</p>
+            <div class="cert-grid" data-reveal>
+
+                <!-- SQL Server -->
+                <article class="cert-card" tabindex="0">
+                    <div class="cert-card__img-wrap">
+                        <img src="./images/Certificados/CertificadoSQLServer.png" alt="Certificado SQL Server – Udemy"
+                            class="cert-card__img" loading="lazy" />
+                        <div class="cert-card__overlay">
+                            <a class="btn btn--primary"
+                                href="https://www.udemy.com/certificate/UC-d5ef8902-2e09-499d-aeeb-568e5b9a9806/"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Ver certificado SQL Server en Udemy">Ver certificado</a>
+                            <button class="btn btn--view-img" 
+                                data-img="./images/Certificados/CertificadoSQLServer.png"
+                                data-title="SQL Server">Ver en grande</button>
+                        </div>
+                    </div>
+                    <div class="cert-card__body">
+                        <span class="cert-card__platform">
+                            <span class="iconify" data-icon="simple-icons:udemy" aria-hidden="true"></span>
+                            Udemy
+                        </span>
+                        <h3 class="cert-card__title">SQL Server</h3>
+                    </div>
+                </article>
+
+                <!-- Excel -->
+                <article class="cert-card" tabindex="0">
+                    <div class="cert-card__img-wrap">
+                        <img src="./images/Certificados/CertificadoExcel.png" alt="Certificado Excel – Udemy"
+                            class="cert-card__img" loading="lazy" />
+                        <div class="cert-card__overlay">
+                            <a class="btn btn--primary"
+                                href="https://www.udemy.com/certificate/UC-ca487a84-9738-4a2c-93ed-41f3f918b7ed/"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Ver certificado Excel en Udemy">Ver certificado</a>
+                            <button class="btn btn--view-img" 
+                                data-img="./images/Certificados/CertificadoExcel.png"
+                                data-title="Excel">Ver en grande</button>
+                        </div>
+                    </div>
+                    <div class="cert-card__body">
+                        <span class="cert-card__platform">
+                            <span class="iconify" data-icon="simple-icons:udemy" aria-hidden="true"></span>
+                            Udemy
+                        </span>
+                        <h3 class="cert-card__title">Excel</h3>
+                    </div>
+                </article>
+
+
+                <!-- Visualización de datos con R -->
+                <article class="cert-card" tabindex="0">
+                    <div class="cert-card__img-wrap">
+                        <img src="./images/Certificados/Certificado_Visualizacion_Datos_R.png"
+                            alt="Certificado Visualización de datos con R – Udemy" class="cert-card__img"
+                            loading="lazy" />
+                        <div class="cert-card__overlay">
+                            <a class="btn btn--primary"
+                                href="https://www.udemy.com/certificate/UC-4b711eb0-84ad-4087-a9e8-afabdf4bf9b5/"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Ver certificado Visualización de datos con R en Udemy">Ver certificado</a>
+                            <button class="btn btn--view-img" 
+                                data-img="./images/Certificados/Certificado_Visualizacion_Datos_R.png"
+                                data-title="Visualización de datos con R">Ver en grande</button>
+                        </div>
+                    </div>
+                    <div class="cert-card__body">
+                        <span class="cert-card__platform">
+                            <span class="iconify" data-icon="simple-icons:udemy" aria-hidden="true"></span>
+                            Udemy
+                        </span>
+                        <h3 class="cert-card__title">Visualización de datos con R</h3>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </section>
+
+    <div class="flame-divider" aria-hidden="true"></div>
+
     <section class="Contacto_separacion">
         <!-- Contacto -->
         <section id="contact" class="section section--contact container" aria-labelledby="contact-title">
+            <!-- Figuras decorativas fuego (contacto) -->
+            <div class="fire-deco fire-deco--contact" aria-hidden="true">
+              <div class="fire-blob fire-blob--5"></div>
+              <div class="fire-ring fire-ring--4"></div>
+              <div class="ember ember--8"></div>
+              <div class="ember ember--9"></div>
+              <div class="fire-diamond fire-diamond--4"></div>
+              <div class="fire-spark fire-spark--5"></div>
+              <div class="fire-spark fire-spark--6"></div>
+            </div>
             <h1 id="contact-title" data-reveal>¿Quieres estructurar, diseñar o implementar tu idea?</h1>
             <p class="contact__lead" data-reveal>
                 Contáctame: los enlaces están en los iconos; te atenderé con gusto y rapidez.
@@ -437,6 +564,7 @@
 
     <div id="navbar-root"></div>
     <script src="./scripts/script.js" defer></script>
+    <script src="./scripts/certificates-manager.js" defer></script>
     <script type="text/babel" src="./scripts/react-navbar.js"></script>
     <script type="text/babel" src="./scripts/lamp.js"></script>
     <script type="text/babel" src="./scripts/floating-dock.js"></script>
@@ -458,6 +586,15 @@
             });
         });
     </script>
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" hidden aria-hidden="true">
+        <div class="lightbox__backdrop"></div>
+        <div class="lightbox__content">
+            <button class="lightbox__close" aria-label="Cerrar vista">&times;</button>
+            <img class="lightbox__img" src="" alt="Vista ampliada" />
+            <div class="lightbox__caption"></div>
+        </div>
+    </div>
     </body>
 
 

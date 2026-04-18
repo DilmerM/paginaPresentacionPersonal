@@ -102,21 +102,6 @@
       opacity: 0.5;
     }
 
-    /* Dark mode reinforcement */
-    body.project-1 {
-      background: #0b0b10 !important;
-      color: #e7e9ee;
-    }
-
-    .section h1,
-    .section h2 {
-      color: #fff;
-    }
-
-    .subtitle {
-      color: #aab0bd;
-    }
-
     .gallery-section {
       margin-top: 5rem;
     }
@@ -125,6 +110,28 @@
 
 <body class="project-1">
   <div id="navbar-root"></div>
+  <!-- Librería: tsParticles -->
+  <div id="tsparticles" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; transform: translateZ(0); will-change: transform;"></div>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      tsParticles.load("tsparticles", {
+        fpsLimit: 60,
+        background: { color: "transparent" },
+        particles: {
+          number: { value: 6, density: { enable: true, area: 1000 } },
+          shape: {
+            type: "image",
+            image: [{ src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cbd5e1'><path d='M17.5 19c-2.485 0-4.5-2.015-4.5-4.5 0-2.485 2.015-4.5 4.5-4.5.333 0 .656.036.966.104C18.236 7.747 16.031 6 13.5 6c-2.853 0-5.21 2.155-5.636 4.931A4.981 4.981 0 0 0 5 10c-2.761 0-5 2.239-5 5s2.239 5 5 5h12.5z'/></svg>", width: 24, height: 24 }]
+          },
+          size: { value: { min: 100, max: 250 } },
+          opacity: { value: 0.7 },
+          move: { enable: true, speed: 0.6, direction: "right", outModes: "out" }
+        },
+        detectRetina: false
+      });
+    });
+  </script>
 
   <main class="section container" id="gallery">
     <h1>Parque Forestal</h1>
@@ -235,7 +242,7 @@
     <!-- Project Description Section -->
     <section id="description" class="project-details" style="margin-top: 4rem;">
       <h2>Sobre el Proyecto</h2>
-      <div class="description-content" style="max-width: 800px; line-height: 1.6; color: #aab0bd;">
+      <div class="description-content" style="max-width: 800px; line-height: 1.6; color: var(--muted, #4b5563);">
         <p id="project-brief">
           <strong>Parque Forestal</strong> es un sistema avanzado de gestión diseñado para la administración y
           visualización de entornos naturales y parques nacionales. Desarrollado de manera robusta con
@@ -264,27 +271,27 @@
       <div class="challenges-grid"
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
         <div class="challenge-card"
-          style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ff4d4d;">
-          <h3 style="font-size: 1.1rem; color: #ffefef; margin-bottom: 0.5rem;">Estructura y Framework</h3>
-          <p style="font-size: 0.9rem; line-height: 1.5; color: #aab0bd;">
+          style="background: #ffffff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ff4d4d; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <h3 style="font-size: 1.1rem; color: #161624; margin-bottom: 0.5rem;">Estructura y Framework</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: var(--muted, #4b5563);">
             Trabajar con <strong>Laravel</strong> requiere adaptarse a una estructura predefinida. Seguir el orden y las
             convenciones que impone el framework fue un desafío inicial, pero garantiza una base sólida para el
             mantenimiento del código.
           </p>
         </div>
         <div class="challenge-card"
-          style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7c5cff;">
-          <h3 style="font-size: 1.1rem; color: #f5f3ff; margin-bottom: 0.5rem;">Eficiencia con Blade</h3>
-          <p style="font-size: 0.9rem; line-height: 1.5; color: #aab0bd;">
+          style="background: #ffffff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7c5cff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <h3 style="font-size: 1.1rem; color: #161624; margin-bottom: 0.5rem;">Eficiencia con Blade</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: var(--muted, #4b5563);">
             El diseño visual fue mucho más ágil gracias al motor de plantillas <strong>Blade</strong>, permitiendo la
-            herencia de componentes como el navbar lateral y superior, evitando la integración de código redundante en
+            herencia de componentes como el navbar lateral y superior, evitando la integración de código redundant en
             las distintas vistas.
           </p>
         </div>
         <div class="challenge-card"
-          style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ffcc00;">
-          <h3 style="font-size: 1.1rem; color: #fffdf5; margin-bottom: 0.5rem;">Naturaleza del Proyecto</h3>
-          <p style="font-size: 0.9rem; line-height: 1.5; color: #aab0bd;">
+          style="background: #ffffff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ffcc00; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <h3 style="font-size: 1.1rem; color: #161624; margin-bottom: 0.5rem;">Naturaleza del Proyecto</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: var(--muted, #4b5563);">
             Este proyecto fue diseñado originalmente en un entorno universitario con fines de aprendizaje y desarrollo,
             por lo que algunas funcionalidades permanecen como prototipos experimentales y no comerciales.
           </p>
@@ -333,7 +340,7 @@
       <div class="footer__center">
         <div id="floating-dock-root"></div>
       </div>
-      <div class="footer__right"><a href="../index.html" class="back-to-top">← Volver</a></div>
+      <div class="footer__right"><a href="../index.html#projects" class="back-to-top" onclick="sessionStorage.setItem('returnToSection','#projects')">← Volver</a></div>
     </div>
   </footer>
 
