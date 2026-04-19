@@ -207,10 +207,10 @@ function Navbar({ className }) {
 
           <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear" href={`${prefix}index.html#projects`}>
             <div className={`grid gap-4 ${isMobile ? 'grid-cols-1 max-h-[50vh] overflow-y-auto pr-2' : 'grid-cols-2 w-max'}`}>
-              <ProductItem isMobile={isMobile} title="Skill Connect" href={`${prefix}${pagePrefix}project-skill-connect.html`} src={`${prefix}images/SEMACKRO/LandingPage.png`} description="Fomento de empleabilidad." />
+              <ProductItem isMobile={isMobile} title="Skill Connect" href={`${prefix}${pagePrefix}project-skill-connect.html`} src={`${prefix}images/SkillConnect/LandingPage.png`} description="Fomento de empleabilidad." />
               <ProductItem isMobile={isMobile} title="Parque Forestal" href={`${prefix}${pagePrefix}project-1.html`} src={`${prefix}images/ParquesForestales/landing1.png`} description="Gestión eco-turística." />
               <ProductItem isMobile={isMobile} title="Creative Apps" href={`${prefix}${pagePrefix}project-2.html`} src={`${prefix}images/ProyectosCreativos/parallax1.png`} description="Interfaces interactivas." />
-              <ProductItem isMobile={isMobile} title="Java System" href={`${prefix}${pagePrefix}project-3.html`} src={`${prefix}images/InventarioJava/inventarioJava1.png`} description="Gestión de inventarios." />
+              <ProductItem isMobile={isMobile} title="Java System" href={`${prefix}${pagePrefix}project-3.html`} src={`${prefix}images/InventarioJava/inventarioJava2.png`} description="Gestión de inventarios." />
             </div>
           </MenuItem>
 

@@ -985,11 +985,11 @@ main#overview h1 {
    so pills and buttons align vertically across cards */
 #projects .card {
   position: relative;
-  padding-bottom: 96px; /* space for the absolute CTA */
+  padding-bottom: 20px; /* Reducido drásticamente */
 }
 
 #projects .card__media {
-  height: 160px; /* fixed media height for consistent layout */
+  height: 130px; /* fixed media height for consistent layout */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -997,11 +997,9 @@ main#overview h1 {
 
 /* Place CTA consistently at the bottom of the card */
 #projects .card__actions {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 18px;
-  margin: 0; /* override earlier margin-top:auto */
+  position: relative; /* Cambiado de absolute a relative */
+  padding: 10px 0 0;
+  margin-top: auto;
   display: flex;
   justify-content: flex-start;
 }
@@ -1347,6 +1345,27 @@ main#overview h1 {
   grid-template-columns: 1fr;
   gap: clamp(12px, 3vw, 18px);
 }
+@media (max-width: 768px) {
+  #projects .grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 1rem 0 2rem;
+    gap: 1.5rem;
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+  #projects .grid::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+  }
+  #projects .card {
+    flex: 0 0 85vw; /* Show 85% of a card so next is visible */
+    scroll-snap-align: center;
+    max-width: 320px;
+  }
+}
+
 @media (min-width: 720px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1359,7 +1378,7 @@ main#overview h1 {
   #projects .grid {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
-    auto-rows: 20rem; /* Reducido de 22rem a 20rem para más compacidad */
+    auto-rows: 14rem; /* Compactado al máximo */
   }
   #projects .card {
     min-height: auto;
@@ -1368,26 +1387,42 @@ main#overview h1 {
 
 }
 
+/* Featured Card (Border Highlight) */
+.card--featured {
+  border: 1px solid rgba(124, 92, 255, 0.4) !important;
+}
+
 .card {
   position: relative;
-  border-radius: var(--radius);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.92),
-    rgba(255, 240, 224, 0.75)
-  );
-  border: 1px solid rgba(124, 92, 255, 0.16);
-  overflow: hidden;
-  transform-style: preserve-3d;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 24px rgba(124, 92, 255, 0.10);
 }
+
+
+
+.card__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--primary);
+  color: white;
+  padding: 0.45rem 1.2rem;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  z-index: 20;
+  box-shadow: 0 4px 15px rgba(124, 92, 255, 0.5);
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
 .card:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 .card__media {
-  height: clamp(140px, 22vw, 180px);
+  height: clamp(110px, 18vw, 140px);
   background: linear-gradient(
     135deg,
     rgba(124, 92, 255, 0.35),
@@ -1417,19 +1452,19 @@ main#overview h1 {
   );
 }
 .card__body {
-  padding: 16px;
-  min-height: 220px; /* reserve vertical space so pills start consistently */
+  padding: 12px;
+  min-height: auto; /* Dejar que el contenido defina el alto mínimo */
 }
 .card__body h3 {
-  margin: 6px 0 8px;
-  min-height: 48px; /* ensure title area has consistent height */
+  margin: 4px 0 6px;
+  min-height: auto; /* Eliminado para evitar espacio extra */
 }
 .card__body p {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: var(--muted);
   /* Texto de tarjetas ligeramente más grande */
-  font-size: clamp(14px, 1.4vw, 16px);
-  min-height: 56px; /* keep description space consistent so pills align */
+  font-size: clamp(13px, 1.2vw, 15px);
+  min-height: auto; /* Eliminado para evitar espacio extra */
 }
 .pill {
   display: inline-block;
@@ -2707,13 +2742,39 @@ body.lightbox-is-open #floating-dock-root {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Categories for Tech Stack */
-.tech-group {
-  margin-bottom: 4rem;
+/* Categories for Tech Stack (Collapsible on Mobile) */
+.tech-group-details {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(124, 92, 255, 0.1);
+  padding-bottom: 1rem;
 }
-.tech-group:last-child {
-  margin-bottom: 0;
+
+.tech-group-details:last-child {
+  border-bottom: none;
 }
+
+/* Force open and remove arrow on Desktop */
+@media (min-width: 769px) {
+  .tech-group-details {
+    margin-bottom: 4rem;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .tech-group-details[open] summary::-webkit-details-marker,
+  .tech-group-details summary::-webkit-details-marker,
+  .tech-group-details summary::marker {
+    display: none;
+    content: "";
+  }
+  .tech-group-details {
+    display: block;
+  }
+  .tech-group-details summary {
+    pointer-events: none; /* No clickable summary on desktop */
+    list-style: none;
+  }
+}
+
 .tech-group__title {
   font-size: 1.2rem;
   font-weight: 700;
@@ -2724,14 +2785,33 @@ body.lightbox-is-open #floating-dock-root {
   display: flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none; /* Hide default arrow */
 }
+
+/* Custom arrow for mobile */
+@media (max-width: 768px) {
+  .tech-group__title::before {
+    content: "＋";
+    font-size: 0.8rem;
+    color: var(--primary);
+    transition: transform 0.3s ease;
+  }
+  .tech-group-details[open] .tech-group__title::before {
+    content: "－";
+    transform: rotate(180deg);
+  }
+  .tech-group__title { font-size: 1rem; }
+}
+
+.tech-group__title::-webkit-details-marker {
+  display: none;
+}
+
 .tech-group__title::after {
   content: "";
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, rgba(124, 92, 255, 0.3), transparent);
-}
-@media (max-width: 768px) {
-  .tech-group { margin-bottom: 2.5rem; }
-  .tech-group__title { font-size: 1rem; }
 }

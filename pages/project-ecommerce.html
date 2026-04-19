@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ecomerce — Proyecto de Comercio Electrónico</title>
+  <!-- Google Analytics loader (external) -->
+  <script src="../assets/js/gtag-loader.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/stylesheet.css?v=20250823" />
+  <link rel="stylesheet" href="../styles/project-1.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  </script>
+  <style>
+    /* Gallery Styles */
+    .skill-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    @media (min-width: 1100px) {
+      .skill-gallery {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.02);
+      border-color: var(--primary);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-item::before {
+      content: attr(data-title);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 2;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item::after {
+      content: 'Ver captura';
+      position: absolute;
+      inset: 0;
+      background: rgba(124, 92, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .gallery-item:hover::after {
+      opacity: 1;
+    }
+
+    .gallery-item:hover::before {
+      opacity: 0.5;
+    }
+
+    .gallery-section {
+      margin-top: 5rem;
+    }
+  </style>
+</head>
+
+<body class="project-detail">
+  <div id="navbar-root"></div>
+  <!-- Librería: tsParticles -->
+  <div id="tsparticles" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; transform: translateZ(0); will-change: transform;"></div>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      tsParticles.load("tsparticles", {
+        fpsLimit: 60,
+        background: { color: "transparent" },
+        particles: {
+          number: { value: 6, density: { enable: true, area: 1000 } },
+          shape: {
+            type: "image",
+            image: [{ src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cbd5e1'><path d='M17.5 19c-2.485 0-4.5-2.015-4.5-4.5 0-2.485 2.015-4.5 4.5-4.5.333 0 .656.036.966.104C18.236 7.747 16.031 6 13.5 6c-2.853 0-5.21 2.155-5.636 4.931A4.981 4.981 0 0 0 5 10c-2.761 0-5 2.239-5 5s2.239 5 5 5h12.5z'/></svg>", width: 24, height: 24 }]
+          },
+          size: { value: { min: 100, max: 250 } },
+          opacity: { value: 0.7 },
+          move: { enable: true, speed: 0.6, direction: "right", outModes: "out" }
+        },
+        detectRetina: false
+      });
+    });
+  </script>
+
+  <main class="section container" id="gallery">
+    <h1>Ecomerce</h1>
+    <p class="subtitle">Plataforma de comercio electrónico escalable con stacks modernos.</p>
+
+    <!-- Galería Principal -->
+    <section class="gallery-section">
+      <h2>Capturas del Proyecto</h2>
+      <div class="skill-gallery">
+        <div class="gallery-item" data-src="../images/PreviewProyects/PreviewSkillConnect.png" data-title="Vista 1">
+          <img src="../images/PreviewProyects/PreviewSkillConnect.png" alt="Preview">
+        </div>
+        <div class="gallery-item" data-src="../images/PreviewProyects/PreviewSkillConnect.png" data-title="Vista 2">
+          <img src="../images/PreviewProyects/PreviewSkillConnect.png" alt="Preview">
+        </div>
+        <!-- Agregar más imágenes aquí -->
+      </div>
+    </section>
+
+    <!-- Project Description Section -->
+    <section id="description" class="project-details" style="margin-top: 4rem;">
+      <h2>Sobre el Proyecto</h2>
+      <div class="description-content" style="max-width: 800px; line-height: 1.6; color: var(--muted, #4b5563);">
+        <p id="project-brief">
+          <strong>Ecomerce</strong> es una plataforma de comercio electrónico integral diseñada para gestionar ventas, 
+          inventario y usuarios con una experiencia de usuario fluida. 
+          Desarrollado con un backend robusto en <strong>C# y .NET</strong> y un frontend dinámico.
+        </p>
+        <p>
+          Detalles adicionales sobre el funcionamiento, el propósito y el valor que aporta este proyecto.
+        </p>
+      </div>
+    </section>
+
+    <!-- Technical Challenges / Developer Perspective -->
+    <section id="challenges" class="project-details" style="margin-top: 4rem;">
+      <h2>Perspectiva del Desarrollador</h2>
+      <div class="challenges-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div class="challenge-card"
+          style="background: #ffffff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ff4d4d; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <h3 style="font-size: 1.1rem; color: #161624; margin-bottom: 0.5rem;">Desafío Técnico</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: var(--muted, #4b5563);">
+            Descripción de un problema técnico resuelto durante la creación del proyecto.
+          </p>
+        </div>
+        <div class="challenge-card"
+          style="background: #ffffff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7c5cff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <h3 style="font-size: 1.1rem; color: #161624; margin-bottom: 0.5rem;">Solución Escalable</h3>
+          <p style="font-size: 0.9rem; line-height: 1.5; color: var(--muted, #4b5563);">
+            Cómo se abordó la escalabilidad o el rendimiento.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="project-details" style="margin-top: 4rem;">
+      <h2>Stack Tecnológico</h2>
+      <p>El proyecto fue construido utilizando herramientas modernas y robustas.</p>
+      <ul style="list-style: none; padding: 0; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">SQL Server</li>
+        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">Vue</li>
+        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">React</li>
+        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">C#</li>
+        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">.NET</li>
+        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">Cloudflare</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">© <span id="year"></span> Dilmer — Todos los derechos reservados</div>
+      <div class="footer__center">
+        <div id="floating-dock-root"></div>
+      </div>
+      <div class="footer__right"><a href="../index.html#projects" class="back-to-top" onclick="sessionStorage.setItem('returnToSection','#projects')">← Volver</a></div>
+    </div>
+  </footer>
+
+  <!-- Lightbox modal -->
+  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true"
+    aria-label="Imagen en tamaño completo">
+    <div class="lightbox__backdrop" data-close></div>
+    <div class="lightbox__content">
+      <button class="lightbox__close" aria-label="Cerrar" data-close>&times;</button>
+      <img class="lightbox__img" src="" alt="Vista ampliada" />
+      <div class="lightbox__caption" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <script type="text/babel" src="../scripts/floating-dock.js"></script>
+  <script type="text/babel" src="../scripts/react-navbar.js"></script>
+
+  <script>
+    document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());
+
+    (function () {
+      const lb = document.getElementById('lightbox');
+      if (!lb) return;
+      const img = lb.querySelector('.lightbox__img');
+      const caption = lb.querySelector('.lightbox__caption');
+      const closeElems = lb.querySelectorAll('[data-close]');
+
+      function openLightbox(src, alt, captionText, trigger) {
+        img.src = src || '';
+        img.alt = alt || 'Imagen en tamaño completo';
+        caption.textContent = captionText || '';
+        lb.hidden = false; lb.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => closeElems[0].focus(), 60);
+        lb.__trigger = trigger || null;
+      }
+
+      function closeLightbox() {
+        lb.hidden = true; lb.setAttribute('aria-hidden', 'true');
+        img.src = '';
+        caption.textContent = '';
+        document.body.style.overflow = '';
+        if (lb.__trigger) try { lb.__trigger.focus(); } catch (e) { }
+        lb.__trigger = null;
+      }
+
+      document.addEventListener('click', (e) => {
+        const item = e.target.closest('.gallery-item');
+        if (!item) return;
+        e.preventDefault();
+        const src = item.dataset.src;
+        if (!src) return;
+        const alt = item.querySelector('img')?.alt || 'Imagen';
+        openLightbox(src, alt, alt, item);
+      });
+
+      closeElems.forEach(c => c.addEventListener('click', closeLightbox));
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lb.hidden) closeLightbox(); });
+    })();
+  </script>
+</body>
+
+</html>

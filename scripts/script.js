@@ -97,6 +97,100 @@ window.addEventListener('load', () => {
 	});
 })();
 
+// 4) Protección de proyectos por contraseña
+(() => {
+	const PROJECT_PASS = '@@@@';
+
+	function showProjectAuthModal(onSuccess) {
+		if (document.getElementById('project-auth-modal')) return;
+
+		const modal = document.createElement('div');
+		modal.id = 'project-auth-modal';
+		modal.className = 'cert-modal';
+		modal.innerHTML = `
+			<div class="cert-modal__backdrop"></div>
+			<div class="cert-modal__dialog" style="max-width: 400px; border-radius: 12px;">
+				<button class="cert-modal__close" aria-label="Cerrar">
+					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+				</button>
+				<div class="cert-modal__header" style="margin-bottom: 20px;">
+					<h3 style="margin-bottom: 8px;">Proyecto Protegido</h3>
+					<p>Debe ingresar una contraseña proporcionada por el desarrollador:</p>
+				</div>
+				<form id="project-auth-form" class="cert-modal__form">
+					<div class="cert-form__group">
+						<input type="password" id="project-pass-input" class="cert-form__input" placeholder="••••••••" required autofocus />
+					</div>
+					<p id="project-auth-error" style="color: #ef4444; font-size: 0.8rem; margin-top: 8px; display: none; text-align: center;">Contraseña incorrecta</p>
+					<div class="cert-form__actions" style="margin-top: 24px;">
+						<button type="submit" class="btn btn--primary" style="width: 100%;">Acceder al proyecto</button>
+					</div>
+				</form>
+			</div>
+		`;
+
+		document.body.appendChild(modal);
+		requestAnimationFrame(() => modal.classList.add('is-open'));
+
+		const input = modal.querySelector('#project-pass-input');
+		const errorMsg = modal.querySelector('#project-auth-error');
+		
+		const closeModal = () => {
+			modal.classList.remove('is-open');
+			setTimeout(() => modal.remove(), 350);
+		};
+
+		modal.querySelector('.cert-modal__close').addEventListener('click', closeModal);
+		modal.querySelector('.cert-modal__backdrop').addEventListener('click', closeModal);
+
+		modal.querySelector('#project-auth-form').addEventListener('submit', (e) => {
+			e.preventDefault();
+			if (input.value === PROJECT_PASS) {
+				sessionStorage.setItem('project_auth', 'true');
+				closeModal();
+				onSuccess();
+			} else {
+				errorMsg.style.display = 'block';
+				input.value = '';
+				input.focus();
+				// Shake effect
+				const dialog = modal.querySelector('.cert-modal__dialog');
+				dialog.style.animation = 'cert-shake 0.4s ease';
+				setTimeout(() => dialog.style.animation = '', 400);
+			}
+		});
+
+		setTimeout(() => input.focus(), 400);
+	}
+	
+	// Interceptar clicks en enlaces de proyectos
+	document.addEventListener('click', (e) => {
+		const projectLink = e.target.closest('a[href*="project-"]');
+		if (projectLink) {
+			if (sessionStorage.getItem('project_auth') === 'true') return;
+
+			e.preventDefault();
+			showProjectAuthModal(() => {
+				window.location.href = projectLink.href;
+			});
+		}
+	});
+
+	// Manejo de grupos de tecnologías (Details/Summary)
+	const techDetails = qsa('.tech-group-details');
+	const updateTechGroups = () => {
+		const isDesktop = window.innerWidth > 768;
+		techDetails.forEach(d => {
+			if (isDesktop) {
+				d.open = true;
+			}
+		});
+	};
+
+	window.addEventListener('resize', updateTechGroups);
+	updateTechGroups();
+})();
+
 // 3b) Toggle menú móvil
 (() => {
 	const toggle = qs('.nav__toggle');
@@ -304,49 +398,47 @@ window.addEventListener('load', () => {
 })();
 
 
-// 11) Lightbox functionality
+// 12) Auto-carousel para proyectos en móvil
 (() => {
-    const lightbox = qs('#lightbox');
-    if (!lightbox) return;
+    const grid = qs('#projects .grid');
+    if (!grid) return;
 
-    const lightboxImg = qs('.lightbox__img', lightbox);
-    const lightboxCaption = qs('.lightbox__caption', lightbox);
-    const closeBtn = qs('.lightbox__close', lightbox);
-    const backdrop = qs('.lightbox__backdrop', lightbox);
+    let interval = null;
+    const duration = 3500;
 
-    const openLightbox = (imgSrc, title) => {
-        lightboxImg.src = imgSrc;
-        lightboxCaption.textContent = title || '';
-        lightbox.hidden = false;
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('lightbox-is-open');
+    const startAutoScroll = () => {
+        if (interval) clearInterval(interval);
+        interval = setInterval(() => {
+            // Solo actuar si estamos en el ancho de móvil definido en CSS (<= 768px)
+            if (window.innerWidth > 768) return; 
+
+            const cards = qsa('.card', grid);
+            if (!cards.length) return;
+
+            const cardWidth = cards[0].offsetWidth + 24; // ancho tarjeta + gap (1.5rem aprox 24px)
+            const maxScroll = grid.scrollWidth - grid.clientWidth;
+
+            if (grid.scrollLeft >= maxScroll - 50) {
+                // Volver al inicio si llegamos al final
+                grid.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                // Avanzar una tarjeta
+                grid.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            }
+        }, duration);
     };
 
-    const closeLightbox = () => {
-        lightbox.hidden = true;
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('lightbox-is-open');
-        lightboxImg.src = '';
-    };
+    // Pausar el auto-scroll cuando el usuario toca el carrusel manualmente
+    grid.addEventListener('touchstart', () => {
+        if (interval) clearInterval(interval);
+    }, { passive: true });
 
-    // Event delegation for "Ver en grande" buttons
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.btn--view-img');
-        if (btn) {
-            const imgSrc = btn.dataset.img;
-            const title = btn.dataset.title;
-            if (imgSrc) openLightbox(imgSrc, title);
-        }
-    });
+    // Reanudar después de que el usuario deja de tocar
+    grid.addEventListener('touchend', () => {
+        startAutoScroll();
+    }, { passive: true });
 
-    closeBtn.addEventListener('click', closeLightbox);
-    backdrop.addEventListener('click', closeLightbox);
-    
-    // Close on Escape
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
-    });
+    // Iniciar el ciclo
+    startAutoScroll();
 })();
 
-
-// Geolocalización eliminada por petición del usuario
