@@ -448,3 +448,29 @@ window.addEventListener('load', () => {
     });
 })();
 
+// 13) Manejo de tecnologías en móvil (expandir info al tocar)
+(() => {
+    const techCards = qsa('.tech');
+    if (!techCards.length) return;
+
+    techCards.forEach(card => {
+        card.addEventListener('click', () => {
+            if (window.innerWidth <= 700) {
+                // Cerrar otros expandidos para que solo uno esté abierto a la vez
+                techCards.forEach(c => {
+                    if (c !== card) c.classList.remove('is-expanded');
+                });
+                // Alternar el estado de la tarjeta actual
+                card.classList.toggle('is-expanded');
+            }
+        });
+    });
+
+    // Cerrar al tocar fuera de las tarjetas
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.tech') && window.innerWidth <= 700) {
+            techCards.forEach(c => c.classList.remove('is-expanded'));
+        }
+    });
+})();
+
