@@ -403,45 +403,48 @@ window.addEventListener('load', () => {
 
 // 12) Auto-carousel para proyectos en móvil
 (() => {
-    const grid = qs('#projects .grid');
-    if (!grid) return;
+    const grids = qsa('#projects .grid');
+    if (!grids.length) return;
 
-    let interval = null;
     const duration = 3500;
 
-    const startAutoScroll = () => {
-        if (interval) clearInterval(interval);
-        interval = setInterval(() => {
-            // Solo actuar si estamos en el ancho de móvil definido en CSS (<= 768px)
-            if (window.innerWidth > 768) return; 
+    grids.forEach(grid => {
+        let interval = null;
 
-            const cards = qsa('.card', grid);
-            if (!cards.length) return;
+        const startAutoScroll = () => {
+            if (interval) clearInterval(interval);
+            interval = setInterval(() => {
+                // Solo actuar si estamos en el ancho de móvil definido en CSS (<= 768px)
+                if (window.innerWidth > 768) return; 
 
-            const cardWidth = cards[0].offsetWidth + 24; // ancho tarjeta + gap (1.5rem aprox 24px)
-            const maxScroll = grid.scrollWidth - grid.clientWidth;
+                const cards = qsa('.card', grid);
+                if (!cards.length) return;
 
-            if (grid.scrollLeft >= maxScroll - 50) {
-                // Volver al inicio si llegamos al final
-                grid.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                // Avanzar una tarjeta
-                grid.scrollBy({ left: cardWidth, behavior: 'smooth' });
-            }
-        }, duration);
-    };
+                const cardWidth = cards[0].offsetWidth + 24; // ancho tarjeta + gap (1.5rem aprox 24px)
+                const maxScroll = grid.scrollWidth - grid.clientWidth;
 
-    // Pausar el auto-scroll cuando el usuario toca el carrusel manualmente
-    grid.addEventListener('touchstart', () => {
-        if (interval) clearInterval(interval);
-    }, { passive: true });
+                if (grid.scrollLeft >= maxScroll - 50) {
+                    // Volver al inicio si llegamos al final
+                    grid.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    // Avanzar una tarjeta
+                    grid.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                }
+            }, duration);
+        };
 
-    // Reanudar después de que el usuario deja de tocar
-    grid.addEventListener('touchend', () => {
+        // Pausar el auto-scroll cuando el usuario toca el carrusel manualmente
+        grid.addEventListener('touchstart', () => {
+            if (interval) clearInterval(interval);
+        }, { passive: true });
+
+        // Reanudar después de que el usuario deja de tocar
+        grid.addEventListener('touchend', () => {
+            startAutoScroll();
+        }, { passive: true });
+
+        // Iniciar el ciclo
         startAutoScroll();
-    }, { passive: true });
-
-    // Iniciar el ciclo
-    startAutoScroll();
+    });
 })();
 

@@ -171,6 +171,12 @@ function Navbar({ className }) {
     if (active) setToastVisible(false);
   }, [active]);
 
+  useEffect(() => {
+    const handleOpenContact = () => setActive('Contacto');
+    window.addEventListener('openContactMenu', handleOpenContact);
+    return () => window.removeEventListener('openContactMenu', handleOpenContact);
+  }, []);
+
   const onSubpage = window.location.pathname.includes('/pages/');
   const prefix = onSubpage ? '../' : './';
   const pagePrefix = onSubpage ? '' : 'pages/';

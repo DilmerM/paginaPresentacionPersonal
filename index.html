@@ -148,35 +148,7 @@
                 <div class="fire-diamond fire-diamond--3"></div>
                 <div class="fire-spark fire-spark--4"></div>
             </div>
-            <div class="about__grid">
-                <div class="about__media" data-reveal data-speed="0.06">
-                    <div class="portrait" aria-label="Foto de perfil" role="img"></div>
-                </div>
-                <div class="about__content" data-reveal>
-                    <h2>Mucho gusto, soy Dilmer Moreira</h2>
-                    <p>
-                        Soy estudiante de Informática Administrativa, dedicado a aprender por curiosidad y diversión.
-                        Me gusta explorar conocimientos diversos y, sobre todo, entender cómo funcionan los sistemas.
-                    </p>
-                    <p>
-                        Disfruto resolver problemas y ayudar a las personas, buscar mejoras continuas
-                        e implementar tecnologías nuevas o desconocidas para seguir creciendo
-                        profesional y personalmente.
-                    </p>
-                    <figure class="quote" aria-label="Frase de superación">
-                        <blockquote>“Si tus acciones inspiran a otros a soñar más, aprender más, hacer más y ser más,
-                            eres un líder”.</blockquote>
-                        <figcaption>— John Quincy Adams</figcaption>
-                    </figure>
-                    <!-- <ul class="tags">
-                        <li>SPA/SSR</li>
-                        <li>APIs</li>
-                        <li>UX Motion</li>
-                        <li>Testing</li>
-                        <li>Optimización</li>
-                    </ul> -->
-                </div>
-            </div>
+            <div id="about-slider-root"></div>
         </section>
     </section>
 
@@ -338,7 +310,35 @@
         <!-- Proyectos -->
         <section class="section container">
             <h2 data-reveal>Proyectos</h2>
-            <div class="grid" aria-live="polite">
+            <p class="subtitle" data-reveal>proyectos personales</p>
+            <!-- PROYECTOS GRANDES -->
+
+            <div class="grid grid--grandes" aria-live="polite">
+                <!-- Ecomerce -->
+                <article class="card" tabindex="0" data-reveal
+                    data-preview="./images/Ecomerce/Escritorio1.png">
+                    <div class="card__badge">Proyecto Grande</div>
+                    <div class="card__media" role="img" aria-label="Ecomerce"
+                        style="background: #1e293b; display:flex; align-items:center; justify-content:center; overflow: hidden;">
+                        <span class="iconify" data-icon="simple-icons:csharp" style="font-size: 5rem; color: #512bd4;"></span>
+                    </div>
+                    <div class="card__body">
+                        <h3>Ecomerce</h3>
+                        <p>Plataforma de comercio electrónico de alto rendimiento.</p>
+                        <div class="card__tags">
+                            <div class="pill">sql server</div>
+                            <div class="pill">vue</div>
+                            <div class="pill">react</div>
+                            <div class="pill">C#</div>
+                            <div class="pill">.net</div>
+                            <div class="pill">Cloudflare</div>
+                        </div>
+                        <div class="card__actions">
+                            <a class="btn btn--primary" href="pages/project-ecommerce.html">Ver proyecto</a>
+                        </div>
+                    </div>
+                </article>
+
                 <!-- Skill Connect -->
                 <article class="card card--featured" tabindex="0" data-reveal
                     data-preview="./images/PreviewProyects/PreviewSEMACKRO.png">
@@ -369,32 +369,6 @@
                         </div>
                     </div>
                 </article>
-
-                <!-- Ecomerce -->
-                <article class="card" tabindex="0" data-reveal
-                    data-preview="./images/Ecomerce/Escritorio1.png">
-                    <div class="card__badge">Proyecto Grande</div>
-                    <div class="card__media" role="img" aria-label="Ecomerce"
-                        style="background: #1e293b; display:flex; align-items:center; justify-content:center; overflow: hidden;">
-                        <span class="iconify" data-icon="simple-icons:csharp" style="font-size: 5rem; color: #512bd4;"></span>
-                    </div>
-                    <div class="card__body">
-                        <h3>Ecomerce</h3>
-                        <p>Plataforma de comercio electrónico de alto rendimiento.</p>
-                        <div class="card__tags">
-                            <div class="pill">sql server</div>
-                            <div class="pill">vue</div>
-                            <div class="pill">react</div>
-                            <div class="pill">C#</div>
-                            <div class="pill">.net</div>
-                            <div class="pill">Cloudflare</div>
-                        </div>
-                        <div class="card__actions">
-                            <a class="btn btn--primary" href="pages/project-ecommerce.html">Ver proyecto</a>
-                        </div>
-                    </div>
-                </article>
-
                 <!-- Sistema contable -->
                 <article class="card" tabindex="0" data-reveal
                     data-preview="./images/PreviewProyects/PreviewSkillConnect.png">
@@ -418,8 +392,14 @@
                     </div>
                 </article>
 
+            </div>
+
+            <!-- PROYECTOS DE APRENDIZAJE -->
+
+            <div class="grid grid--aprendizaje" aria-live="polite" style="margin-top: 3rem;">
                 <article class="card" tabindex="0" data-reveal
                     data-preview="./images/PreviewProyects/PreviewForestPark.png">
+                    <div class="card__badge card__badge--alt">Proyecto de Aprendizaje</div>
                     <div class="card__media" role="img" aria-label="Proyecto 1"
                         style="background: transparent; display:flex; align-items:center; justify-content:center;">
                         <!-- Replaced with user-provided Laravel SVG (filled red) -->
@@ -450,6 +430,7 @@
 
                 <article class="card" tabindex="0" data-reveal
                     data-preview="./images/PreviewProyects/PreviewGenerateCv.png">
+                    <div class="card__badge card__badge--alt">Proyecto de Aprendizaje</div>
                     <div class="card__media card__media--alt" role="img" aria-label="Proyecto 2"
                         style="display:flex;align-items:center;justify-content:center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 256 256"
@@ -493,6 +474,7 @@
 
                 <article class="card" tabindex="0" data-reveal
                     data-preview="./images/PreviewProyects/PreviewInventary.png">
+                    <div class="card__badge card__badge--alt">Proyecto de Aprendizaje</div>
                     <div class="card__media card__media--neo" role="img" aria-label="Inventario">
                         <!-- Java SVG icon provided by user -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 128 128"
@@ -521,9 +503,9 @@
                     </div>
                 </article>
 
-                <!-- Automatización Python -->
                 <article class="card" tabindex="0" data-reveal
                     data-preview="./images/PreviewProyects/PreviewSkillConnect.png">
+                    <div class="card__badge card__badge--alt">Proyecto de Aprendizaje</div>
                     <div class="card__media" role="img" aria-label="Automatización Python"
                         style="background: #0f172a; display:flex; align-items:center; justify-content:center; overflow: hidden;">
                         <span class="iconify" data-icon="logos:python" style="font-size: 5rem;"></span>
@@ -736,6 +718,7 @@
     <script type="text/babel" src="./scripts/react-navbar.js"></script>
     <script type="text/babel" src="./scripts/lamp.js"></script>
     <script type="text/babel" src="./scripts/floating-dock.js"></script>
+    <script type="text/babel" src="./scripts/about-slider.js"></script>
 
     <!-- Lightbox -->
     <div id="lightbox" class="lightbox" hidden aria-hidden="true">

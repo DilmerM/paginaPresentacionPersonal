@@ -88,11 +88,25 @@ const HeroLamp = () => {
     const [index, setIndex] = React.useState(0);
     
     React.useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex((prev) => (prev + 1) % 2);
-        }, 5000); // Rota cada 5 segundos
-        return () => clearInterval(interval);
-    }, []);
+        // Slide 0 y 1: 5.5s — Slide 2 (Aptitudes): 10s
+        const durations = [5500, 5500, 10000];
+        const timer = setTimeout(() => {
+            setIndex((prev) => (prev + 1) % 3);
+        }, durations[index]);
+        return () => clearTimeout(timer);
+    }, [index]);
+
+    const aptitudes = [
+        { icon: "mdi:wrench-cog", label: "2.5 años en Técnico Refrigeración" },
+        { icon: "mdi:code-braces", label: "Lenguajes de Programación" },
+        { icon: "mdi:database", label: "Bases de Datos" },
+        { icon: "mdi:microsoft-excel", label: "Excel Avanzado" },
+        { icon: "mdi:api", label: "APIs & Integraciones" },
+        { icon: "mdi:puzzle-check", label: "Resolución de Problemas" },
+        { icon: "mdi:brain", label: "Pensamiento Crítico y Analítico" },
+        { icon: "mdi:lightning-bolt", label: "Dinámico y Proactivo" },
+        { icon: "mdi:shield-star", label: "Alto Sentido de Responsabilidad" },
+    ];
 
     return (
         <LampContainer>
@@ -115,12 +129,23 @@ const HeroLamp = () => {
                                 Analista de Procesos
                             </span>
                         </h1>
-                        <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto px-6 md:px-0 mt-6">
+                        <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto px-6 md:px-0 mt-6 overflow-visible">
                             <a href="#about" className="px-8 py-3 bg-[#161624] text-white rounded-full font-semibold hover:bg-slate-800 transition-colors text-center">Explorar</a>
-                            <a href="#contact" className="px-8 py-3 border-2 border-[#161624] text-[#161624] rounded-full font-semibold hover:bg-[#161624] hover:text-white transition-all text-center">Contacto</a>
+                            
+                            <div className="relative w-full md:w-auto">
+                                <button 
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        window.dispatchEvent(new CustomEvent('openContactMenu'));
+                                    }} 
+                                    className="w-full px-8 py-3 border-2 border-[#161624] text-[#161624] rounded-full font-semibold hover:bg-[#161624] hover:text-white transition-all flex items-center justify-center gap-2"
+                                >
+                                    Contacto
+                                </button>
+                            </div>
                         </div>
                     </motion.div>
-                ) : (
+                ) : index === 1 ? (
                     <motion.div
                         key="desc"
                         initial={{ opacity: 0, y: 20 }}
@@ -137,6 +162,37 @@ const HeroLamp = () => {
                         </h2>
                         <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto px-6 md:px-0 mt-8">
                             <a href="#projects" className="px-8 py-3 bg-[#ff5e00] text-white rounded-full font-semibold hover:shadow-lg transition-all text-center">Ver Proyectos</a>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="aptitudes"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col items-center w-full max-w-5xl"
+                    >
+                        <p className="text-xs md:text-sm uppercase tracking-[0.28em] text-slate-700 font-semibold mb-3 text-center">
+                            Lo que me define
+                        </p>
+                        <h2 className="text-2xl md:text-4xl font-bold text-[#161624] mb-6 text-center">
+                            Aptitudes
+                        </h2>
+                        <div className="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-3 w-full px-2">
+                            {aptitudes.map((apt, i) => (
+                                <motion.div
+                                    key={apt.label}
+                                    initial={{ opacity: 0, y: 18, scale: 0.92 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{ duration: 0.35, delay: i * 0.07, ease: "easeOut" }}
+                                    className="flex flex-col items-center gap-1.5 p-3 rounded-2xl border border-black/10 text-center"
+                                    style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)' }}
+                                >
+                                    <span className="iconify text-2xl md:text-3xl text-[#ff5e00]" data-icon={apt.icon}></span>
+                                    <span className="text-[10px] md:text-xs font-semibold text-[#1e293b] leading-tight">{apt.label}</span>
+                                </motion.div>
+                            ))}
                         </div>
                     </motion.div>
                 )}
