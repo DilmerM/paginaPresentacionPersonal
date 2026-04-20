@@ -306,16 +306,27 @@
       const cap = lb.querySelector('.lightbox__caption');
 
       function open(src, alt) {
+        // Calculate scrollbar width
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
         img.src = src; img.alt = alt || '';
         cap.textContent = alt || '';
-        lb.hidden = false; lb.removeAttribute('aria-hidden');
-        document.body.style.overflow = 'hidden';
+        lb.hidden = false; 
+        lb.removeAttribute('aria-hidden');
+
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
+        document.body.classList.add('lightbox-is-open');
       }
       function close() {
-        lb.hidden = true; lb.setAttribute('aria-hidden', 'true');
+        lb.hidden = true; 
+        lb.setAttribute('aria-hidden', 'true');
         img.src = ''; img.alt = '';
         cap.textContent = '';
-        document.body.style.overflow = '';
+        
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.paddingRight = '';
+        document.body.classList.remove('lightbox-is-open');
       }
 
       document.addEventListener('click', (e) => {

@@ -378,20 +378,33 @@
             const closeElems = lb.querySelectorAll('[data-close]');
 
             function openLightbox(src, alt, captionText, trigger) {
+                // Calculate scrollbar width
+                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
                 img.src = src || '';
                 img.alt = alt || 'Imagen en tamaño completo';
                 caption.textContent = captionText || '';
-                lb.hidden = false; lb.removeAttribute('aria-hidden');
-                document.body.style.overflow = 'hidden';
+                lb.hidden = false; 
+                lb.removeAttribute('aria-hidden');
+
+                document.documentElement.style.overflow = 'hidden';
+                document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
+                document.body.classList.add('lightbox-is-open');
+
                 setTimeout(() => closeElems[0].focus(), 60);
                 lb.__trigger = trigger || null;
             }
 
             function closeLightbox() {
-                lb.hidden = true; lb.setAttribute('aria-hidden', 'true');
+                lb.hidden = true; 
+                lb.setAttribute('aria-hidden', 'true');
                 img.src = '';
                 caption.textContent = '';
-                document.body.style.overflow = '';
+                
+                document.documentElement.style.overflow = '';
+                document.documentElement.style.paddingRight = '';
+                document.body.classList.remove('lightbox-is-open');
+
                 if (lb.__trigger) try { lb.__trigger.focus(); } catch (e) { }
                 lb.__trigger = null;
             }
