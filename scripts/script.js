@@ -2,28 +2,31 @@
 const qs = (s, p = document) => p.querySelector(s);
 const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
-// 1) Loader
+// 1) Loader & Return To Section Logic
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'auto'; // Let the browser handle back/forward scroll natively
+}
+
 window.addEventListener('load', () => {
-	const loader = qs('.loader');
+    const loader = qs('.loader');
 
-	setTimeout(() => {
-		if (loader) loader.classList.add('hidden');
-		document.documentElement.classList.remove('is-loading');
+    setTimeout(() => {
+        if (loader) loader.classList.add('hidden');
+        document.documentElement.classList.remove('is-loading');
 
-		// Un solo frame es suficiente: la p\u00e1gina ya ten\u00eda altura real (visibility:hidden, no display:none)
-		requestAnimationFrame(() => {
-			const targetSection = sessionStorage.getItem('returnToSection');
-			if (targetSection) {
-				sessionStorage.removeItem('returnToSection');
-				const targetEl = document.querySelector(targetSection);
-				if (targetEl) {
-					const offset = 80;
-					const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
-					window.scrollTo({ top, behavior: 'instant' });
-				}
-			}
-		});
-	}, 450);
+        requestAnimationFrame(() => {
+            const targetSection = sessionStorage.getItem('returnToSection');
+            if (targetSection) {
+                sessionStorage.removeItem('returnToSection');
+                const targetEl = document.querySelector(targetSection);
+                if (targetEl) {
+                    const offset = 80;
+                    const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top, behavior: 'instant' });
+                }
+            }
+        });
+    }, 450);
 });
 
 // 2) Año dinámico
