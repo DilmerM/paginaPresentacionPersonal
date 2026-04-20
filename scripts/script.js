@@ -328,6 +328,50 @@ window.addEventListener('load', () => {
 	});
 })();
 
+// 8b) Gestor de Lightbox para Certificados
+(() => {
+    const lightbox = qs('#lightbox');
+    if (!lightbox) return;
+
+    const lbImg = qs('.lightbox__img', lightbox);
+    const lbCaption = qs('.lightbox__caption', lightbox);
+    const closeBtn = qs('.lightbox__close', lightbox);
+    const backdrop = qs('.lightbox__backdrop', lightbox);
+
+    const openLightbox = (imgSrc, title) => {
+        lbImg.src = imgSrc;
+        lbCaption.textContent = title || '';
+        lightbox.hidden = false;
+        lightbox.ariaHidden = 'false';
+        document.body.style.overflow = 'hidden'; // Prevenir scroll
+    };
+
+    const closeLightbox = () => {
+        lightbox.hidden = true;
+        lightbox.ariaHidden = 'true';
+        document.body.style.overflow = '';
+        lbImg.src = '';
+    };
+
+    // Escuchar clicks en cualquier botón de "Ver en grande" (delegación de eventos)
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn--view-img');
+        if (btn) {
+            const imgSrc = btn.dataset.img;
+            const title = btn.dataset.title;
+            if (imgSrc) openLightbox(imgSrc, title);
+        }
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    backdrop.addEventListener('click', closeLightbox);
+    
+    // Cerrar con Escape
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
+})();
+
 
 // 9) Link Preview (Floating image on hover)
 (() => {
