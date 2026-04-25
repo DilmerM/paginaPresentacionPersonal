@@ -16,14 +16,47 @@ window.addEventListener('load', () => {
         if (loader) loader.classList.add('hidden');
         document.documentElement.classList.remove('is-loading');
 
+        let scrollRetries = [];
+        const stopRetries = () => {
+            scrollRetries.forEach(clearTimeout);
+            scrollRetries = [];
+            window.removeEventListener('wheel', stopRetries);
+            window.removeEventListener('touchstart', stopRetries);
+        };
+
+        window.addEventListener('wheel', stopRetries, { passive: true });
+        window.addEventListener('touchstart', stopRetries, { passive: true });
+
         const performHashScroll = (isSmooth = false) => {
-            let hash = window.location.hash;
-            if (!hash) return;
+            // 1. Intentar restaurar posición exacta de scroll (Memoria de posición)
+            const savedScrollY = sessionStorage.getItem('exactScrollPos');
+            if (savedScrollY) {
+                window.scrollTo({ top: parseInt(savedScrollY), behavior: isSmooth ? 'smooth' : 'auto' });
+                
+                // Si ya logramos restaurar la posición, detenemos futuros reintentos
+                // para evitar que el script intente volver al hash de la sección
+                if (isSmooth) {
+                    stopRetries();
+                    // Limpiamos la memoria después de un tiempo prudencial para permitir refrescos
+                    setTimeout(() => sessionStorage.removeItem('exactScrollPos'), 1000);
+                }
+                return;
+            }
+
+            // 2. Si no hay posición exacta, ir al hash o sección de retorno
+            const targetSection = sessionStorage.getItem('returnToSection');
+            let hash = targetSection || window.location.hash;
+            
+            if (!hash) {
+                stopRetries();
+                return;
+            }
             if (hash.endsWith('?')) hash = hash.slice(0, -1);
+            if (targetSection) sessionStorage.removeItem('returnToSection');
 
             const targetEl = document.querySelector(hash);
             if (targetEl) {
-                const offset = 90;
+                const offset = 70;
                 const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
                 window.scrollTo({
                     top,
@@ -33,25 +66,12 @@ window.addEventListener('load', () => {
         };
 
         requestAnimationFrame(() => {
-            // Manejar retorno de sección interna
-            const targetSection = sessionStorage.getItem('returnToSection');
-            if (targetSection) {
-                sessionStorage.removeItem('returnToSection');
-                const targetEl = document.querySelector(targetSection);
-                if (targetEl) {
-                    const top = targetEl.getBoundingClientRect().top + window.pageYOffset - 80;
-                    window.scrollTo({ top, behavior: 'auto' });
-                    return;
-                }
-            }
-
-            // Scroll inicial por Hash
             performHashScroll(false);
 
-            // Reintentos para compensar el renderizado de React (Sliders, Lamp, etc)
-            setTimeout(() => performHashScroll(true), 150);
-            setTimeout(() => performHashScroll(true), 600);
-            setTimeout(() => performHashScroll(true), 1500);
+            scrollRetries.push(setTimeout(() => performHashScroll(false), 100));
+            scrollRetries.push(setTimeout(() => performHashScroll(true), 400));
+            scrollRetries.push(setTimeout(() => performHashScroll(true), 1000));
+            scrollRetries.push(setTimeout(() => performHashScroll(true), 2500));
         });
     }, 450);
 });
@@ -217,11 +237,17 @@ window.addEventListener('load', () => {
 		// 1. Proyectos
 		const projectLink = e.target.closest('a[href*="project-"]');
 		if (projectLink) {
-			if (sessionStorage.getItem('project_auth') === 'true') return;
-			e.preventDefault();
-			window.showProjectAuthModal(() => {
-				window.location.href = projectLink.href;
-			});
+			const href = projectLink.getAttribute('href');
+			
+			// Guardar la posición actual de scroll para el retorno
+			sessionStorage.setItem('exactScrollPos', window.scrollY.toString());
+			
+			if (sessionStorage.getItem('project_auth') !== 'true') {
+				e.preventDefault();
+				window.showProjectAuthModal(() => {
+					window.location.href = href;
+				});
+			}
 			return;
 		}
 

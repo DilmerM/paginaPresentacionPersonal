@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Automatización Python — Dilmer Moreira</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/stylesheet.css?v=20250823" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  </script>
+  <style>
+    .python-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 6rem 0;
+      text-align: center;
+      border-radius: 0 0 50px 50px;
+      margin-bottom: 4rem;
+    }
+    .python-hero h1 { color: #fff; margin-bottom: 1rem; }
+    .python-hero p { color: #94a3b8; font-size: 1.2rem; }
+    
+    .tech-pill {
+      background: rgba(55, 122, 181, 0.1);
+      color: #3776ab;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid rgba(55, 122, 181, 0.2);
+    }
+    
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 2rem;
+      border-radius: 16px;
+      font-family: 'Courier New', Courier, monospace;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      margin: 2rem 0;
+      border-left: 4px solid #3776ab;
+    }
+  </style>
+</head>
+
+<body class="project-python">
+  <div id="navbar-root"></div>
+  
+  <header class="python-hero">
+    <div class="container">
+        <span class="iconify" data-icon="logos:python" style="font-size: 5rem; margin-bottom: 2rem;"></span>
+        <h1>Automatización y Scraping Inteligente</h1>
+        <p>Optimizando procesos académicos mediante Python y Selenium.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Sobre el Proyecto</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+            <p class="text-lg leading-relaxed text-gray-600 mb-6">
+                Este proyecto nació de la necesidad de gestionar eficientemente las actividades del campus virtual. Utilizando <strong>Python</strong> y librerías de automatización de alto nivel, el sistema es capaz de:
+            </p>
+            <ul class="space-y-4 text-gray-600">
+                <li class="flex items-center gap-3">
+                    <span class="iconify text-green-500" data-icon="solar:check-circle-bold"></span>
+                    Autenticación automática en portales educativos.
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="iconify text-green-500" data-icon="solar:check-circle-bold"></span>
+                    Extracción de fechas límite de tareas y exámenes.
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="iconify text-green-500" data-icon="solar:check-circle-bold"></span>
+                    Sincronización con bases de datos locales y calendarios.
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="iconify text-green-500" data-icon="solar:check-circle-bold"></span>
+                    Generación de reportes automáticos en PDF o Excel.
+                </li>
+            </ul>
+        </div>
+        <div class="code-block">
+            <div class="flex gap-2 mb-4 opacity-50">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <pre style="margin:0; overflow-x: auto;">
+import selenium
+from bs4 import BeautifulSoup
+
+def scrape_campus():
+    driver = webdriver.Chrome()
+    driver.get(CAMPUS_URL)
+    # Lógica de login...
+    soup = BeautifulSoup(driver.page_source)
+    tasks = soup.find_all('div', class_='task')
+    return tasks
+            </pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="margin-top: 4rem;">
+        <h2>Stack Tecnológico</h2>
+        <div class="flex flex-wrap gap-4 mt-6">
+            <span class="tech-pill">Python 3.x</span>
+            <span class="tech-pill">Selenium WebDriver</span>
+            <span class="tech-pill">BeautifulSoup4</span>
+            <span class="tech-pill">Pandas</span>
+            <span class="tech-pill">Requests</span>
+            <span class="tech-pill">Automation Cron</span>
+        </div>
+    </section>
+
+    <div class="text-center py-20">
+        <a href="../index.html#projects" class="btn btn--primary px-10 py-4" onclick="sessionStorage.setItem('returnToSection','#projects')">Volver al Portafolio</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">© <span id="year"></span> Dilmer — Todos los derechos reservados</div>
+      <div class="footer__center">
+        <div id="floating-dock-root"></div>
+      </div>
+      <div class="footer__right"><a href="../index.html#projects" class="back-to-top">← Volver</a></div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <script type="text/babel" src="../scripts/floating-dock.js"></script>
+  <script type="text/babel" src="../scripts/react-navbar.js"></script>
+
+  <script>
+    document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());
+  </script>
+</body>
+</html>

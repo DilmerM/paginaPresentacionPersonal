@@ -12,6 +12,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles/stylesheet.css?v=20250823" />
   <link rel="stylesheet" href="../styles/project-1.css" /> <!-- Reusing layout CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  </script>
   <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   <style>
     /* Gallery Styles */
@@ -104,7 +112,9 @@
 <body class="project-detail">
   <div id="navbar-root"></div>
   <!-- Librería: tsParticles -->
-  <div id="tsparticles" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; transform: translateZ(0); will-change: transform;"></div>
+  <div id="tsparticles"
+    style="position: fixed; inset: 0; z-index: -1; pointer-events: none; transform: translateZ(0); will-change: transform;">
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -134,67 +144,63 @@
     <section class="gallery-section">
       <h2>Galería de Interfaces (Escritorio)</h2>
       <div class="skill-gallery">
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214743.png" data-title="Página de Inicio">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214743.png"
+          data-title="Página de Inicio">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 214743.png" alt="ContaHN Home">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214807.png" data-title="Planes y Precios">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214807.png"
+          data-title="Planes y Precios">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 214807.png" alt="Pricing">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214825.png" data-title="Funcionalidades">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214825.png"
+          data-title="Funcionalidades">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 214825.png" alt="Features">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214902.png" data-title="Dashboard Inteligente">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214902.png"
+          data-title="Dashboard Inteligente">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 214902.png" alt="Smart Dashboard">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214920.png" data-title="Panel de Control">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214920.png"
+          data-title="Panel de Control">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 214920.png" alt="Control Panel">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214932.png" data-title="Análisis Financiero">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 214932.png"
+          data-title="Análisis Financiero">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 214932.png" alt="Financial Analysis">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 215044.png" data-title="Reportes Avanzados">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 215044.png"
+          data-title="Reportes Avanzados">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 215044.png" alt="Advanced Reports">
         </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 215121.png" data-title="Gestión de Datos">
+        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-19 215121.png"
+          data-title="Gestión de Datos">
           <img src="../images/SistemaContable/Captura de pantalla 2026-04-19 215121.png" alt="Data Management">
-        </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-18 211427.png" data-title="Módulo Contable">
-          <img src="../images/SistemaContable/Captura de pantalla 2026-04-18 211427.png" alt="Accounting Module">
-        </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-18 212952.png" data-title="Interfaces Secundarias">
-          <img src="../images/SistemaContable/Captura de pantalla 2026-04-18 212952.png" alt="Secondary UI">
         </div>
       </div>
     </section>
 
     <!-- Planning Section -->
-    <section class="gallery-section">
-      <h2>Planificación y Control</h2>
-      <div class="skill-gallery">
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-18 200902.png" data-title="Lista de Tareas">
-          <img src="../images/SistemaContable/Captura de pantalla 2026-04-18 200902.png" alt="Task List">
-        </div>
-        <div class="gallery-item" data-src="../images/SistemaContable/Captura de pantalla 2026-04-18 203729.png" data-title="Registro de Actividades">
-          <img src="../images/SistemaContable/Captura de pantalla 2026-04-18 203729.png" alt="Activity Log">
-        </div>
-      </div>
-    </section>
+
 
     <!-- Project Description Section -->
     <section id="description" class="project-details" style="margin-top: 4rem;">
       <h2>Sobre el Proyecto</h2>
       <div class="description-content" style="max-width: 800px; line-height: 1.6; color: var(--muted, #4b5563);">
         <p>
-          <strong>ContaHN</strong> es una plataforma de contabilidad de próxima generación diseñada específicamente para el mercado hondureño. 
-          Combina la potencia de <strong>C# y .NET</strong> con la agilidad de <strong>React</strong> para ofrecer un sistema robusto, 
+          <strong>ContaHN</strong> es una plataforma de contabilidad de próxima generación diseñada específicamente para
+          el mercado hondureño.
+          Combina la potencia de <strong>C# y .NET</strong> con la agilidad de <strong>React</strong> para ofrecer un
+          sistema robusto,
           escalable y fácil de usar.
         </p>
         <p>
-          El sistema integra análisis estadístico avanzado utilizando <strong>R</strong>, permitiendo a las empresas no solo llevar su contabilidad, 
+          El sistema integra análisis estadístico avanzado utilizando <strong>R</strong>, permitiendo a las empresas no
+          solo llevar su contabilidad,
           sino también obtener <em>insights</em> estratégicos sobre sus gastos, ingresos y salud financiera general.
         </p>
         <p>
-          Con un fuerte enfoque en el cumplimiento de las normativas de la <strong>SAR 2024</strong>, ContaHN garantiza que las empresas operen dentro del marco legal 
+          Con un fuerte enfoque en el cumplimiento de las normativas de la <strong>SAR 2024</strong>, ContaHN garantiza
+          que las empresas operen dentro del marco legal
           mientras optimizan sus procesos internos de nómina, inventario y facturación.
         </p>
       </div>
@@ -204,12 +210,24 @@
     <section id="tech" class="project-details" style="margin-top: 4rem;">
       <h2>Stack Tecnológico</h2>
       <ul style="list-style: none; padding: 0; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
-        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">C#</li>
-        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">.NET</li>
-        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">React</li>
-        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">R (Análisis de Datos)</li>
-        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">SQL Server</li>
-        <li style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">Cloudflare</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          C#</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          .NET</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          React</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          R (Análisis de Datos)</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          SQL Server</li>
+        <li
+          style="background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--border-color);">
+          Cloudflare</li>
       </ul>
     </section>
   </main>
@@ -218,13 +236,15 @@
     <div class="container footer__inner">
       <div class="footer__left">© <span id="year"></span> Dilmer — Todos los derechos reservados</div>
       <div class="footer__right">
-        <a href="../index.html#projects" class="back-to-top" onclick="sessionStorage.setItem('returnToSection','#projects')">← Volver al Portafolio</a>
+        <a href="../index.html#projects" class="back-to-top"
+          onclick="sessionStorage.setItem('returnToSection','#projects')">← Volver al Portafolio</a>
       </div>
     </div>
   </footer>
 
   <!-- Lightbox modal -->
-  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Imagen en tamaño completo">
+  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true"
+    aria-label="Imagen en tamaño completo">
     <div class="lightbox__backdrop" data-close></div>
     <div class="lightbox__content">
       <button class="lightbox__close" aria-label="Cerrar" data-close>&times;</button>
@@ -237,6 +257,7 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   <script type="text/babel" src="../scripts/floating-dock.js"></script>
   <script type="text/babel" src="../scripts/react-navbar.js"></script>
 
@@ -252,32 +273,32 @@
 
       function openLightbox(src, alt, captionText, trigger) {
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        
+
         img.src = src || '';
         img.alt = alt || 'Imagen en tamaño completo';
         caption.textContent = captionText || '';
-        
-        lb.hidden = false; 
+
+        lb.hidden = false;
         lb.removeAttribute('aria-hidden');
-        
+
         document.documentElement.style.overflow = 'hidden';
         document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
         document.body.classList.add('lightbox-is-open');
-        
+
         setTimeout(() => closeElems[0].focus(), 60);
         lb.__trigger = trigger || null;
       }
 
       function closeLightbox() {
-        lb.hidden = true; 
+        lb.hidden = true;
         lb.setAttribute('aria-hidden', 'true');
         img.src = '';
         caption.textContent = '';
-        
+
         document.documentElement.style.overflow = '';
         document.documentElement.style.paddingRight = '';
         document.body.classList.remove('lightbox-is-open');
-        
+
         if (lb.__trigger) try { lb.__trigger.focus(); } catch (e) { }
         lb.__trigger = null;
       }

@@ -178,8 +178,8 @@ function Navbar({ className }) {
   }, []);
 
   const onSubpage = window.location.pathname.includes('/pages/');
-  const prefix = onSubpage ? '../' : './';
-  const pagePrefix = onSubpage ? '' : 'pages/';
+  const rootPrefix = onSubpage ? '../' : './';
+  const subpagePrefix = onSubpage ? '' : 'pages/';
   const certHref = onSubpage ? '../index.html#certificates' : '#certificates';
 
   return (
@@ -206,17 +206,17 @@ function Navbar({ className }) {
         >
           <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Explorar" icon="solar:magnifer-linear">
             <div className="flex flex-col">
-              <HoveredLink isMobile={isMobile} href={`${prefix}index.html#about`}>Sobre mí</HoveredLink>
-              <HoveredLink isMobile={isMobile} href={`${prefix}index.html#stack`}>Tecnologías</HoveredLink>
+              <HoveredLink isMobile={isMobile} href={`${rootPrefix}index.html#about`}>Sobre mí</HoveredLink>
+              <HoveredLink isMobile={isMobile} href={`${rootPrefix}index.html#stack`}>Tecnologías</HoveredLink>
             </div>
           </MenuItem>
 
-          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear" href={`${prefix}index.html#projects`}>
+          <MenuItem active={active} setActive={setActive} isMobile={isMobile} item="Proyectos" icon="solar:rocket-2-linear" href={`${rootPrefix}index.html#projects`}>
             <div className={`grid gap-4 ${isMobile ? 'grid-cols-1 max-h-[50vh] overflow-y-auto pr-2' : 'grid-cols-2 w-max'}`}>
-              <ProductItem isMobile={isMobile} title="Skill Connect" href={`${prefix}${pagePrefix}project-skill-connect.html`} src={`${prefix}images/SkillConnect/LandingPage.png`} description="Fomento de empleabilidad." />
-              <ProductItem isMobile={isMobile} title="Parque Forestal" href={`${prefix}${pagePrefix}project-1.html`} src={`${prefix}images/ParquesForestales/landing1.png`} description="Gestión eco-turística." />
-              <ProductItem isMobile={isMobile} title="Creative Apps" href={`${prefix}${pagePrefix}project-2.html`} src={`${prefix}images/ProyectosCreativos/parallax1.png`} description="Interfaces interactivas." />
-              <ProductItem isMobile={isMobile} title="Java System" href={`${prefix}${pagePrefix}project-3.html`} src={`${prefix}images/InventarioJava/inventarioJava2.png`} description="Gestión de inventarios." />
+              <ProductItem isMobile={isMobile} title="Skill Connect" href={`${subpagePrefix}project-skill-connect.html`} src={`${rootPrefix}images/SkillConnect/LandingPage.png`} description="Fomento de empleabilidad." />
+              <ProductItem isMobile={isMobile} title="Parque Forestal" href={`${subpagePrefix}project-1.html`} src={`${rootPrefix}images/ParquesForestales/landing1.png`} description="Gestión eco-turística." />
+              <ProductItem isMobile={isMobile} title="Creative Apps" href={`${subpagePrefix}project-2.html`} src={`${rootPrefix}images/ProyectosCreativos/parallax1.png`} description="Interfaces interactivas." />
+              <ProductItem isMobile={isMobile} title="Java System" href={`${subpagePrefix}project-3.html`} src={`${rootPrefix}images/InventarioJava/inventarioJava2.png`} description="Gestión de inventarios." />
             </div>
           </MenuItem>
 
