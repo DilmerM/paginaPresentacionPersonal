@@ -2,9 +2,11 @@
 const qs = (s, p = document) => p.querySelector(s);
 const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
-// 1) Loader & Return To Section Logic
+// 1) Loader & Scroll Control Logic
 if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'auto'; // Let the browser handle back/forward scroll natively
+    // Evitamos que el navegador intente restaurar el scroll por su cuenta,
+    // lo que suele fallar en páginas con carga dinámica de componentes.
+    history.scrollRestoration = 'manual';
 }
 
 window.addEventListener('load', () => {
@@ -14,17 +16,42 @@ window.addEventListener('load', () => {
         if (loader) loader.classList.add('hidden');
         document.documentElement.classList.remove('is-loading');
 
+        const performHashScroll = (isSmooth = false) => {
+            let hash = window.location.hash;
+            if (!hash) return;
+            if (hash.endsWith('?')) hash = hash.slice(0, -1);
+
+            const targetEl = document.querySelector(hash);
+            if (targetEl) {
+                const offset = 90;
+                const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({
+                    top,
+                    behavior: isSmooth ? 'smooth' : 'auto'
+                });
+            }
+        };
+
         requestAnimationFrame(() => {
+            // Manejar retorno de sección interna
             const targetSection = sessionStorage.getItem('returnToSection');
             if (targetSection) {
                 sessionStorage.removeItem('returnToSection');
                 const targetEl = document.querySelector(targetSection);
                 if (targetEl) {
-                    const offset = 80;
-                    const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
-                    window.scrollTo({ top, behavior: 'instant' });
+                    const top = targetEl.getBoundingClientRect().top + window.pageYOffset - 80;
+                    window.scrollTo({ top, behavior: 'auto' });
+                    return;
                 }
             }
+
+            // Scroll inicial por Hash
+            performHashScroll(false);
+
+            // Reintentos para compensar el renderizado de React (Sliders, Lamp, etc)
+            setTimeout(() => performHashScroll(true), 150);
+            setTimeout(() => performHashScroll(true), 600);
+            setTimeout(() => performHashScroll(true), 1500);
         });
     }, 450);
 });
