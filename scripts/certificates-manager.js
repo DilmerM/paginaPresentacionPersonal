@@ -9,8 +9,8 @@
 
   const STORAGE_KEY = 'portfolio_certificates';
   const AUTH_SESSION_KEY = 'cert_manager_auth';
-  // SHA-256 hash of the admin password (not stored in plaintext)
-  const PASSWORD_HASH = '5d44b577d9a3601c9d7d4a97d27b3d6d8a48a757712b646ea9710323c5ff8b78';
+  // SHA-256 hash of the admin password: '@@@@'
+  const PASSWORD_HASH = 'e8151b2c92fd188cec72b573a289fefc9d06d3116ba4eb2c8a8719ebf15c1270';
 
   // ── Hashing utility (SHA-256) ───────────────────────────────
   async function sha256(message) {
@@ -104,6 +104,22 @@
       viewImgBtn.dataset.title = cert.title;
       viewImgBtn.textContent = 'Ver en grande';
       overlay.appendChild(viewImgBtn);
+
+      // Botón Descargar (requiere contraseña @@)
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'btn btn--primary btn--download-cert';
+      downloadBtn.type = 'button';
+      downloadBtn.dataset.img = cert.image;
+      downloadBtn.dataset.title = cert.title;
+      downloadBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      `;
+      overlay.appendChild(downloadBtn);
     }
 
     if (cert.link || hasImage) {
@@ -254,31 +270,67 @@
     });
   }
 
-  // ── Crear el botón flotante "+" ─────────────────────────────
+  // ── Crear el botón flotante Centralizado (Desbloquear todo) ─────────────────────────────
   function createFloatingButton() {
     const btn = document.createElement('button');
-    btn.id = 'add-cert-fab';
+    btn.id = 'unlock-all-fab';
     btn.className = 'cert-fab';
-    btn.setAttribute('aria-label', 'Agregar nuevo certificado');
-    btn.title = 'Agregar certificado';
+    btn.setAttribute('aria-label', 'Desbloquear contenido');
+    btn.title = 'Desbloquear todo';
     btn.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
       </svg>
     `;
-    btn.addEventListener('click', () => requireAuth(openModal));
+    
+    // Al hacer clic, usa el modal global de script.js para desbloquear todo
+    btn.addEventListener('click', () => {
+      if (window.showProjectAuthModal) {
+        window.showProjectAuthModal(() => {
+          console.log('Todo el contenido desbloqueado');
+        });
+      }
+    });
+    
     document.body.appendChild(btn);
 
-    // Mostrar solo cerca de la sección de certificados
-    const certSection = document.getElementById('certificates');
-    if (certSection) {
-      const io = new IntersectionObserver((entries) => {
+    // Mostrar a partir de la sección de proyectos y mantenerlo visible mientras estemos abajo
+    const projectsSection = document.getElementById('projects');
+    const contactSection = document.getElementById('contact');
+
+    if (projectsSection) {
+      const ioProjects = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          btn.classList.toggle('is-visible', entry.isIntersecting);
+          // Visible si estamos viendo proyectos O si ya los pasamos hacia abajo
+          const isAbove = entry.boundingClientRect.top < 0;
+          const isVisible = entry.isIntersecting || isAbove;
+          
+          // Pero ocultar si el contacto ya está en pantalla
+          const contactInView = contactSection && contactSection.getBoundingClientRect().top < window.innerHeight;
+          
+          btn.classList.toggle('is-visible', isVisible && !contactInView);
         });
-      }, { threshold: 0.05, rootMargin: '200px 0px 200px 0px' });
-      io.observe(certSection);
+      }, { threshold: 0 });
+      ioProjects.observe(projectsSection);
+    }
+
+    // Observador específico para el contacto para asegurar que se oculte al final
+    if (contactSection) {
+      const ioContact = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            btn.classList.remove('is-visible');
+          } else {
+            // Re-evaluar visibilidad al salir del contacto (subiendo)
+            const projTop = projectsSection.getBoundingClientRect().top;
+            if (projTop < window.innerHeight) {
+              btn.classList.add('is-visible');
+            }
+          }
+        });
+      }, { threshold: 0 });
+      ioContact.observe(contactSection);
     } else {
       btn.classList.add('is-visible');
     }
@@ -516,6 +568,11 @@
     }, 3000);
   }
 
+  /* Comentado temporalmente: Funcionalidad de agregar certificados
+  function showPasswordModal(onSuccess) {
+    ...
+  }
+*/
   // ── Password Authentication Modal ───────────────────────────
   function requireAuth(callback) {
     if (isAuthenticated()) {

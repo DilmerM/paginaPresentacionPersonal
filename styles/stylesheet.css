@@ -445,12 +445,54 @@ svg {
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  padding: 20px;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
+  background: rgba(13, 13, 20, 0.4); /* Fondo sutil para legibilidad */
 }
+
+/* Ocultar botones de descarga por defecto */
+.btn--download-cert {
+  display: none !important;
+}
+
+/* Mostrar botones de descarga solo cuando está autenticado */
+.is-authenticated .btn--download-cert {
+  display: inline-flex !important;
+}
+
+/* Estilo para el botón de desbloqueo en el título */
+.btn--unlock-certs {
+  background: rgba(124, 92, 255, 0.1);
+  border: 1px solid rgba(124, 92, 255, 0.2);
+  color: var(--primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 15px;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+}
+
+.btn--unlock-certs:hover {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+.is-authenticated .btn--unlock-certs {
+  display: none !important;
+}
+
 .cert-card:hover .cert-card__overlay,
 .cert-card:focus-within .cert-card__overlay {
   opacity: 1;
@@ -2165,7 +2207,7 @@ main#overview h1 {
   box-shadow: 0 8px 32px rgba(124, 92, 255, 0.35), 0 4px 12px rgba(0, 212, 255, 0.2);
   z-index: 9000;
   opacity: 0;
-  transform: scale(0) rotate(-180deg);
+  transform: scale(0);
   transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.3s ease;
@@ -2173,21 +2215,21 @@ main#overview h1 {
 }
 .cert-fab.is-visible {
   opacity: 1;
-  transform: scale(1) rotate(0deg);
+  transform: scale(1);
   pointer-events: auto;
 }
 .cert-fab:hover {
   box-shadow: 0 12px 40px rgba(124, 92, 255, 0.5), 0 6px 20px rgba(0, 212, 255, 0.3);
-  transform: scale(1.1) rotate(0deg);
+  transform: scale(1.1);
 }
 .cert-fab:active {
-  transform: scale(0.95) rotate(0deg);
+  transform: scale(0.95);
 }
 .cert-fab svg {
   transition: transform 0.3s ease;
 }
 .cert-fab:hover svg {
-  transform: rotate(90deg);
+  transform: none;
 }
 
 /* ── Modal ── */

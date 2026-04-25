@@ -96,11 +96,11 @@ const AboutSlider = () => {
                 </div>
 
                 {/* Right Content Side: Quote / Vision */}
-                <div className={`w-1/2 p-14 flex flex-col justify-center transition-all duration-700 h-full bg-transparent z-10 ${isLeft ? 'pointer-events-none opacity-0' : 'opacity-100'}`}>
+                <div className={`w-1/2 px-8 py-14 flex flex-col justify-center transition-all duration-700 h-full bg-transparent z-10 ${isLeft ? 'pointer-events-none opacity-0' : 'opacity-100'}`}>
                     <h2 className="text-4xl font-bold text-[#161624] mb-6">Frase Favorita</h2>
-                    <figure className="relative bg-transparent p-8 rounded-3xl border-none mt-2">
-                        <span className="iconify absolute -top-5 -left-3 text-5xl text-[#ff5e00] opacity-30" data-icon="bx:bxs-quote-alt-left"></span>
-                        <blockquote className="text-[#4b5563] font-medium italic text-lg leading-relaxed mb-6 relative z-10">
+                    <figure className="relative bg-transparent p-0 rounded-3xl border-none mt-2">
+                        <span className="iconify absolute -top-8 -left-6 text-6xl text-[#ff5e00] opacity-20" data-icon="bx:bxs-quote-alt-left"></span>
+                        <blockquote className="text-[#4b5563] font-medium italic text-xl leading-relaxed mb-6 relative z-10 pr-4">
                             "Si tus acciones inspiran a otros a soñar más, aprender más, hacer más y ser más, eres un líder."
                         </blockquote>
                         <figcaption className="text-right text-xs uppercase tracking-widest font-bold text-[#94a3b8]">

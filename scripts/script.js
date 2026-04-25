@@ -127,11 +127,15 @@ window.addEventListener('load', () => {
 	});
 })();
 
-// 4) Protección de proyectos por contraseña
+// 4) Protección de proyectos y certificados por contraseña
 (() => {
 	const PROJECT_PASS = '@@@@';
 
-	function showProjectAuthModal(onSuccess) {
+	/**
+	 * Muestra el modal de autenticación global (para proyectos y descargas)
+	 * @param {Function} onSuccess - Callback a ejecutar si la clave es correcta
+	 */
+	window.showProjectAuthModal = function(onSuccess) {
 		if (document.getElementById('project-auth-modal')) return;
 
 		const modal = document.createElement('div');
@@ -144,8 +148,8 @@ window.addEventListener('load', () => {
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 				</button>
 				<div class="cert-modal__header" style="margin-bottom: 20px;">
-					<h3 style="margin-bottom: 8px;">Proyecto Protegido</h3>
-					<p>Debe ingresar una contraseña proporcionada por el desarrollador:</p>
+					<h3 style="margin-bottom: 8px;">Acceso Protegido</h3>
+					<p>Ingrese la contraseña para continuar:</p>
 				</div>
 				<form id="project-auth-form" class="cert-modal__form">
 					<div class="cert-form__group">
@@ -153,7 +157,7 @@ window.addEventListener('load', () => {
 					</div>
 					<p id="project-auth-error" style="color: #ef4444; font-size: 0.8rem; margin-top: 8px; display: none; text-align: center;">Contraseña incorrecta</p>
 					<div class="cert-form__actions" style="margin-top: 24px;">
-						<button type="submit" class="btn btn--primary" style="width: 100%;">Acceder al proyecto</button>
+						<button type="submit" class="btn btn--primary" style="width: 100%;">Validar acceso</button>
 					</div>
 				</form>
 			</div>
@@ -177,13 +181,13 @@ window.addEventListener('load', () => {
 			e.preventDefault();
 			if (input.value === PROJECT_PASS) {
 				sessionStorage.setItem('project_auth', 'true');
+				document.body.classList.add('is-authenticated'); // Activar visualmente
 				closeModal();
 				onSuccess();
 			} else {
 				errorMsg.style.display = 'block';
 				input.value = '';
 				input.focus();
-				// Shake effect
 				const dialog = modal.querySelector('.cert-modal__dialog');
 				dialog.style.animation = 'cert-shake 0.4s ease';
 				setTimeout(() => dialog.style.animation = '', 400);
@@ -191,18 +195,56 @@ window.addEventListener('load', () => {
 		});
 
 		setTimeout(() => input.focus(), 400);
+	};
+
+	// Verificar estado inicial al cargar
+	if (sessionStorage.getItem('project_auth') === 'true') {
+		document.body.classList.add('is-authenticated');
 	}
 	
-	// Interceptar clicks en enlaces de proyectos
+	// Interceptor central para clicks
 	document.addEventListener('click', (e) => {
+		// 0. Botón de desbloqueo manual en certificados
+		const unlockBtn = e.target.closest('.btn--unlock-certs');
+		if (unlockBtn) {
+			window.showProjectAuthModal(() => {
+				// El callback de éxito ya añade la clase .is-authenticated en showProjectAuthModal
+				console.log('Certificados desbloqueados');
+			});
+			return;
+		}
+
+		// 1. Proyectos
 		const projectLink = e.target.closest('a[href*="project-"]');
 		if (projectLink) {
 			if (sessionStorage.getItem('project_auth') === 'true') return;
-
 			e.preventDefault();
-			showProjectAuthModal(() => {
+			window.showProjectAuthModal(() => {
 				window.location.href = projectLink.href;
 			});
+			return;
+		}
+
+		// 2. Descarga de certificados
+		const downloadBtn = e.target.closest('.btn--download-cert');
+		if (downloadBtn) {
+			const imgSrc = downloadBtn.dataset.img;
+			const title = downloadBtn.dataset.title || 'Certificado';
+			
+			const startDownload = () => {
+				const link = document.createElement('a');
+				link.href = imgSrc;
+				link.download = `Certificado_${title.replace(/\s+/g, '_')}.png`;
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			};
+
+			if (sessionStorage.getItem('project_auth') === 'true') {
+				startDownload();
+			} else {
+				window.showProjectAuthModal(startDownload);
+			}
 		}
 	});
 
